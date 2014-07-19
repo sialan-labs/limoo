@@ -98,4 +98,20 @@ Item {
     function moveToIndex( index ) {
         list.positionViewAtIndex(index, ListView.Beginning)
     }
+
+    function rotateLeft() {
+        var item = list.itemAt(list.width/2+list.contentX,list.height/2)
+        if( !item )
+            return
+
+        item.rotateLeft()
+    }
+
+    function rotateRight() {
+        var item = list.itemAt(list.width/2+list.contentX,list.height/2)
+        if( !item )
+            return
+
+        item.rotateRight()
+    }
 }

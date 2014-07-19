@@ -279,6 +279,8 @@ void Limoo::setWallpaper(const QString &file)
     case Enums::Kde:
         break;
 
+    case Enums::Unity:
+    case Enums::GnomeFallBack:
     case Enums::Gnome:
     {
         QString command = "dconf";
@@ -388,6 +390,12 @@ int Limoo::desktopSession() const
     if( desktop_session->contains("kde",Qt::CaseInsensitive) )
         result = Enums::Kde;
     else
+    if( desktop_session->contains("ubuntu",Qt::CaseInsensitive) )
+        result = Enums::Unity;
+    else
+    if( desktop_session->contains("gnome-fallback",Qt::CaseInsensitive) )
+        result = Enums::GnomeFallBack;
+    else
         result = Enums::Gnome;
 #endif
 #endif
@@ -414,6 +422,8 @@ QColor Limoo::titleBarColor()
         return QPalette().window().color();
         break;
 
+    case Enums::Unity:
+    case Enums::GnomeFallBack:
     case Enums::Gnome:
     {
         static QColor *res = 0;
@@ -447,6 +457,13 @@ QColor Limoo::titleBarColor()
     return QColor("#403F3A");
 }
 
+QColor Limoo::titleBarTransparentColor()
+{
+    QColor color = titleBarColor();
+    color.setAlpha(128);
+    return color;
+}
+
 QColor Limoo::titleBarTextColor()
 {
     switch( desktopSession() )
@@ -463,6 +480,8 @@ QColor Limoo::titleBarTextColor()
         return QPalette().windowText().color();
         break;
 
+    case Enums::Unity:
+    case Enums::GnomeFallBack:
     case Enums::Gnome:
     {
         static QColor *res = 0;

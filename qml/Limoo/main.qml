@@ -39,22 +39,40 @@ Rectangle {
     property bool blurBack: true
 
     property bool about: false
+    property bool aboutSialan: false
 
     Component.onCompleted: fontsScale = physicalPlatformScale
 
-    AboutPage {
+    AboutSialan {
         anchors.fill: parent
+        start: aboutSialan
     }
 
-    ViewerFrame {
-        id: main_frame
-        x: about? parent.width : 0
+    Item {
+        id: main_scene
+        y: aboutSialan? parent.height : 0
         width: parent.width
         height: parent.height
         clip: true
 
-        Behavior on x {
+        Behavior on y {
             NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
+        }
+
+        AboutPage {
+            anchors.fill: parent
+        }
+
+        ViewerFrame {
+            id: main_frame
+            x: about? parent.width : 0
+            width: parent.width
+            height: parent.height
+            clip: true
+
+            Behavior on x {
+                NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
+            }
         }
     }
 
@@ -160,6 +178,9 @@ Rectangle {
     }
 
     function back() {
+        if( aboutSialan )
+            aboutSialan = false
+        else
         if( about )
             about = false
         else

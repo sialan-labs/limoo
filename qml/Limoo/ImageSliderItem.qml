@@ -178,4 +178,14 @@ Item {
         privates.zoom = 1
         refreshZoom(Qt.point(0,0))
     }
+
+    function rotateLeft() {
+        preview_img.rotateLeft()
+        img.rotateLeft()
+    }
+
+    function rotateRight() {
+        preview_img.rotateRight()
+        img.rotateRight()
+    }
 }

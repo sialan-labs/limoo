@@ -32,6 +32,8 @@ public:
     enum DesktopSession {
         Unknown,
         Gnome,
+        GnomeFallBack,
+        Unity,
         Kde,
         Windows,
         Mac

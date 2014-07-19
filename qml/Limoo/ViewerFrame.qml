@@ -82,7 +82,13 @@ Rectangle {
                     color: "#44000000"
                 }
 
-                Component.onCompleted: refresh()
+                Timer {
+                    id: refresh_timer
+                    interval: 500
+                    onTriggered: back_img.refresh()
+                }
+
+                Component.onCompleted: refresh_timer.restart()
             }
         }
 

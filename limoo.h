@@ -34,6 +34,7 @@ class Limoo : public QObject
     Q_PROPERTY(bool fullScreen READ fullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
     Q_PROPERTY(bool initialized READ initialized NOTIFY initializedChanged)
     Q_PROPERTY(QColor titleBarColor READ titleBarColor NOTIFY titleBarColorChanged)
+    Q_PROPERTY(QColor titleBarTransparentColor READ titleBarTransparentColor NOTIFY titleBarTransparentColorChanged)
     Q_PROPERTY(QColor titleBarTextColor READ titleBarTextColor NOTIFY titleBarTextColorChanged)
     Q_PROPERTY(int desktopSession READ desktopSession NOTIFY desktopSessionChanged)
     Q_PROPERTY(bool thumbnailBar READ thumbnailBar WRITE setThumbnailBar NOTIFY thumbnailBarChanged)
@@ -84,6 +85,7 @@ public:
     Q_INVOKABLE void setCutClipboardUrl(const QStringList &path );
 
     QColor titleBarColor();
+    QColor titleBarTransparentColor();
     QColor titleBarTextColor();
 
 public slots:
@@ -98,6 +100,7 @@ signals:
     void initializedChanged();
     void titleBarColorChanged();
     void titleBarTextColorChanged();
+    void titleBarTransparentColorChanged();
     void desktopSessionChanged();
     void thumbnailBarChanged();
 

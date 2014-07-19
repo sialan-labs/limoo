@@ -23,7 +23,7 @@ Rectangle {
     id: toolbar
     height: Limoo.desktopSession == Enums.Gnome? 46*physicalPlatformScale : 36*physicalPlatformScale
     clip: true
-    color: blurBack? "#88ffffff" : Limoo.titleBarColor
+    color: blurBack && Limoo.desktopSession != Enums.Unity? "#88ffffff" : Limoo.titleBarColor
 
     Rectangle {
         anchors.fill: parent
@@ -74,7 +74,7 @@ Rectangle {
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
-//            onClicked: Limoo.fullScreen = !Limoo.fullScreen
+            onClicked: main.mainFrame.imageViewer.imageSlider.rotateRight()
         }
 
         Button {
@@ -85,7 +85,7 @@ Rectangle {
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
-//            onClicked: Limoo.fullScreen = !Limoo.fullScreen
+            onClicked: main.mainFrame.imageViewer.imageSlider.rotateLeft()
         }
 
         Button {
@@ -115,7 +115,7 @@ Rectangle {
             icon: "files/help-about.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
-            onClicked: main.about = true
+            onClicked: main.aboutSialan = true
         }
     }
 

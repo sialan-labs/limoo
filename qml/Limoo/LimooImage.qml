@@ -151,4 +151,46 @@ Item {
             break;
         }
     }
+
+    function rotateLeft() {
+        switch( meta_data.orientation )
+        {
+        case ImageMetaData.Left:
+            meta_data.orientation = ImageMetaData.Full
+            break;
+
+        case ImageMetaData.Right:
+            meta_data.orientation = ImageMetaData.Normal
+            break;
+
+        case ImageMetaData.Normal:
+            meta_data.orientation = ImageMetaData.Left
+            break;
+
+        case ImageMetaData.Full:
+            meta_data.orientation = ImageMetaData.Right
+            break;
+        }
+    }
+
+    function rotateRight() {
+        switch( meta_data.orientation )
+        {
+        case ImageMetaData.Left:
+            meta_data.orientation = ImageMetaData.Normal
+            break;
+
+        case ImageMetaData.Right:
+            meta_data.orientation = ImageMetaData.Full
+            break;
+
+        case ImageMetaData.Normal:
+            meta_data.orientation = ImageMetaData.Right
+            break;
+
+        case ImageMetaData.Full:
+            meta_data.orientation = ImageMetaData.Left
+            break;
+        }
+    }
 }

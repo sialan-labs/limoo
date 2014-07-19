@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QSet>
 #include <QHash>
+#include <QMimeDatabase>
+#include <QMimeType>
 
 typedef QPair<ImageMetaData::Orientation,ImageMetaData::Mirror> OriMirror;
 QHash<int,OriMirror> oriHash()
@@ -70,6 +72,7 @@ public:
     int ori_exiv;
     QString source;
     QString nsource;
+    QMimeDatabase mdb;
 };
 
 ImageMetaData::ImageMetaData(QObject *parent) :
@@ -83,6 +86,12 @@ ImageMetaData::ImageMetaData(QObject *parent) :
 bool ImageMetaData::init_exif()
 {
     p->ori_exiv = 1;
+#ifdef Q_OS_WIN
+    return false;
+#else
+    const QMimeType & mime = p->mdb.mimeTypeForFile(p->nsource);
+    if( !mime.name().contains("image") )
+        return false;
 
     QFileInfo file( p->nsource );
     if( !file.exists() )
@@ -108,6 +117,7 @@ bool ImageMetaData::init_exif()
 
     emit orientationChanged();
     return true;
+#endif
 }
 
 void ImageMetaData::refresh()
@@ -117,6 +127,13 @@ void ImageMetaData::refresh()
 
 bool ImageMetaData::setOriExif(int ori)
 {
+#ifdef Q_OS_WIN
+    return false;
+#else
+    const QMimeType & mime = p->mdb.mimeTypeForFile(p->nsource);
+    if( !mime.name().contains("image") )
+        return false;
+
     QFileInfo file( p->nsource );
     if( !file.isWritable() )
         return false;
@@ -152,6 +169,7 @@ bool ImageMetaData::setOriExif(int ori)
 
     p->ori_exiv = ori;
     return true;
+#endif
 }
 
 int ImageMetaData::oriExif() const

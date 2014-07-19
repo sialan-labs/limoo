@@ -178,6 +178,23 @@ qreal Limoo::density()
 #endif
 }
 
+QString Limoo::aboutSialan() const
+{
+    return tr("Sialan Labs is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.") + "\n\n" +
+            tr("By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.");
+}
+
+QString Limoo::aboutLimoo() const
+{
+    return tr("Limoo is a modern image viewer ,focused on user interface and user friendly.") + "\n"
+            + tr("Limoo is Free software and released under GPLv3 License.");
+}
+
+QString Limoo::version() const
+{
+    return "1.0.0";
+}
+
 QSize Limoo::imageSize(const QString &path) const
 {
     if( path.isEmpty() )

@@ -56,6 +56,10 @@ public:
     Q_INVOKABLE int densityDpi();
     Q_INVOKABLE qreal density();
 
+    Q_INVOKABLE QString aboutSialan() const;
+    Q_INVOKABLE QString aboutLimoo() const;
+    Q_INVOKABLE QString version() const;
+
     void setFullScreen( bool stt );
     bool fullScreen() const;
 

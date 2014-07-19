@@ -51,7 +51,7 @@ Rectangle {
         Button {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Clear")
+            text: qsTr("Clear Basket")
             icon: "files/edit-clear.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"

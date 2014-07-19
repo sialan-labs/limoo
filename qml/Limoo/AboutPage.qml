@@ -21,7 +21,14 @@ import QtQuick 2.0
 Rectangle {
     width: 100
     height: 62
-    color: "#f5de32"
+    color: "#ececec"
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton | Qt.LeftButton
+        hoverEnabled: true
+        onWheel: wheel.accepted = true
+    }
 
     Button {
         anchors.top: parent.top
@@ -32,6 +39,28 @@ Rectangle {
         highlightColor: "#44ffffff"
         icon: "files/go-previous.png"
         onClicked: main.back()
+    }
+
+    Image {
+        anchors.left: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        width: 200*physicalPlatformScale
+        height: 200*physicalPlatformScale
+        sourceSize: Qt.size(width,height)
+        source: "files/balloons.png"
+    }
+
+    Button {
+        id: donate_btn
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 70*physicalPlatformScale
+        width: 200*physicalPlatformScale
+        text: qsTr("Donate Limoo")
+        fontSize: 10*fontsScale
+        height: 42*physicalPlatformScale
+        normalColor: "#339DCC"
+        highlightColor: "#336BCC"
     }
 
     Column {
@@ -49,25 +78,60 @@ Rectangle {
         }
 
         Text {
+            id: limoo_txt
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("Limoo")
             font.pointSize: 40*fontsScale
             font.family: globalFontFamily
             font.bold: true
-            color: "#ffffff"
-
-            Text {
-                id: powered_txt
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.top: parent.bottom
-                font.pointSize: 12*fontsScale
-                font.family: globalFontFamily
-                font.bold: true
-                color: "#ffffff"
-                horizontalAlignment: Text.AlignRight
-                text: qsTr("by Sialan Labs")
-            }
+            color: "#333333"
         }
+
+        Text {
+            id: about_text
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: 80*physicalPlatformScale
+            anchors.rightMargin: 80*physicalPlatformScale
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            font.family: globalFontFamily
+            font.pointSize: 12*fontsScale
+            color: "#333333"
+            text: Limoo.aboutLimoo()
+        }
+
+        Item {
+            width: 10
+            height: 50*physicalPlatformScale
+        }
+    }
+
+    Text {
+        anchors.right: parent.right
+        anchors.bottom: website.top
+        anchors.margins: 8*physicalPlatformScale
+        font.family: globalFontFamily
+        font.pointSize: 10*fontsScale
+        color: "#333333"
+        text: "HomePage"
+
+        MouseArea {
+            anchors.fill: parent
+            anchors.margins: -8*physicalPlatformScale
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Qt.openUrlExternally("http://labs.sialan.org/projects/limoo")
+        }
+    }
+
+    Text {
+        id: website
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 8*physicalPlatformScale
+        font.family: globalFontFamily
+        font.pointSize: 10*fontsScale
+        color: "#333333"
+        text: "Limoo " + Limoo.version()
     }
 }

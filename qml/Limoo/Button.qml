@@ -56,6 +56,7 @@ Rectangle {
         Image {
             id: icn
             anchors.verticalCenter: parent.verticalCenter
+            sourceSize: Qt.size(width,height)
             height: source==""? 0 : parent.height-12*physicalPlatformScale
             width: height
             smooth: true

@@ -69,6 +69,17 @@ Rectangle {
         Button {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            text: qsTr("Open With")
+            icon: "files/edit-dark.png"
+            textColor: Limoo.titleBarTextColor
+            highlightColor: "#22000000"
+            visible: viewMode
+            onClicked: main.edit([main.mainFrame.imageViewer.thumbnailBar.currentPath])
+        }
+
+        Button {
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
             text: qsTr("Rotate Left")
             icon: "files/rotate-left.png"
             textColor: Limoo.titleBarTextColor
@@ -101,7 +112,7 @@ Rectangle {
         Button {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("About Limoo")
+            text: qsTr("Limoo")
             icon: "files/help-about.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
@@ -112,7 +123,8 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Sialan")
-            icon: "files/help-about.png"
+            icon: "files/sialan-black.png"
+            iconHeight: 20
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: main.aboutSialan = true

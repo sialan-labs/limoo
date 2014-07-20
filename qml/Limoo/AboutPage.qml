@@ -61,6 +61,7 @@ Rectangle {
         height: 42*physicalPlatformScale
         normalColor: "#339DCC"
         highlightColor: "#336BCC"
+        onClicked: Qt.openUrlExternally("http://labs.sialan.org/donate")
     }
 
     Column {

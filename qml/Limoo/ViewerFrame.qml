@@ -37,12 +37,15 @@ Rectangle {
 
         Rectangle {
             id: back_img_frame
-            color: "#202020"
+            color: "#487AAB"
             anchors.fill: parent
 
             BackImage {
                 id: back_img
                 anchors.fill: parent
+                source: defaultSource
+
+                property string defaultSource: "files/default-background.jpg"
 
                 property string currentPath: image_viewer.thumbnailBar.model.folder
                 onCurrentPathChanged: back_img.refresh()
@@ -57,8 +60,6 @@ Rectangle {
                         refreshImage()
                         return
                     }
-                    if( image_viewer.thumbnailBar.model.count == 0 )
-                        return
 
                     var index = -1
                     for( var i=0; i<image_viewer.thumbnailBar.model.count; i++ )
@@ -68,7 +69,7 @@ Rectangle {
                         }
 
                     if( index == -1 ) {
-                        source = ""
+                        source = defaultSource
                         refreshImage()
                         return
                     }

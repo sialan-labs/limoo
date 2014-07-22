@@ -55,8 +55,8 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 70*physicalPlatformScale
-        width: 200*physicalPlatformScale
-        text: qsTr("Donate Limoo")
+        width: 240*physicalPlatformScale
+        text: qsTr("Donate us (Sialan Labs)")
         fontSize: 10*fontsScale
         height: 42*physicalPlatformScale
         normalColor: "#339DCC"

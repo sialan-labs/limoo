@@ -36,6 +36,7 @@ class Limoo : public QObject
     Q_PROPERTY(QColor titleBarColor READ titleBarColor NOTIFY titleBarColorChanged)
     Q_PROPERTY(QColor titleBarTransparentColor READ titleBarTransparentColor NOTIFY titleBarTransparentColorChanged)
     Q_PROPERTY(QColor titleBarTextColor READ titleBarTextColor NOTIFY titleBarTextColorChanged)
+    Q_PROPERTY(bool titleBarIsDark READ titleBarIsDark NOTIFY titleBarIsDarkChanged)
     Q_PROPERTY(int desktopSession READ desktopSession NOTIFY desktopSessionChanged)
     Q_PROPERTY(bool thumbnailBar READ thumbnailBar WRITE setThumbnailBar NOTIFY thumbnailBarChanged)
 
@@ -91,6 +92,7 @@ public:
     QColor titleBarColor();
     QColor titleBarTransparentColor();
     QColor titleBarTextColor();
+    bool titleBarIsDark();
 
 public slots:
     void start();
@@ -105,6 +107,7 @@ signals:
     void titleBarColorChanged();
     void titleBarTextColorChanged();
     void titleBarTransparentColorChanged();
+    void titleBarIsDarkChanged();
     void desktopSessionChanged();
     void thumbnailBarChanged();
 

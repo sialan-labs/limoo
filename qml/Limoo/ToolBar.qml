@@ -60,7 +60,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Back")
-            icon: "files/go-previous.png"
+            icon: Limoo.titleBarIsDark? "files/go-previous-light.png" : "files/go-previous.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: main.back()
@@ -70,7 +70,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Open With")
-            icon: "files/edit-dark.png"
+            icon: Limoo.titleBarIsDark? "files/edit.png" : "files/edit-dark.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
@@ -81,7 +81,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Rotate Left")
-            icon: "files/rotate-left.png"
+            icon: Limoo.titleBarIsDark? "files/rotate-left-light.png" : "files/rotate-left.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
@@ -92,7 +92,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Rotate Right")
-            icon: "files/rotate-right.png"
+            icon: Limoo.titleBarIsDark? "files/rotate-right-light.png" : "files/rotate-right.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
@@ -103,7 +103,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Fullscreen")
-            icon: "files/view-fullscreen.png"
+            icon: Limoo.titleBarIsDark? "files/view-fullscreen-light.png" : "files/view-fullscreen.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: Limoo.fullScreen = !Limoo.fullScreen
@@ -113,7 +113,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Limoo")
-            icon: "files/help-about.png"
+            icon: Limoo.titleBarIsDark? "files/help-about-light.png" : "files/help-about.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: main.about = true
@@ -123,7 +123,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             text: qsTr("Sialan")
-            icon: "files/sialan-black.png"
+            icon: Limoo.titleBarIsDark? "files/sialan-light.png" : "files/sialan-black.png"
             iconHeight: 20
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"

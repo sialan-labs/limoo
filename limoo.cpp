@@ -532,6 +532,58 @@ QColor Limoo::titleBarTextColor()
     return QColor("#eeeeee");
 }
 
+bool Limoo::titleBarIsDark()
+{
+    switch( desktopSession() )
+    {
+    case Enums::Mac:
+        return false;
+        break;
+
+    case Enums::Windows:
+        return false;
+        break;
+
+    case Enums::Kde:
+        return false;
+        break;
+
+    case Enums::Unity:
+    case Enums::GnomeFallBack:
+    case Enums::Gnome:
+    {
+        static bool *res = 0;
+        if( !res )
+        {
+            QProcess prc;
+            prc.start( "dconf", QStringList()<< "read"<< "/org/gnome/desktop/interface/gtk-theme" );
+            prc.waitForStarted();
+            prc.waitForFinished();
+            QString sres = prc.readAll();
+            sres.remove("\n").remove("'");
+            sres = sres.toLower();
+
+            res = new bool;
+            if( sres == "ambiance" )
+                *res = true;
+            else
+            if( sres == "radiance" )
+                *res = false;
+            else
+            if( sres == "adwaita" )
+                *res = false;
+            else
+                *res = false;
+        }
+
+        return *res;
+    }
+        break;
+    }
+
+    return false;
+}
+
 void Limoo::start()
 {
     p->icon_provider = new IconProvider();

@@ -82,6 +82,20 @@ Rectangle {
         Button {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            text: qsTr("Paste")
+            icon: "files/edit-paste.png"
+            textColor: "#ffffff"
+            highlightColor: "#22ffffff"
+            visible: directory
+            onClicked: {
+                Limoo.pasteClipboardFiles(img_menu.source)
+                main.hideMenu()
+            }
+        }
+
+        Button {
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
             text: qsTr("Open")
             icon: "files/file-manager.png"
             textColor: "#ffffff"
@@ -114,7 +128,7 @@ Rectangle {
             icon: "files/background.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: !directory && (Limoo.desktopSession == Enums.Gnome)
+            visible: !directory && (Limoo.desktopSession == Enums.Gnome || Limoo.desktopSession == Enums.Unity)
             onClicked: {
                 Limoo.setWallpaper(img_menu.source)
                 main.hideMenu()

@@ -69,21 +69,22 @@ public:
 
     int desktopSession() const;
 
-    Q_INVOKABLE QSize imageSize( const QString & path ) const;
-    Q_INVOKABLE quint64 fileSize( const QString & path ) const;
-    Q_INVOKABLE QString fileName( const QString & path ) const;
+    Q_INVOKABLE QSize imageSize(QString path ) const;
+    Q_INVOKABLE quint64 fileSize(QString path ) const;
+    Q_INVOKABLE QString fileName(QString path ) const;
 
-    Q_INVOKABLE QStringList folderEntry(const QString &path, const QStringList &filter, int count = -1 ) const;
+    Q_INVOKABLE QStringList folderEntry(QString path, const QStringList &filter, int count = -1 ) const;
 
     Q_INVOKABLE void deleteFiles( const QStringList & files );
-    Q_INVOKABLE bool deleteFile( const QString & file );
-    Q_INVOKABLE bool openDirectory( const QString & path );
+    Q_INVOKABLE bool deleteFile(QString file );
+    Q_INVOKABLE bool openDirectory(QString path );
     Q_INVOKABLE QString directoryOf(QString path );
-    Q_INVOKABLE bool isDirectory( const QString & path );
+    Q_INVOKABLE bool isDirectory(QString path );
     Q_INVOKABLE bool fileExists(QString path );
     Q_INVOKABLE bool copyFile( QString src, QString dst, bool allow_delete = false );
+    Q_INVOKABLE void pasteClipboardFiles( QString dst );
 
-    Q_INVOKABLE void setWallpaper( const QString & file );
+    Q_INVOKABLE void setWallpaper(QString file );
 
     Q_INVOKABLE void setClipboardText( const QString & text );
     Q_INVOKABLE void setCopyClipboardUrl(const QStringList &path );

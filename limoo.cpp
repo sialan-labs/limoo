@@ -17,7 +17,7 @@
 */
 
 #define NORMALIZE_PATH( PATH ) \
-    if( PATH.left(7) == "file://" ) \
+    while( PATH.left(7) == "file://" ) \
         PATH = PATH.mid(7);
 
 #include "limoo.h"
@@ -195,8 +195,9 @@ QString Limoo::version() const
     return "1.0.0";
 }
 
-QSize Limoo::imageSize(const QString &path) const
+QSize Limoo::imageSize(QString path) const
 {
+    NORMALIZE_PATH(path)
     if( path.isEmpty() )
         return QSize();
 
@@ -210,18 +211,21 @@ QSize Limoo::imageSize(const QString &path) const
     return res;
 }
 
-quint64 Limoo::fileSize(const QString &path) const
+quint64 Limoo::fileSize(QString path) const
 {
+    NORMALIZE_PATH(path)
     return QFileInfo(path).size();
 }
 
-QString Limoo::fileName(const QString &path) const
+QString Limoo::fileName(QString path) const
 {
+    NORMALIZE_PATH(path)
     return QFileInfo(path).fileName();
 }
 
-QStringList Limoo::folderEntry(const QString & path, const QStringList & filter, int count) const
+QStringList Limoo::folderEntry(QString path, const QStringList & filter, int count) const
 {
+    NORMALIZE_PATH(path)
     const QStringList & result = QDir(path).entryList(filter,QDir::Files,QDir::Name);
     if( count == -1 )
         return result;
@@ -235,13 +239,15 @@ void Limoo::deleteFiles(const QStringList &files)
         deleteFile(file);
 }
 
-bool Limoo::deleteFile(const QString &file)
+bool Limoo::deleteFile(QString file)
 {
+    NORMALIZE_PATH(file)
     return QFile(file).remove();
 }
 
-bool Limoo::openDirectory(const QString &path)
+bool Limoo::openDirectory(QString path)
 {
+    NORMALIZE_PATH(path)
     QString dir = path;
 
     QFileInfo inf(path);
@@ -257,8 +263,9 @@ QString Limoo::directoryOf(QString path)
     return QFileInfo(path).dir().path();
 }
 
-bool Limoo::isDirectory(const QString &path)
+bool Limoo::isDirectory(QString path)
 {
+    NORMALIZE_PATH(path)
     return QFileInfo(path).isDir();
 }
 
@@ -283,8 +290,32 @@ bool Limoo::copyFile(QString src, QString dst, bool allow_delete)
     return QFile::copy(src,dst);
 }
 
-void Limoo::setWallpaper(const QString &file)
+void Limoo::pasteClipboardFiles(QString dst)
 {
+    NORMALIZE_PATH(dst);
+
+    const QMimeData *mime = QGuiApplication::clipboard()->mimeData();
+    if( !mime )
+        return;
+
+    const QList<QUrl> & urls = mime->urls();
+    foreach( const QUrl & url, urls )
+    {
+        QString dst_path = dst;
+        if( QFileInfo(dst_path).isDir() )
+            dst_path = dst + "/" + QFileInfo(url.toLocalFile()).fileName();
+
+        if( mime->data( "x-special/gnome-copied-files").left(4) == "cut\n" ||
+            mime->data( "application/x-kde-cutselection") == "1" )
+            QFile::rename(url.toLocalFile(),dst_path);
+        else
+            QFile::copy(url.toLocalFile(),dst_path);
+    }
+}
+
+void Limoo::setWallpaper(QString file)
+{
+    NORMALIZE_PATH(file)
     switch( desktopSession() )
     {
     case Enums::Mac:

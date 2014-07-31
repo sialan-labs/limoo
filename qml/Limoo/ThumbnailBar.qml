@@ -37,6 +37,18 @@ Item {
     signal addSelect( string filePath )
     signal selected( string filePath )
 
+    MouseArea {
+        id: back_mouse
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton
+        onClicked: {
+            var obj = main.showMenu("ImageMenu.qml", mapToItem(main,0,mouseY).y, 60*physicalPlatformScale )
+            obj.source = grid.model.folder
+            obj.menuX = mapToItem(main,mouseX,mouseY).x
+            return
+        }
+    }
+
     GridView {
         id: grid
         anchors.fill: parent
@@ -55,6 +67,7 @@ Item {
         cellWidth: width/(cellCount==0? 1 : cellCount)
         cellHeight: cellCount==0? cellWidth : thumbnailbar.idealCellWidth
 
+        property real spacing: 10*physicalPlatformScale
         property int cellCount: Math.floor(width/thumbnailbar.idealCellWidth)
 
         populate: Transition {
@@ -112,6 +125,7 @@ Item {
                 id: marea
                 hoverEnabled: true
                 anchors.fill: parent
+                anchors.margins: grid.spacing/2
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
                     if (mouse.button == Qt.RightButton) {

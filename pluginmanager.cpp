@@ -48,7 +48,7 @@ PluginManager::PluginManager(QObject *parent) :
 
 void PluginManager::watcher_dir_changed(const QString &file)
 {
-
+    Q_UNUSED(file)
 }
 
 void PluginManager::init_list()

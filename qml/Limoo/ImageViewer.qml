@@ -41,6 +41,8 @@ Rectangle {
     onViewModeChanged: {
         anim = true
         anim_disabler.restart()
+        show_btn.opacityAdded = 0.6
+        glow_timer.restart()
     }
 
     Timer {
@@ -63,7 +65,7 @@ Rectangle {
         width: parent.width-thumbnailBarWidth
         opacity: viewer.viewMode? 1 : 0
         clip: true
-        color: "#cccccc"
+        color: Limoo.titleBarColor
 
         Behavior on opacity {
             NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
@@ -91,12 +93,49 @@ Rectangle {
         }
     }
 
+    Button {
+        id: show_btn
+        anchors.verticalCenter: thumbnailbar_frame.verticalCenter
+        anchors.right: thumbnailbar_frame.left
+        height: 40*physicalPlatformScale
+        width: 13*physicalPlatformScale
+        onClicked: Limoo.thumbnailBar = !Limoo.thumbnailBar
+        normalColor: "#88000000"
+        highlightColor: "#880d80ec"
+        opacity: opacityAdded + (enter? 0.8 : 0.2)
+        radius: 0
+        text: Limoo.thumbnailBar? ">" : "<"
+        textColor: "#ffffff"
+        cursorShape: Qt.PointingHandCursor
+
+        property real opacityAdded: 0
+
+        Behavior on opacity {
+            NumberAnimation{ easing.type: Easing.OutCubic; duration: 800 }
+        }
+
+        Connections {
+            target: Limoo
+            onThumbnailBarChanged: {
+                show_btn.opacityAdded = 0.4
+                glow_timer.restart()
+            }
+        }
+
+        Timer {
+            id: glow_timer
+            interval: 400
+            repeat: false
+            onTriggered: show_btn.opacityAdded = 0
+        }
+    }
+
     Rectangle {
         id: thumbnailbar_frame
         x: parent.width - width
         width: main.viewMode? thumbnailBarWidth : parent.width
         height: parent.height
-        color: main.viewMode? "#202020" : "#00000000"
+        color: main.viewMode && Limoo.fullScreen? "#202020" : "#00000000"
 
         Behavior on width {
             NumberAnimation{ easing.type: Easing.OutCubic; duration: viewer.anim? show_step_timer.interval : 0 }

@@ -23,7 +23,7 @@ Rectangle {
     id: toolbar
     height: Limoo.desktopSession == Enums.Gnome? 46*physicalPlatformScale : 36*physicalPlatformScale
     clip: true
-    color: blurBack && Limoo.desktopSession != Enums.Unity? "#88ffffff" : Limoo.titleBarColor
+    color: blurBack && Limoo.desktopSession != Enums.Unity? Limoo.titleBarTransparentColor : Limoo.titleBarColor
 
     Rectangle {
         anchors.fill: parent

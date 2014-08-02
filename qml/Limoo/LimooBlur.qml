@@ -19,9 +19,33 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
-FastBlur {
-    radius: blurBack? 64 : 0
-    cached: true
+Item {
+    id: limoo_blur
     width: source.width
     height: source.height
+
+    property alias source: desat.source
+    property alias radius: blur.radius
+
+    Rectangle {
+        id: mask
+        clip: true
+        anchors.fill: parent
+        visible: false
+
+        Desaturate {
+            id: desat
+            width: source.width
+            height: source.height
+        }
+    }
+
+    FastBlur {
+        id: blur
+        source: mask
+        anchors.fill: parent
+        radius: blurBack? 64 : 0
+        cached: true
+//        visible: false
+    }
 }

@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Item {
     id: item
@@ -100,6 +101,13 @@ Item {
             }
         }
     }
+
+//    BrightnessContrast {
+//        anchors.fill: flick
+//        source: flick
+//        brightness: 0
+//        contrast: 0
+//    }
 
     ScrollBar {
         scrollArea: flick; height: flick.height; width: 8; orientation: Qt.Vertical

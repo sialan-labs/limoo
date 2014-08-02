@@ -38,6 +38,7 @@ class Limoo : public QObject
     Q_PROPERTY(QColor titleBarTextColor READ titleBarTextColor NOTIFY titleBarTextColorChanged)
     Q_PROPERTY(bool titleBarIsDark READ titleBarIsDark NOTIFY titleBarIsDarkChanged)
     Q_PROPERTY(int desktopSession READ desktopSession NOTIFY desktopSessionChanged)
+    Q_PROPERTY(bool fcrThumbnailBar READ fcrThumbnailBar WRITE setFcrThumbnailBar NOTIFY fcrThumbnailBarChanged)
     Q_PROPERTY(bool thumbnailBar READ thumbnailBar WRITE setThumbnailBar NOTIFY thumbnailBarChanged)
 
     Q_OBJECT
@@ -66,6 +67,12 @@ public:
 
     void setThumbnailBar( bool stt );
     bool thumbnailBar() const;
+
+    void setFcrThumbnailBar( bool stt );
+    bool fcrThumbnailBar() const;
+
+    void setNrmlThumbnailBar( bool stt );
+    bool nrmlThumbnailBar() const;
 
     int desktopSession() const;
 
@@ -111,6 +118,8 @@ signals:
     void titleBarIsDarkChanged();
     void desktopSessionChanged();
     void thumbnailBarChanged();
+    void fcrThumbnailBarChanged();
+    void nrmlThumbnailBarChanged();
 
 private slots:
     void windowSizeChanged();

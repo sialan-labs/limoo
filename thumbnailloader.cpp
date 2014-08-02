@@ -29,6 +29,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QCryptographicHash>
+#include <QMimeDatabase>
 #include <QDateTime>
 #include <QDir>
 
@@ -41,6 +42,7 @@ public:
     QList<ThumbnailLoaderItem*> inactiveItems;
 
     QQueue<QueueItem> queue;
+    QMimeDatabase db;
 
     QHash<ThumbnailLoaderItem*,QString> paths;
 };
@@ -58,12 +60,13 @@ void ThumbnailLoader::load(const QString &path)
 {
     QFileInfo file( path );
 
+    QString suffix = p->db.mimeTypeForFile(path).preferredSuffix();
     QString hidden_text = file.path() + " " +
                           QString::number(file.size()) +  " " +
                           file.created().toString("yyyy/MM/dd hh:mm:ss:zzz") + " " +
                           file.lastModified().toString("yyyy/MM/dd hh:mm:ss:zzz");
     QString md5 = QCryptographicHash::hash(hidden_text.toStdString().c_str(),QCryptographicHash::Md5).toHex();
-    QString thumbnail = THUMBNAILS_PATH + "/" + md5 + "." + file.suffix();
+    QString thumbnail = THUMBNAILS_PATH + "/" + md5 + "." + suffix;
 
     if( QFileInfo(thumbnail).exists() )
     {

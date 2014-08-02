@@ -37,7 +37,7 @@ Rectangle {
 
         Rectangle {
             id: back_img_frame
-            color: "#487AAB"
+            color: Limoo.titleBarColor
             anchors.fill: parent
 
             BackImage {
@@ -151,12 +151,13 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        height: Limoo.fullScreen && viewMode? 0 : 46*physicalPlatformScale
+        height: Limoo.fullScreen && viewMode? 0 : 40*physicalPlatformScale
         clip: true
 
         LimooBlur {
             source: viewer_frame
             visible: blurBack
+            anchors.fill: toolbar
         }
 
         ToolBar {

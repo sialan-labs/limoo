@@ -23,7 +23,6 @@ Rectangle {
     smooth: true
     width: row.width + 20*physicalPlatformScale
     height: 30*physicalPlatformScale
-    radius: 2*physicalPlatformScale
     color: press? highlightColor : normalColor
 
     property alias text: txt.text
@@ -36,8 +35,9 @@ Rectangle {
     property alias iconHeight: icn.height
     property bool iconCenter: false
 
-    property bool press: false
-    property bool enter: false
+    property alias press: marea.pressed
+    property alias enter: marea.containsMouse
+    property alias cursorShape: marea.cursorShape
 
     property string highlightColor: "#333333"
     property string normalColor: "#00000000"
@@ -66,7 +66,7 @@ Rectangle {
             id: txt
             y: parent.height/2 - height/2 - 1*physicalPlatformScale
             color: "#ffffff"
-            font.bold: true
+//            font.bold: true
             font.family: globalFontFamily
             font.pointSize: 9*fontsScale
         }
@@ -76,10 +76,6 @@ Rectangle {
         id: marea
         anchors.fill: parent
         hoverEnabled: true
-        onEntered: button.enter = true
-        onExited: button.enter = false
-        onPressed: button.press = true
-        onReleased: button.press = false
         onClicked: button.clicked()
     }
 }

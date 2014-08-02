@@ -151,10 +151,16 @@ Item {
                 anchors.top: item.top
                 anchors.left: item.left
                 icon: "files/add.png"
+                iconHeight: 16*physicalPlatformScale
                 highlightColor: myPalette.highlight
-                visible: marea.containsMouse && !fileIsDir
+                visible: opacity!=0
+                opacity: marea.containsMouse && !fileIsDir? 1 : 0
                 hoverEnabled: false
                 onClicked: thumbnailbar.addSelect(filePath)
+
+                Behavior on opacity {
+                    NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
+                }
             }
         }
     }

@@ -61,7 +61,7 @@ Item {
             }
 
             function hide() {
-                destroy_timer.restart()
+                if(destroy_timer) destroy_timer.restart()
             }
 
             function slowHide() {

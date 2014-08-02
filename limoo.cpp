@@ -56,7 +56,8 @@ public:
 
     bool fullscreen;
     bool initialized;
-    bool thumbnailBar;
+    bool fcrThumbnailBar;
+    bool nrmlThumbnailBar;
 
     QString homePath;
     QString confPath;
@@ -79,7 +80,8 @@ Limoo::Limoo(QObject *parent) :
     QDir().mkpath(p->homePath);
 
     p->settings = new QSettings(p->confPath,QSettings::IniFormat,this);
-    p->thumbnailBar = p->settings->value("General/thumbnailBar",true).toBool();
+    p->fcrThumbnailBar = p->settings->value("General/fcrThumbnailBar",false).toBool();
+    p->nrmlThumbnailBar = p->settings->value("General/nrmlThumbnailBar",true).toBool();
 
     qmlRegisterType<Enums>("org.sialan.limoo", 1, 0, "Enums");
     qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
@@ -397,6 +399,7 @@ void Limoo::setFullScreen(bool stt)
         p->viewer->showNormal();
 
     emit fullScreenChanged();
+    emit thumbnailBarChanged();
 }
 
 bool Limoo::fullScreen() const
@@ -406,17 +409,54 @@ bool Limoo::fullScreen() const
 
 void Limoo::setThumbnailBar(bool stt)
 {
-    if( p->thumbnailBar == stt )
-        return;
-
-    p->thumbnailBar = stt;
-    p->settings->setValue("General/thumbnailBar",stt);
-    emit thumbnailBarChanged();
+    if( p->fullscreen )
+        setFcrThumbnailBar(stt);
+    else
+        setNrmlThumbnailBar(stt);
 }
 
 bool Limoo::thumbnailBar() const
 {
-    return p->thumbnailBar;
+    if( p->fullscreen )
+        return fcrThumbnailBar();
+    else
+        return nrmlThumbnailBar();
+}
+
+void Limoo::setFcrThumbnailBar(bool stt)
+{
+    if( p->fcrThumbnailBar == stt )
+        return;
+
+    p->fcrThumbnailBar = stt;
+    p->settings->setValue("General/fcrThumbnailBar",stt);
+
+    emit fcrThumbnailBarChanged();
+    if( p->fullscreen )
+        emit thumbnailBarChanged();
+}
+
+bool Limoo::fcrThumbnailBar() const
+{
+    return p->fcrThumbnailBar;
+}
+
+void Limoo::setNrmlThumbnailBar(bool stt)
+{
+    if( p->nrmlThumbnailBar == stt )
+        return;
+
+    p->nrmlThumbnailBar = stt;
+    p->settings->setValue("General/nrmlThumbnailBar",stt);
+
+    emit nrmlThumbnailBarChanged();
+    if( !p->fullscreen )
+        emit thumbnailBarChanged();
+}
+
+bool Limoo::nrmlThumbnailBar() const
+{
+    return p->nrmlThumbnailBar;
 }
 
 int Limoo::desktopSession() const
@@ -508,7 +548,7 @@ QColor Limoo::titleBarColor()
 QColor Limoo::titleBarTransparentColor()
 {
     QColor color = titleBarColor();
-    color.setAlpha(128);
+    color.setAlpha(160);
     return color;
 }
 
@@ -565,54 +605,12 @@ QColor Limoo::titleBarTextColor()
 
 bool Limoo::titleBarIsDark()
 {
-    switch( desktopSession() )
-    {
-    case Enums::Mac:
+    const QColor & clr = titleBarColor();
+    qreal middle = (clr.green()+clr.red()+clr.blue())/3.0;
+    if( middle>128 )
         return false;
-        break;
-
-    case Enums::Windows:
-        return false;
-        break;
-
-    case Enums::Kde:
-        return false;
-        break;
-
-    case Enums::Unity:
-    case Enums::GnomeFallBack:
-    case Enums::Gnome:
-    {
-        static bool *res = 0;
-        if( !res )
-        {
-            QProcess prc;
-            prc.start( "dconf", QStringList()<< "read"<< "/org/gnome/desktop/interface/gtk-theme" );
-            prc.waitForStarted();
-            prc.waitForFinished();
-            QString sres = prc.readAll();
-            sres.remove("\n").remove("'");
-            sres = sres.toLower();
-
-            res = new bool;
-            if( sres == "ambiance" )
-                *res = true;
-            else
-            if( sres == "radiance" )
-                *res = false;
-            else
-            if( sres == "adwaita" )
-                *res = false;
-            else
-                *res = false;
-        }
-
-        return *res;
-    }
-        break;
-    }
-
-    return false;
+    else
+        return true;
 }
 
 void Limoo::start()

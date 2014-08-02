@@ -25,7 +25,7 @@ Rectangle {
     radius: 3*physicalPlatformScale
     color: "#66ffffff"
 
-    property int count: 4
+    property int count: 3
     property string path
     property variant filter
     property variant files: path.length==0? new Array : Limoo.folderEntry(path,filter,count)
@@ -40,7 +40,13 @@ Rectangle {
         for( var i=0; i<privates.items.length; i++ )
             privates.items[i].destroy()
 
-        for( var i=0; i<files.length; i++ ) {
+        var cover_path = path + "/.cover"
+        var cover_exist = Limoo.fileExists(cover_path)
+        if( cover_exist )
+            preview_component.createObject(fpreview, {"path":cover_path,"index":files.length!=0?files.length-1:0} )
+
+        var length = cover_exist? files.length-1 : files.length
+        for( var i=0; i<length; i++ ) {
             var obj = preview_component.createObject(fpreview, {"path":path+"/"+files[i],"index":i} )
         }
     }
@@ -56,6 +62,8 @@ Rectangle {
             sourceSize: Qt.size(width*2,height*2)
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
+            verticalAlignment: Image.AlignTop
+            z: index
 
             property int index: 0
             property real padd: count*singlePadd

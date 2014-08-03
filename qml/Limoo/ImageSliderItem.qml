@@ -36,6 +36,7 @@ Item {
         property real zoom: 1
         property real maximumZoom: (imageRatio>itemRatio? imageSize.width/item.width : imageSize.height/item.height)*4
         property bool largeImageLoadedOnce: false
+        property bool smallImage: imageSize.width<item.width && imageSize.height<item.height
 
         onZoomChanged: if( zoom > 1 ) largeImageLoadedOnce = true
     }
@@ -54,6 +55,7 @@ Item {
 
             LimooImage {
                 id: img
+                anchors.centerIn: parent
                 width: parent.width
                 height: parent.height
                 sourceSize: privates.zoom==1 && !privates.largeImageLoadedOnce? Qt.size(width,height) : privates.imageSize
@@ -66,8 +68,9 @@ Item {
 
             LimooImage {
                 id: preview_img
-                width: item.width
-                height: item.height
+                anchors.centerIn: parent
+                width: privates.smallImage? privates.imageSize.width : item.width
+                height: privates.smallImage? privates.imageSize.height : item.height
                 sourceSize: Qt.size(width,height)
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true
@@ -171,7 +174,6 @@ Item {
         var newH = preview_img.paintedHeight*privates.zoom
         if( newW<flick.width )
             newW = flick.width
-        else
         if( newH<flick.height )
             newH = flick.height
 

@@ -46,6 +46,7 @@
 #include <QProcess>
 #include <QPalette>
 #include <QScreen>
+#include <QStringList>
 
 class LimooPrivate
 {
@@ -64,6 +65,11 @@ public:
 
     QSettings *settings;
     MimeApps *mapp;
+
+    QTranslator *translator;
+    QHash<QString,QVariant> languages;
+    QHash<QString,QLocale> locales;
+    QString currentLanguage;
 };
 
 Limoo::Limoo(QObject *parent) :
@@ -75,6 +81,7 @@ Limoo::Limoo(QObject *parent) :
     p->initialized = false;
     p->homePath = HOME_PATH;
     p->confPath = CONF_PATH;
+    p->translator = new QTranslator(this);
 
     QIcon::setThemeName("FaenzaFlattr");
     QDir().mkpath(p->homePath);
@@ -85,6 +92,8 @@ Limoo::Limoo(QObject *parent) :
 
     qmlRegisterType<Enums>("org.sialan.limoo", 1, 0, "Enums");
     qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
+
+    init_languages();
 }
 
 QString Limoo::home() const
@@ -188,13 +197,13 @@ QString Limoo::aboutSialan() const
 
 QString Limoo::aboutLimoo() const
 {
-    return tr("Limoo is a modern image viewer ,focused on user interface and user friendly.") + "\n"
+    return tr("Limoo is a modern image viewer ,focusing on user interface and user friendly.") + "\n"
             + tr("Limoo is Free software and released under GPLv3 License.");
 }
 
 QString Limoo::version() const
 {
-    return "1.0.0";
+    return "1.0.1";
 }
 
 QSize Limoo::imageSize(QString path) const
@@ -269,6 +278,18 @@ bool Limoo::isDirectory(QString path)
 {
     NORMALIZE_PATH(path)
     return QFileInfo(path).isDir();
+}
+
+bool Limoo::createDirectory(QString path)
+{
+    NORMALIZE_PATH(path)
+    return QDir().mkpath(path);
+}
+
+bool Limoo::renameFile(QString path, const QString &newName)
+{
+    NORMALIZE_PATH(path);
+    return QFile::rename(path, QFileInfo(path).dir().path()+"/"+newName);
 }
 
 bool Limoo::fileExists(QString path)
@@ -459,6 +480,31 @@ bool Limoo::nrmlThumbnailBar() const
     return p->nrmlThumbnailBar;
 }
 
+void Limoo::setCurrentLanguage(const QString &lang)
+{
+    if( p->currentLanguage == lang )
+        return;
+
+    QGuiApplication::removeTranslator(p->translator);
+    p->translator->load(p->languages.value(lang).toString(),"languages");
+    QGuiApplication::installTranslator(p->translator);
+
+    p->currentLanguage = lang;
+    p->settings->setValue("General/currentLanguage",lang);
+
+    emit currentLanguageChanged();
+}
+
+QString Limoo::currentLanguage() const
+{
+    return p->currentLanguage;
+}
+
+QStringList Limoo::languages() const
+{
+    return p->languages.keys();
+}
+
 int Limoo::desktopSession() const
 {
     static int result = -1;
@@ -639,6 +685,32 @@ void Limoo::start()
 void Limoo::windowSizeChanged()
 {
     p->settings->setValue("window/size",p->viewer->size());
+}
+
+void Limoo::init_languages()
+{
+    QDir dir(LOCALES_PATH);
+    QStringList languages = dir.entryList( QDir::Files );
+    if( !languages.contains("lang-en.qm") )
+        languages.prepend("lang-en.qm");
+
+    for( int i=0 ; i<languages.size() ; i++ )
+     {
+         QString locale_str = languages[i];
+             locale_str.truncate( locale_str.lastIndexOf('.') );
+             locale_str.remove( 0, locale_str.indexOf('-') + 1 );
+
+         QLocale locale(locale_str);
+
+         QString  lang = QLocale::languageToString(locale.language());
+         QVariant data = LOCALES_PATH + "/" + languages[i];
+
+         p->languages.insert( lang, data );
+         p->locales.insert( lang , locale );
+
+         if( lang == p->settings->value("General/language","English").toString() )
+             setCurrentLanguage( lang );
+    }
 }
 
 Limoo::~Limoo()

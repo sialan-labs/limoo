@@ -128,7 +128,14 @@ Item {
                 anchors.margins: grid.spacing/2
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    if (mouse.button == Qt.RightButton) {
+                    if( mouse.button == Qt.LeftButton && mouse.modifiers == Qt.ControlModifier ) {
+                        if( fileIsDir )
+                            return
+                        thumbnailbar.addSelect(filePath)
+                        return
+                    }
+                    else
+                    if(mouse.button == Qt.RightButton) {
                         var obj = main.showMenu("ImageMenu.qml", mapToItem(main,0,height/2).y, 60*physicalPlatformScale )
                         obj.source = filePath
                         obj.menuX = mapToItem(main,width/2,height/2).x

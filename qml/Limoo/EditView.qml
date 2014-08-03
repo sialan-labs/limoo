@@ -55,7 +55,6 @@ Item {
         id: title
         x: 100
         y: 100
-        text: qsTr("Select Application")
         font.pointSize: 30
         font.weight: Font.Light
         font.family: globalFontFamily
@@ -129,5 +128,11 @@ Item {
     PhysicalScrollBar {
         scrollArea: apps_list; height: apps_list.height; width: 8
         anchors.right: apps_list.right; anchors.top: apps_list.top; color: "#333333"
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            title.text = qsTr("Select Application")
+        }
     }
 }

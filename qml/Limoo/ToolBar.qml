@@ -57,9 +57,9 @@ Rectangle {
         spacing: 6*physicalPlatformScale
 
         Button {
+            id: back_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Back")
             icon: Limoo.titleBarIsDark? "files/go-previous-light.png" : "files/go-previous.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
@@ -67,10 +67,10 @@ Rectangle {
         }
 
         Button {
+            id: openw_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Open With")
-            icon: Limoo.titleBarIsDark? "files/edit.png" : "files/edit-dark.png"
+            icon: Limoo.titleBarIsDark? "files/openwidth.png" : "files/openwidth-dark.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
@@ -78,9 +78,9 @@ Rectangle {
         }
 
         Button {
+            id: rleft_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Rotate Left")
             icon: Limoo.titleBarIsDark? "files/rotate-left-light.png" : "files/rotate-left.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
@@ -89,9 +89,9 @@ Rectangle {
         }
 
         Button {
+            id: rright_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Rotate Right")
             icon: Limoo.titleBarIsDark? "files/rotate-right-light.png" : "files/rotate-right.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
@@ -100,9 +100,9 @@ Rectangle {
         }
 
         Button {
+            id: fcr_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Fullscreen")
             icon: Limoo.titleBarIsDark? "files/view-fullscreen-light.png" : "files/view-fullscreen.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
@@ -110,9 +110,9 @@ Rectangle {
         }
 
         Button {
+            id: limoo_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Limoo")
             icon: Limoo.titleBarIsDark? "files/help-about-light.png" : "files/help-about.png"
             textColor: Limoo.titleBarTextColor
             highlightColor: "#22000000"
@@ -120,9 +120,9 @@ Rectangle {
         }
 
         Button {
+            id: sialan_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Sialan")
             icon: Limoo.titleBarIsDark? "files/sialan-light.png" : "files/sialan-black.png"
             iconHeight: 20
             textColor: Limoo.titleBarTextColor
@@ -132,14 +132,28 @@ Rectangle {
     }
 
     Button {
+        id: conf_btn
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.topMargin: 1*physicalPlatformScale
-        text: qsTr("Thumbnails")
+        icon: Limoo.titleBarIsDark? "files/configure_light.png" : "files/configure.png"
+        iconHeight: 20
         textColor: Limoo.titleBarTextColor
         highlightColor: "#22000000"
-        normalColor: Limoo.thumbnailBar? "#15000000" : "#00000000"
-        onClicked: Limoo.thumbnailBar = !Limoo.thumbnailBar
+        onClicked: configure = !configure
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            back_btn.text = qsTr("Back")
+            openw_btn.text = qsTr("Open With")
+            rleft_btn.text = qsTr("Rotate Left")
+            rright_btn.text = qsTr("Rotate Right")
+            fcr_btn.text = qsTr("Fullscreen")
+            limoo_btn.text = qsTr("Limoo")
+            sialan_btn.text = qsTr("Sialan")
+            conf_btn.text = qsTr("Configure")
+        }
     }
 }

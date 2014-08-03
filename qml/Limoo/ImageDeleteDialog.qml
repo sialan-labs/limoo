@@ -95,7 +95,6 @@ Item {
         Text {
             id: cancel_txt
             anchors.centerIn: parent
-            text: qsTr("Cancel")
             font.family: globalFontFamily
             font.pointSize: 15*fontsScale
             color: "#333333"
@@ -118,5 +117,11 @@ Item {
     }
     Component.onDestruction: {
         main.focus = true
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            cancel_txt.text = qsTr("Cancel")
+        }
     }
 }

@@ -40,6 +40,9 @@ class Limoo : public QObject
     Q_PROPERTY(int desktopSession READ desktopSession NOTIFY desktopSessionChanged)
     Q_PROPERTY(bool fcrThumbnailBar READ fcrThumbnailBar WRITE setFcrThumbnailBar NOTIFY fcrThumbnailBarChanged)
     Q_PROPERTY(bool thumbnailBar READ thumbnailBar WRITE setThumbnailBar NOTIFY thumbnailBarChanged)
+    Q_PROPERTY(bool nrmlThumbnailBar READ nrmlThumbnailBar WRITE setNrmlThumbnailBar NOTIFY nrmlThumbnailBarChanged)
+    Q_PROPERTY(QStringList languages READ languages NOTIFY languagesChanged)
+    Q_PROPERTY(QString currentLanguage READ currentLanguage WRITE setCurrentLanguage NOTIFY currentLanguageChanged)
 
     Q_OBJECT
 public:
@@ -74,6 +77,11 @@ public:
     void setNrmlThumbnailBar( bool stt );
     bool nrmlThumbnailBar() const;
 
+    void setCurrentLanguage( const QString & lang );
+    QString currentLanguage() const;
+
+    QStringList languages() const;
+
     int desktopSession() const;
 
     Q_INVOKABLE QSize imageSize(QString path ) const;
@@ -87,6 +95,8 @@ public:
     Q_INVOKABLE bool openDirectory(QString path );
     Q_INVOKABLE QString directoryOf(QString path );
     Q_INVOKABLE bool isDirectory(QString path );
+    Q_INVOKABLE bool createDirectory(QString path);
+    Q_INVOKABLE bool renameFile(QString path, const QString & newName);
     Q_INVOKABLE bool fileExists(QString path );
     Q_INVOKABLE bool copyFile( QString src, QString dst, bool allow_delete = false );
     Q_INVOKABLE void pasteClipboardFiles( QString dst );
@@ -108,6 +118,8 @@ public slots:
 signals:
     void homeChanged();
     void startDirectoryChanged();
+    void languagesChanged();
+    void currentLanguageChanged();
     void inputPathChanged();
     void startViewModeChanged();
     void fullScreenChanged();
@@ -123,6 +135,9 @@ signals:
 
 private slots:
     void windowSizeChanged();
+
+private:
+    void init_languages();
 
 private:
     LimooPrivate *p;

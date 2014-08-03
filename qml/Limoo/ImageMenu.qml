@@ -52,9 +52,9 @@ Rectangle {
         property real logicX: menuX - width/2
 
         Button {
+            id: cut_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Cut")
             icon: "files/edit-cut.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -66,9 +66,9 @@ Rectangle {
         }
 
         Button {
+            id: copy_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Copy")
             icon: "files/edit-copy.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -80,9 +80,9 @@ Rectangle {
         }
 
         Button {
+            id: paste_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Paste")
             icon: "files/edit-paste.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -94,9 +94,39 @@ Rectangle {
         }
 
         Button {
+            id: nfolder_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Open")
+            icon: "files/folder.png"
+            textColor: "#ffffff"
+            highlightColor: "#22ffffff"
+            visible: directory
+            onClicked: {
+                var obj = showSubMessage("CreateFolderDialog.qml")
+                obj.source = main.mainFrame.imageViewer.thumbnailBar.model.folder
+                main.hideMenu()
+            }
+        }
+
+        Button {
+            id: rename_btn
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            icon: "files/edit.png"
+            textColor: "#ffffff"
+            highlightColor: "#22ffffff"
+            visible: main.mainFrame.imageViewer.thumbnailBar.model.folder != img_menu.source
+            onClicked: {
+                var obj = showSubMessage("RenameDialog.qml")
+                obj.source = img_menu.source
+                main.hideMenu()
+            }
+        }
+
+        Button {
+            id: open_btn
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
             icon: "files/file-manager.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -108,10 +138,10 @@ Rectangle {
         }
 
         Button {
+            id: openw_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Open With")
-            icon: "files/edit.png"
+            icon: "files/openwidth.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
             visible: true
@@ -122,9 +152,9 @@ Rectangle {
         }
 
         Button {
+            id: background_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Background")
             icon: "files/background.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -136,9 +166,9 @@ Rectangle {
         }
 
         Button {
+            id: cover_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Set Cover")
             icon: "files/background.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -151,9 +181,9 @@ Rectangle {
         }
 
         Button {
+            id: dtl_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Details")
             icon: "files/document-properties.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -166,9 +196,9 @@ Rectangle {
         }
 
         Button {
+            id: del_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Delete")
             icon: "files/edit-delete.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -178,6 +208,22 @@ Rectangle {
                 item.sources = [img_menu.source]
                 main.hideMenu()
             }
+        }
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            cut_btn.text = qsTr("Cut")
+            copy_btn.text = qsTr("Copy")
+            paste_btn.text = qsTr("Paste")
+            open_btn.text = qsTr("Open")
+            openw_btn.text = qsTr("Open With")
+            background_btn.text = qsTr("Background")
+            cover_btn.text = qsTr("Set Cover")
+            dtl_btn.text = qsTr("Details")
+            del_btn.text = qsTr("Delete")
+            nfolder_btn.text = qsTr("New folder")
+            rename_btn.text = qsTr("Rename")
         }
     }
 }

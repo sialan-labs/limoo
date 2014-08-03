@@ -26,6 +26,7 @@ Rectangle {
     visible: width != 0
 
     property real visibleWidth: 100*physicalPlatformScale
+    property alias count: list.count
 
     signal selected( string filePath )
     signal removed( string filePath )
@@ -106,7 +107,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        text: qsTr("Actions")
         highlightColor: myPalette.highlight
         normalColor: "#0a0a0a"
         radius: 0
@@ -144,5 +144,11 @@ Rectangle {
     function clear() {
         list.model.clear()
         basket.cleared()
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            clear_btn.text = qsTr("Actions")
+        }
     }
 }

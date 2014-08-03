@@ -81,7 +81,7 @@ QHash<QString,QString> readConfFile( const QString & file )
         const QString & section    = mexr.cap(1);
         const QString & properties = mexr.cap(2);
 
-        QRegExp pexr("(?:\\r|\\n|^)(.*)\\=(.*)(?:\\r|\\n)");
+        QRegExp pexr("(?:^|\\n|\\r)([^#].*)\\=(.*)(?:\\r|\\n)");
         pexr.setMinimal(true);
 
         int ppos = 0;

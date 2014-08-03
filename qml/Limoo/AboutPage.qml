@@ -31,10 +31,10 @@ Rectangle {
     }
 
     Button {
+        id: back_btn
         anchors.top: parent.top
         anchors.left: parent.left
-        height: 46*physicalPlatformScale
-        text: qsTr("Back")
+        height: 40*physicalPlatformScale
         textColor: "#333333"
         highlightColor: "#44ffffff"
         icon: "files/go-previous.png"
@@ -56,7 +56,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 70*physicalPlatformScale
         width: 240*physicalPlatformScale
-        text: qsTr("Donate us (Sialan Labs)")
         fontSize: 10*fontsScale
         height: 42*physicalPlatformScale
         normalColor: "#339DCC"
@@ -81,7 +80,6 @@ Rectangle {
         Text {
             id: limoo_txt
             anchors.horizontalCenter: parent.horizontalCenter
-            text: qsTr("Limoo")
             font.pointSize: 40*fontsScale
             font.family: globalFontFamily
             font.bold: true
@@ -99,7 +97,6 @@ Rectangle {
             font.family: globalFontFamily
             font.pointSize: 12*fontsScale
             color: "#333333"
-            text: Limoo.aboutLimoo()
         }
 
         Item {
@@ -109,13 +106,14 @@ Rectangle {
     }
 
     Text {
+        id: home_btn
         anchors.right: parent.right
         anchors.bottom: website.top
         anchors.margins: 8*physicalPlatformScale
         font.family: globalFontFamily
         font.pointSize: 10*fontsScale
         color: "#333333"
-        text: "HomePage"
+        text: qsTr("HomePage")
 
         MouseArea {
             anchors.fill: parent
@@ -134,5 +132,15 @@ Rectangle {
         font.pointSize: 10*fontsScale
         color: "#333333"
         text: "Limoo " + Limoo.version()
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            back_btn.text = qsTr("Back")
+            donate_btn.text = qsTr("Donate us (Sialan Labs)")
+            limoo_txt.text = qsTr("Limoo")
+            home_btn.text = qsTr("HomePage")
+            about_text.text = Limoo.aboutLimoo()
+        }
     }
 }

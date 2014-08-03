@@ -52,10 +52,10 @@ Item {
     }
 
     Button {
+        id: back_btn
         anchors.top: parent.top
         anchors.left: parent.left
-        height: 46*physicalPlatformScale
-        text: qsTr("Back")
+        height: 40*physicalPlatformScale
         textColor: "#333333"
         highlightColor: "#44ffffff"
         icon: "files/go-previous.png"
@@ -99,18 +99,17 @@ Item {
             font.family: globalFontFamily
             font.pointSize: 11*fontsScale
             color: "#333333"
-            text: Limoo.aboutSialan()
         }
     }
 
     Text {
+        id: twitter
         anchors.right: parent.right
         anchors.bottom: website.top
         anchors.margins: 8*physicalPlatformScale
         font.family: globalFontFamily
         font.pointSize: 10*fontsScale
         color: "#333333"
-        text: "Sialan Labs twitter"
 
         MouseArea {
             anchors.fill: parent
@@ -128,13 +127,21 @@ Item {
         font.family: globalFontFamily
         font.pointSize: 10*fontsScale
         color: "#333333"
-        text: "Sialan Labs website"
 
         MouseArea {
             anchors.fill: parent
             anchors.margins: -8
             cursorShape: Qt.PointingHandCursor
             onClicked: Qt.openUrlExternally("http://labs.sialan.org")
+        }
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            back_btn.text = qsTr("Back")
+            website.text = qsTr("Sialan Labs website")
+            twitter.text = qsTr("Sialan Labs twitter")
+            about_text.text = Limoo.aboutSialan()
         }
     }
 }

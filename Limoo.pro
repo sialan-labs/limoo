@@ -1,7 +1,9 @@
 # Add more folders to ship with the application, here
 folder_01.source = qml/Limoo
-folder_01.target = qml
-DEPLOYMENTFOLDERS = folder_01
+folder_01.target = $${DESTDIR}/qml
+translations.source = translations
+translations.target = $${DESTDIR}
+DEPLOYMENTFOLDERS = folder_01 translations
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =

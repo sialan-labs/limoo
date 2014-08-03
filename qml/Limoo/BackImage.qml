@@ -44,6 +44,7 @@ Item {
             onStatusChanged: if( status == Image.Ready ) show()
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
+            verticalAlignment: Image.AlignTop
             smooth: true
             sourceSize: Qt.size(width,height)
             opacity: 0

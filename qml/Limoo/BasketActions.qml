@@ -49,9 +49,9 @@ Rectangle {
         spacing: 10*physicalPlatformScale
 
         Button {
+            id: clear_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Clear Basket")
             icon: "files/edit-clear.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -62,10 +62,10 @@ Rectangle {
         }
 
         Button {
+            id: openw_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Open With")
-            icon: "files/edit.png"
+            icon: "files/openwidth.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
             onClicked: {
@@ -75,23 +75,23 @@ Rectangle {
         }
 
         Button {
+            id: cut_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Cut")
             icon: "files/edit-cut.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
             onClicked: {
                 Limoo.setCutClipboardUrl(bacts.basket.toList())
-                item.successfully.connect(bacts.basket.clear)
+                bacts.basket.clear()
                 main.hideMenu()
             }
         }
 
         Button {
+            id: copy_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Copy")
             icon: "files/edit-copy.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -102,9 +102,9 @@ Rectangle {
         }
 
         Button {
+            id: del_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            text: qsTr("Delete")
             icon: "files/edit-delete.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
@@ -114,6 +114,16 @@ Rectangle {
                 item.successfully.connect(bacts.basket.clear)
                 main.hideMenu()
             }
+        }
+    }
+
+    LanguageSwitcher {
+        onRefresh: {
+            clear_btn.text = qsTr("Clear Basket")
+            openw_btn.text = qsTr("Open With")
+            cut_btn.text = qsTr("Cut")
+            copy_btn.text = qsTr("Copy")
+            del_btn.text = qsTr("Delete")
         }
     }
 }

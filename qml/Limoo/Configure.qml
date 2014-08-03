@@ -88,6 +88,66 @@ Rectangle {
             onLcheckChanged: checked = lcheck
             onCheckedChanged: Limoo.fcrThumbnailBar = checked
         }
+
+        Item { width:5; height: 20*physicalPlatformScale }
+
+        CheckBox {
+            id: contrast_check
+            checked: Limoo.highContrast
+            style: CheckBoxStyle {
+                label: Text {
+                    font.pointSize: 10*physicalPlatformScale
+                    font.weight: Font.Light
+                    horizontalAlignment: Text.AlignLeft
+                    color: "#ffffff"
+                    text: control.text
+                }
+            }
+
+            property bool lcheck: Limoo.highContrast
+            onLcheckChanged: checked = lcheck
+            onCheckedChanged: Limoo.highContrast = checked
+        }
+
+        Item { width:5; height: 5*physicalPlatformScale }
+
+        CheckBox {
+            id: gamma_check
+            checked: Limoo.highGamma
+            style: CheckBoxStyle {
+                label: Text {
+                    font.pointSize: 10*physicalPlatformScale
+                    font.weight: Font.Light
+                    horizontalAlignment: Text.AlignLeft
+                    color: "#ffffff"
+                    text: control.text
+                }
+            }
+
+            property bool lcheck: Limoo.highGamma
+            onLcheckChanged: checked = lcheck
+            onCheckedChanged: Limoo.highGamma = checked
+        }
+
+        Item { width:5; height: 5*physicalPlatformScale }
+
+        CheckBox {
+            id: bright_check
+            checked: Limoo.highBright
+            style: CheckBoxStyle {
+                label: Text {
+                    font.pointSize: 10*physicalPlatformScale
+                    font.weight: Font.Light
+                    horizontalAlignment: Text.AlignLeft
+                    color: "#ffffff"
+                    text: control.text
+                }
+            }
+
+            property bool lcheck: Limoo.highBright
+            onLcheckChanged: checked = lcheck
+            onCheckedChanged: Limoo.highBright = checked
+        }
     }
 
     LanguageSwitcher {
@@ -96,6 +156,9 @@ Rectangle {
             conf_btn.text = qsTr("Language")
             nrml_thumb_check.text = qsTr("Thumbnalbar")
             fcr_thumb_check.text = qsTr("Fullscreen Thumbnalbar")
+            contrast_check.text = qsTr("High Contrast")
+            gamma_check.text = qsTr("High Gamma")
+            bright_check.text = qsTr("High Brightness")
         }
     }
 }

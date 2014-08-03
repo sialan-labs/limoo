@@ -149,20 +149,6 @@ Rectangle {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
         }
 
-        Rectangle {
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.right: parent.right
-            height: 40*physicalPlatformScale
-            color: Limoo.titleBarColor
-            opacity: viewMode? 1 : 0
-            visible: !Limoo.fullScreen
-
-            Behavior on opacity {
-                NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
-            }
-        }
-
         ThumbnailBar {
             id: tmb_bar
             width: visible? parent.width : thumbnailBarWidth
@@ -208,6 +194,20 @@ Rectangle {
                 } else {
                     hide_step_timer.done()
                 }
+            }
+        }
+
+        Rectangle {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.right: parent.right
+            height: 40*physicalPlatformScale
+            color: Limoo.titleBarColor
+            opacity: viewMode? 1 : 0
+            visible: !Limoo.fullScreen
+
+            Behavior on opacity {
+                NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
             }
         }
     }

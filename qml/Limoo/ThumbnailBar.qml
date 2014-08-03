@@ -178,7 +178,7 @@ Item {
     }
 
     PhysicalScrollBar {
-        scrollArea: grid; height: grid.height; width: 8
+        scrollArea: grid; height: grid.height-headerHeight; width: 8
         anchors.right: grid.right; anchors.top: grid.top; color: "#ffffff"
         anchors.topMargin: headerHeight
     }

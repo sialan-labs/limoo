@@ -56,6 +56,9 @@ public:
     ThumbnailLoader *thumbnail_loader;
 
     bool fullscreen;
+    bool highContrast;
+    bool highGamma;
+    bool highBright;
     bool initialized;
     bool fcrThumbnailBar;
     bool nrmlThumbnailBar;
@@ -89,6 +92,9 @@ Limoo::Limoo(QObject *parent) :
     p->settings = new QSettings(p->confPath,QSettings::IniFormat,this);
     p->fcrThumbnailBar = p->settings->value("General/fcrThumbnailBar",false).toBool();
     p->nrmlThumbnailBar = p->settings->value("General/nrmlThumbnailBar",true).toBool();
+    p->highContrast = p->settings->value("General/highContrast",true).toBool();
+    p->highGamma = p->settings->value("General/highGamma",true).toBool();
+    p->highBright = p->settings->value("General/highBright",false).toBool();
 
     qmlRegisterType<Enums>("org.sialan.limoo", 1, 0, "Enums");
     qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
@@ -426,6 +432,51 @@ void Limoo::setFullScreen(bool stt)
 bool Limoo::fullScreen() const
 {
     return p->fullscreen;
+}
+
+void Limoo::setHighContrast(bool stt)
+{
+    if( p->highContrast == stt )
+        return;
+
+    p->highContrast = stt;
+    p->settings->setValue("General/highContrast",stt);
+    emit highContrastChanged();
+}
+
+bool Limoo::highContrast() const
+{
+    return p->highContrast;
+}
+
+void Limoo::setHighGamma(bool stt)
+{
+    if( p->highGamma == stt )
+        return;
+
+    p->highGamma = stt;
+    p->settings->setValue("General/highGamma",stt);
+    emit highGammaChanged();
+}
+
+bool Limoo::highGamma() const
+{
+    return p->highGamma;
+}
+
+void Limoo::setHighBright(bool stt)
+{
+    if( p->highBright == stt )
+        return;
+
+    p->highBright = stt;
+    p->settings->setValue("General/highBright",stt);
+    emit highBrightChanged();
+}
+
+bool Limoo::highBright() const
+{
+    return p->highBright;
 }
 
 void Limoo::setThumbnailBar(bool stt)

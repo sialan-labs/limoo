@@ -105,12 +105,22 @@ Item {
         }
     }
 
-//    BrightnessContrast {
-//        anchors.fill: flick
-//        source: flick
-//        brightness: 0
-//        contrast: 0
-//    }
+    BrightnessContrast {
+        id: bright_effect
+        anchors.fill: flick
+        source: flick
+        brightness: Limoo.highBright? 0.05 : 0
+        contrast: Limoo.highContrast? 0.05 : 0
+        visible: false
+    }
+
+    GammaAdjust {
+        id: gamma_effect
+        anchors.fill: bright_effect
+        source: bright_effect
+        gamma: Limoo.highGamma? 1.1 : 1
+        visible: Limoo.highGamma || Limoo.highContrast || Limoo.highBright
+    }
 
     ScrollBar {
         scrollArea: flick; height: flick.height; width: 8; orientation: Qt.Vertical

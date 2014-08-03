@@ -32,6 +32,9 @@ class Limoo : public QObject
     Q_PROPERTY(QString inputPath READ inputPath NOTIFY inputPathChanged)
     Q_PROPERTY(bool startViewMode READ startViewMode NOTIFY startViewModeChanged)
     Q_PROPERTY(bool fullScreen READ fullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
+    Q_PROPERTY(bool highContrast READ highContrast WRITE setHighContrast NOTIFY highContrastChanged)
+    Q_PROPERTY(bool highGamma READ highGamma WRITE setHighGamma NOTIFY highGammaChanged)
+    Q_PROPERTY(bool highBright READ highBright WRITE setHighBright NOTIFY highBrightChanged)
     Q_PROPERTY(bool initialized READ initialized NOTIFY initializedChanged)
     Q_PROPERTY(QColor titleBarColor READ titleBarColor NOTIFY titleBarColorChanged)
     Q_PROPERTY(QColor titleBarTransparentColor READ titleBarTransparentColor NOTIFY titleBarTransparentColorChanged)
@@ -67,6 +70,15 @@ public:
 
     void setFullScreen( bool stt );
     bool fullScreen() const;
+
+    void setHighContrast( bool stt );
+    bool highContrast() const;
+
+    void setHighGamma( bool stt );
+    bool highGamma() const;
+
+    void setHighBright( bool stt );
+    bool highBright() const;
 
     void setThumbnailBar( bool stt );
     bool thumbnailBar() const;
@@ -123,6 +135,9 @@ signals:
     void inputPathChanged();
     void startViewModeChanged();
     void fullScreenChanged();
+    void highContrastChanged();
+    void highGammaChanged();
+    void highBrightChanged();
     void initializedChanged();
     void titleBarColorChanged();
     void titleBarTextColorChanged();

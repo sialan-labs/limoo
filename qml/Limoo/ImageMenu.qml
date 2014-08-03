@@ -130,7 +130,7 @@ Rectangle {
             icon: "files/file-manager.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: true
+            visible: directory
             onClicked: {
                 Limoo.openDirectory(img_menu.source)
                 main.hideMenu()
@@ -144,7 +144,7 @@ Rectangle {
             icon: "files/openwidth.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: true
+            visible: !directory
             onClicked: {
                 main.edit([img_menu.source])
                 main.hideMenu()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.0" language="en_US">
 <context>
     <name>AboutPage</name>
     <message>
@@ -75,6 +75,29 @@
         <source>Language</source>
         <translation>زبان ها</translation>
     </message>
+    <message>
+        <source>Thumbnalbar</source>
+        <translation>نوار عکس‌ها</translation>
+    </message>
+    <message>
+        <source>Fullscreen Thumbnalbar</source>
+        <translation>نوار عکس‌ها (تمام صفحه)</translation>
+    </message>
+</context>
+<context>
+    <name>CreateFolderDialog</name>
+    <message>
+        <source>Create new folder</source>
+        <translation>ساختن پوشه‌ی جدید</translation>
+    </message>
+    <message>
+        <source>Enter new folder name</source>
+        <translation>نام پوشه جدید را وارد کنید</translation>
+    </message>
+    <message>
+        <source>Create</source>
+        <translation>ساختن</translation>
+    </message>
 </context>
 <context>
     <name>EditView</name>
@@ -128,6 +151,14 @@
         <source>Delete</source>
         <translation>پاک کردن</translation>
     </message>
+    <message>
+        <source>New folder</source>
+        <translation>پوشه‌ی جدید</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>تغییر نام</translation>
+    </message>
 </context>
 <context>
     <name>Limoo</name>
@@ -146,6 +177,21 @@
     <message>
         <source>Limoo is Free software and released under GPLv3 License.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Rename Dialog</source>
+        <translation>صفحه‌ی تغییر نام</translation>
+    </message>
+    <message>
+        <source>Enter new name</source>
+        <translation>نام جدید را وارد کنید</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>تغییر نام</translation>
     </message>
 </context>
 <context>

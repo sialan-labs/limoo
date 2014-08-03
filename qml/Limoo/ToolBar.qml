@@ -21,7 +21,7 @@ import org.sialan.limoo 1.0
 
 Rectangle {
     id: toolbar
-    height: Limoo.desktopSession == Enums.Gnome? 46*physicalPlatformScale : 36*physicalPlatformScale
+    height: 40*physicalPlatformScale
     clip: true
     color: blurBack && Limoo.desktopSession != Enums.Unity? Limoo.titleBarTransparentColor : Limoo.titleBarColor
 

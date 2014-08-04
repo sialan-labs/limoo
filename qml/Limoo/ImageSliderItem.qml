@@ -35,9 +35,9 @@ Item {
         property real imageRatio: imageSize.width/imageSize.height
         property real itemRatio: item.width/item.height
         property real zoom: 1
-        property real maximumZoom: (imageRatio>itemRatio? imageSize.width/item.width : imageSize.height/item.height)*4
+        property real maximumZoom: (imageRatio>itemRatio? imageSize.width/item.width : imageSize.height/item.height)*8
         property bool largeImageLoadedOnce: false
-        property bool smallImage: imageSize.width<item.width && imageSize.height<item.height
+        property bool smallImage: imageSize.width<item.width && imageSize.height<item.height && !isSVG
 
         onZoomChanged: if( zoom > 1 ) largeImageLoadedOnce = true
     }

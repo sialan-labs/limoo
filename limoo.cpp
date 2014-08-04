@@ -652,7 +652,7 @@ QColor Limoo::titleBarColor()
         break;
     }
 
-    return QColor("#403F3A");
+    return QColor("#E5E5E5");
 }
 
 QColor Limoo::titleBarTransparentColor()
@@ -710,7 +710,7 @@ QColor Limoo::titleBarTextColor()
         break;
     }
 
-    return QColor("#eeeeee");
+    return QColor("#333333");
 }
 
 bool Limoo::titleBarIsDark()

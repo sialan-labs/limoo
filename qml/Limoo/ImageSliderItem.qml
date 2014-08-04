@@ -30,6 +30,7 @@ Item {
     QtObject {
         id: privates
 
+        property bool isSVG: Limoo.isSVG(item.source)
         property size imageSize: Limoo.imageSize(item.source)
         property real imageRatio: imageSize.width/imageSize.height
         property real itemRatio: item.width/item.height
@@ -58,7 +59,7 @@ Item {
                 anchors.centerIn: parent
                 width: parent.width
                 height: parent.height
-                sourceSize: privates.zoom==1 && !privates.largeImageLoadedOnce? Qt.size(width,height) : privates.imageSize
+                sourceSize: (privates.zoom==1 && !privates.largeImageLoadedOnce) || privates.isSVG? Qt.size(width,height) : privates.imageSize
                 asynchronous: false
                 source: privates.zoom==1 && !privates.largeImageLoadedOnce? "" : item.source
                 fillMode: Image.PreserveAspectFit

@@ -83,6 +83,18 @@
         <source>Fullscreen Thumbnalbar</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>High Contrast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High Gamma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>High Brightness</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CreateFolderDialog</name>

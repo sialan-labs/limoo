@@ -99,6 +99,7 @@ public:
     Q_INVOKABLE QSize imageSize(QString path ) const;
     Q_INVOKABLE quint64 fileSize(QString path ) const;
     Q_INVOKABLE QString fileName(QString path ) const;
+    Q_INVOKABLE bool isSVG(QString path) const;
 
     Q_INVOKABLE QStringList folderEntry(QString path, const QStringList &filter, int count = -1 ) const;
 

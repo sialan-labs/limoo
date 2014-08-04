@@ -83,6 +83,18 @@
         <source>Fullscreen Thumbnalbar</source>
         <translation>نوار عکس‌ها (تمام صفحه)</translation>
     </message>
+    <message>
+        <source>High Contrast</source>
+        <translation>کنتراست بالا</translation>
+    </message>
+    <message>
+        <source>High Gamma</source>
+        <translation>گامای بالا</translation>
+    </message>
+    <message>
+        <source>High Brightness</source>
+        <translation>نور بالا</translation>
+    </message>
 </context>
 <context>
     <name>CreateFolderDialog</name>

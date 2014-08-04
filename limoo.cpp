@@ -47,6 +47,7 @@
 #include <QPalette>
 #include <QScreen>
 #include <QStringList>
+#include <QMimeDatabase>
 
 class LimooPrivate
 {
@@ -73,6 +74,8 @@ public:
     QHash<QString,QVariant> languages;
     QHash<QString,QLocale> locales;
     QString currentLanguage;
+
+    QMimeDatabase db;
 };
 
 Limoo::Limoo(QObject *parent) :
@@ -238,6 +241,16 @@ QString Limoo::fileName(QString path) const
 {
     NORMALIZE_PATH(path)
     return QFileInfo(path).fileName();
+}
+
+bool Limoo::isSVG(QString path) const
+{
+    NORMALIZE_PATH(path)
+    QString suffix = p->db.mimeTypeForFile(path).preferredSuffix();
+    if( suffix == "svg" || suffix == "svgz" )
+        return true;
+    else
+        return false;
 }
 
 QStringList Limoo::folderEntry(QString path, const QStringList & filter, int count) const

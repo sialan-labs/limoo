@@ -61,6 +61,12 @@ void ThumbnailLoader::load(const QString &path)
     QFileInfo file( path );
 
     QString suffix = p->db.mimeTypeForFile(path).preferredSuffix();
+    if( suffix == "svg" || suffix == "svgz" )
+    {
+        emit loaded( path, file.filePath() );
+        return;
+    }
+
     QString hidden_text = file.path() + " " +
                           QString::number(file.size()) +  " " +
                           file.created().toString("yyyy/MM/dd hh:mm:ss:zzz") + " " +

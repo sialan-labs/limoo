@@ -21,6 +21,7 @@
 
 #include "thumbnailloader.h"
 #include "thumbnailloaderitem.h"
+#include "limoo_macros.h"
 
 #include <QSet>
 #include <QQueue>
@@ -64,6 +65,13 @@ void ThumbnailLoader::load(const QString &path)
     if( suffix == "svg" || suffix == "svgz" )
     {
         emit loaded( path, file.filePath() );
+        return;
+    }
+    else
+    if( file.suffix() == PATH_HANDLER_LLOCK_SUFFIX )
+    {
+        QString thumb_path = file.path() + "/" + file.completeBaseName() + "." + PATH_HANDLER_LLOCK_SUFFIX_THUMB;
+        emit loaded( path, thumb_path );
         return;
     }
 

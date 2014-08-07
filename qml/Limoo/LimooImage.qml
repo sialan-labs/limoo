@@ -35,13 +35,17 @@ Item {
     property alias mirror: img.mirror
     property alias progress: img.progress
     property alias smooth: img.smooth
-    property alias source: img.source
+    property alias source: path_handler.input
     property alias status: img.status
     property alias verticalAlignment: img.verticalAlignment
 
     property alias metaData: meta_data
 
     onSourceSizeChanged: refreshRootSourceSize()
+
+    PathHandler {
+        id: path_handler
+    }
 
     Image {
         id: img
@@ -50,6 +54,7 @@ Item {
         anchors.centerIn: parent
         transformOrigin: Item.Center
         rotation: meta_data.orientationDegree(meta_data.orientation)
+        source: path_handler.output
 
         onSourceSizeChanged: refreshSourceSize()
         onPaintedHeightChanged: refreshPaintedHeight()

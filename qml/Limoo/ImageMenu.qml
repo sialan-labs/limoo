@@ -94,6 +94,41 @@ Rectangle {
         }
 
         Button {
+            id: encrypt_btn
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            icon: "files/lock.png"
+            textColor: "#ffffff"
+            highlightColor: "#22ffffff"
+            visible: !viewMode && ( (directory && PasswordManager.passwordFileOf(img_menu.source).length == 0) ||
+                                    (!directory && !PasswordManager.fileIsEncrypted(img_menu.source) &&
+                                     PasswordManager.passwordFileOf(img_menu.source).length != 0) )
+            onClicked: {
+                var path = img_menu.source
+                var passFile = PasswordManager.passwordFileOf(path)
+                var obj = showSubMessage("EncryptMenu.qml")
+                if( passFile.length == 0 )
+                    obj.successfully.connect(img_menu.setPasswordAndEncrypt)
+                else
+                    obj.successfully.connect(img_menu.justEncrypt)
+            }
+        }
+
+        Button {
+            id: decrypt_btn
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            icon: "files/unlock.png"
+            textColor: "#ffffff"
+            highlightColor: "#22ffffff"
+            visible: !viewMode && !directory && PasswordManager.fileIsEncrypted(img_menu.source)
+            onClicked: {
+                Encypter.decryptAlongside(img_menu.source)
+                main.hideMenu()
+            }
+        }
+
+        Button {
             id: nfolder_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -211,6 +246,22 @@ Rectangle {
         }
     }
 
+    function setPasswordAndEncrypt( pass, del_files ) {
+        PasswordManager.setPasswordOf( img_menu.source, pass )
+        justEncrypt(pass,del_files)
+    }
+
+    function justEncrypt( pass, del_files ) {
+        var passTrue = PasswordManager.checkPassword( img_menu.source, pass )
+        if( !passTrue ) {
+            showSubMessage("IncorrectPassword.qml")
+            return
+        }
+
+        Encypter.encypt(img_menu.source,del_files)
+        main.hideMenu()
+    }
+
     LanguageSwitcher {
         onRefresh: {
             cut_btn.text = qsTr("Cut")
@@ -224,6 +275,8 @@ Rectangle {
             del_btn.text = qsTr("Delete")
             nfolder_btn.text = qsTr("New folder")
             rename_btn.text = qsTr("Rename")
+            encrypt_btn.text = qsTr("Encrypt")
+            decrypt_btn.text = qsTr("Decrypt")
         }
     }
 }

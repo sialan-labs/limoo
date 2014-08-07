@@ -28,7 +28,12 @@ SOURCES += main.cpp \
     imagemetadata.cpp \
     pluginmanager.cpp \
     structures.cpp \
-    mimeapps.cpp
+    mimeapps.cpp \
+    pathhandler.cpp \
+    pathhandlerimageprovider.cpp \
+    SimpleQtCryptor/simpleqtcryptor.cpp \
+    fileencrypter.cpp \
+    passwordmanager.cpp
 
 # Installation path
 # target.path =
@@ -47,7 +52,13 @@ HEADERS += \
     imagemetadata.h \
     pluginmanager.h \
     structures.h \
-    mimeapps.h
+    mimeapps.h \
+    pathhandler.h \
+    pathhandlerimageprovider.h \
+    SimpleQtCryptor/serpent_sbox.h \
+    SimpleQtCryptor/simpleqtcryptor.h \
+    fileencrypter.h \
+    passwordmanager.h
 
 OTHER_FILES += \
     qml/Limoo/Basket.qml \

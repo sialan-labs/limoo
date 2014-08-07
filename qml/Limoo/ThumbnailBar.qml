@@ -32,7 +32,7 @@ Item {
     property real headerHeight: 0
     property alias model: grid.model
 
-    property variant filters: [ "*.png", "*.jpg", "*.jpeg", "*.svg", "*.svgz", "*.bmp", "*.JPG", "*.JPEG", "*.PNG" ]
+    property variant filters: [ "*.limlock", "*.png", "*.jpg", "*.jpeg", "*.svg", "*.svgz", "*.bmp", "*.JPG", "*.JPEG", "*.PNG" ]
 
     signal addSelect( string filePath )
     signal selected( string filePath )
@@ -60,7 +60,6 @@ Item {
             showHidden: thumbnailbar.showHidden
             sortField: FolderListModel.Name
             nameFilters: thumbnailbar.filters
-            folder: Limoo.startDirectory
             onFolderChanged: grid.positionViewAtBeginning()
         }
 
@@ -143,14 +142,29 @@ Item {
                     }
                     else
                     if( fileIsDir ) {
-                        ThumbnailLoader.reset()
-                        grid.model.folder = filePath
+                        if( PasswordManager.hasPassword(filePath) && !PasswordManager.passwordEntered(filePath) ) {
+                            var obj = showSubMessage("GetPassDialog.qml")
+                            obj.successfully.connect(marea.openPath)
+                        } else {
+                            ThumbnailLoader.reset()
+                            grid.model.folder = filePath
+                        }
                     }
                     else {
                         grid.currentIndex = index
                         thumbnailbar.currentPath = filePath
                         thumbnailbar.selected(filePath)
                     }
+                }
+
+                function openPath( pass ) {
+                    if( !PasswordManager.checkPassword(filePath,pass) ) {
+                        showSubMessage("IncorrectPassword.qml")
+                        return
+                    }
+
+                    ThumbnailLoader.reset()
+                    grid.model.folder = filePath
                 }
             }
 

@@ -16,18 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define NORMALIZE_PATH( PATH ) \
-    while( PATH.left(7) == "file://" ) \
-        PATH = PATH.mid(7);
-
 #include "limoo.h"
 #include "limoo_macros.h"
 #include "imagemetadata.h"
 #include "mimeapps.h"
 #include "iconprovider.h"
+#include "pathhandler.h"
+#include "pathhandlerimageprovider.h"
 #include "thumbnailloader.h"
 #include "enums.h"
 #include "qtquick2applicationviewer.h"
+#include "fileencrypter.h"
+#include "passwordmanager.h"
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -55,6 +55,9 @@ public:
     QtQuick2ApplicationViewer *viewer;
     IconProvider *icon_provider;
     ThumbnailLoader *thumbnail_loader;
+    PathHandlerImageProvider *handler_provider;
+    FileEncrypter *encrypter;
+    PasswordManager *pass_manager;
 
     bool fullscreen;
     bool highContrast;
@@ -96,11 +99,12 @@ Limoo::Limoo(QObject *parent) :
     p->fcrThumbnailBar = p->settings->value("General/fcrThumbnailBar",false).toBool();
     p->nrmlThumbnailBar = p->settings->value("General/nrmlThumbnailBar",true).toBool();
     p->highContrast = p->settings->value("General/highContrast",true).toBool();
-    p->highGamma = p->settings->value("General/highGamma",true).toBool();
+    p->highGamma = p->settings->value("General/highGamma",false).toBool();
     p->highBright = p->settings->value("General/highBright",false).toBool();
 
     qmlRegisterType<Enums>("org.sialan.limoo", 1, 0, "Enums");
     qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
+    qmlRegisterType<PathHandler>("org.sialan.limoo", 1, 0, "PathHandler");
 
     init_languages();
 }
@@ -220,6 +224,10 @@ QSize Limoo::imageSize(QString path) const
     NORMALIZE_PATH(path)
     if( path.isEmpty() )
         return QSize();
+
+    QFileInfo inf(path);
+    if( inf.suffix() == PATH_HANDLER_LLOCK_SUFFIX )
+        return FileEncrypter::readSize(path);
 
     ImageMetaData mdata;
     mdata.setSource(path);
@@ -726,15 +734,21 @@ bool Limoo::titleBarIsDark()
 void Limoo::start()
 {
     p->icon_provider = new IconProvider();
+    p->handler_provider = new PathHandlerImageProvider();
     p->thumbnail_loader = new ThumbnailLoader(this);
     p->mapp = new MimeApps(this);
+    p->encrypter = new FileEncrypter(this);
+    p->pass_manager = new PasswordManager(this);
 
     p->viewer = new QtQuick2ApplicationViewer();
     p->viewer->engine()->rootContext()->setContextProperty( "Window", p->viewer );
     p->viewer->engine()->rootContext()->setContextProperty( "Limoo", this );
     p->viewer->engine()->rootContext()->setContextProperty( "MimeApps", p->mapp );
     p->viewer->engine()->rootContext()->setContextProperty( "ThumbnailLoader", p->thumbnail_loader );
+    p->viewer->engine()->rootContext()->setContextProperty( "Encypter", p->encrypter );
+    p->viewer->engine()->rootContext()->setContextProperty( "PasswordManager", p->pass_manager );
     p->viewer->engine()->addImageProvider("icon",p->icon_provider);
+    p->viewer->engine()->addImageProvider(PATH_HANDLER_NAME,p->handler_provider);
     p->viewer->setMainQmlFile(QStringLiteral("qml/Limoo/main.qml"));
     p->viewer->resize( p->settings->value("window/size",QSize(960,600)).toSize() );
     p->viewer->showExpanded();

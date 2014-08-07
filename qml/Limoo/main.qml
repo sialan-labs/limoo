@@ -90,6 +90,12 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: Encypter
+        onStarted: showSubMessage("PleaseWait.qml")
+        onDone: hideSubMessage()
+    }
+
     MouseArea {
         id: click_back
         hoverEnabled: true

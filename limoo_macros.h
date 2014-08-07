@@ -34,4 +34,16 @@
 #define PLUGINS_LOCAL_PATH  QString(HOME_PATH + "/plugins")
 #define PLUGINS_PUBLIC_PATH QString(QCoreApplication::applicationDirPath() + "/plugins")
 
+#define NORMALIZE_PATH( PATH ) \
+    while( PATH.left(7) == "file://" ) \
+        PATH = PATH.mid(7);
+
+#define PASS_FILE_NAME ".dont_remove_me.password"
+
+#define PATH_HANDLER_NAME  "pathhandler"
+#define PATH_HANDLER_LLOCK "limoolock"
+#define PATH_HANDLER_LLOCK_THUMB "limoolock_thumb"
+#define PATH_HANDLER_LLOCK_SUFFIX "limlock"
+#define PATH_HANDLER_LLOCK_SUFFIX_THUMB "limlockthumb"
+
 #endif // LIMOO_MACROS_H

@@ -70,4 +70,16 @@ Rectangle {
             property real singlePadd: 10*physicalPlatformScale
         }
     }
+
+    Image {
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: -6*physicalPlatformScale
+        width: 18
+        height: 18
+        sourceSize: Qt.size(width,height)
+        source: visible?"files/locked.png":""
+        visible: PasswordManager.hasPassword(fpreview.path)
+        z: 100
+    }
 }

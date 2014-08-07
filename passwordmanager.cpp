@@ -20,11 +20,11 @@
 #include "limoo_macros.h"
 #include "encrypttools.h"
 
-#include <QUuid>
 #include <QHash>
 #include <QMutex>
+#include <QCryptographicHash>
 
-QHash<QString,QString> pmanager_master_passwords;
+QHash<QString,QString> pmanager_hashes;
 QHash<QString,QString> pmanager_passwords;
 QMutex pmanager_mutex;
 
@@ -43,7 +43,7 @@ bool PasswordManager::passwordEntered(QString path)
 {
     NORMALIZE_PATH(path);
     pmanager_mutex.lock();
-    bool result = pmanager_master_passwords.contains(path);
+    bool result = pmanager_passwords.contains(path);
     pmanager_mutex.unlock();
 
     return result;
@@ -66,7 +66,7 @@ bool PasswordManager::checkPassword(QString path, const QString &pass)
     path = QFileInfo(path).path();
 
     pmanager_mutex.lock();
-    if( pmanager_master_passwords.contains(path) )
+    if( pmanager_passwords.contains(path) )
     {
         result = pmanager_passwords.value(path) == pass;
         pmanager_mutex.unlock();
@@ -82,11 +82,13 @@ bool PasswordManager::checkPassword(QString path, const QString &pass)
     if( !f.open(QFile::ReadOnly) )
         return result;
 
-    const QByteArray & enc_code_dec = EncryptTools::decrypt(f.readAll(),pass);
+    const QString hash = f.readAll();
+    if( hash != HASH_MD5(pass) )
+        return false;
 
     pmanager_mutex.lock();
-    pmanager_master_passwords[path] = enc_code_dec;
     pmanager_passwords[path] = pass;
+    pmanager_hashes[hash] = pass;
     pmanager_mutex.unlock();
 
     return true;
@@ -112,19 +114,6 @@ QString PasswordManager::passwordFileOf(QString path)
 bool PasswordManager::hasPassword(QString path)
 {
     return QFile::exists(path+"/"PASS_FILE_NAME);
-}
-
-QString PasswordManager::masterPasswordOf(QString path)
-{
-    NORMALIZE_PATH(path);
-    path = passwordFileOf(path);
-    path = QFileInfo(path).path();
-
-    pmanager_mutex.lock();
-    QString result = pmanager_master_passwords.value(path);
-    pmanager_mutex.unlock();
-
-    return result;
 }
 
 QString PasswordManager::passwordOf(QString path)
@@ -154,11 +143,18 @@ void PasswordManager::setPasswordOf(QString path, const QString & pass)
     if( !file.open(QFile::WriteOnly) )
         return;
 
-    const QByteArray & enc_new_data = EncryptTools::encrypt(QUuid::createUuid().toByteArray(),pass);
-
-    file.write(enc_new_data);
+    file.write( HASH_MD5(pass) );
     file.flush();
     file.close();
+}
+
+bool PasswordManager::hashHasPassword(const QString & hash)
+{
+    pmanager_mutex.lock();
+    bool result = pmanager_hashes.contains(hash);
+    pmanager_mutex.unlock();
+
+    return result;
 }
 
 PasswordManager::~PasswordManager()

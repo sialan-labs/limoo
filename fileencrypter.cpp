@@ -18,7 +18,7 @@
 
 #define MAX_ENCRYPTER_THREAD 4
 #define DECRYPT_IMAGE( DEST_DATA, SOURCE, FILE_PATH ) { \
-    const QString & pass = PasswordManager::masterPasswordOf(FILE_PATH); \
+    const QString & pass = PasswordManager::passwordOf(FILE_PATH); \
     DEST_DATA = EncryptTools::decrypt(SOURCE,pass); \
     }
 
@@ -259,7 +259,6 @@ FileEncrypter::~FileEncrypter()
 
 void FileEncrypterCore::encypt(QString path, bool delete_old_files)
 {
-    const QString & masterPass = PasswordManager::masterPasswordOf(path);
     const QString & pass = PasswordManager::passwordOf(path);
 
     QFileInfo file(path);
@@ -286,13 +285,13 @@ void FileEncrypterCore::encypt(QString path, bool delete_old_files)
     thumb_stream << thumb;
     thumb_buffer.close();
 
-    const QByteArray & enc_img_data = EncryptTools::encrypt(image_data,masterPass);
-    const QByteArray & enc_thumb_data = EncryptTools::encrypt(thumb_data,masterPass);
+    const QByteArray & enc_img_data = EncryptTools::encrypt(image_data,pass);
+    const QByteArray & enc_thumb_data = EncryptTools::encrypt(thumb_data,pass);
 
     QDataStream stream(&output);
     stream << ENCRYPTER_HEADER;
     stream << ENCRYPTER_VERSION;
-    stream << QCryptographicHash::hash(pass.toUtf8(),QCryptographicHash::Md5).toHex();
+    stream << HASH_MD5(pass);
     stream << img.size();
     stream << enc_thumb_data;
     stream << enc_img_data;

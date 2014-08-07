@@ -79,7 +79,7 @@ void ThumbnailLoader::load(const QString &path)
                           QString::number(file.size()) +  " " +
                           file.created().toString("yyyy/MM/dd hh:mm:ss:zzz") + " " +
                           file.lastModified().toString("yyyy/MM/dd hh:mm:ss:zzz");
-    QString md5 = QCryptographicHash::hash(hidden_text.toStdString().c_str(),QCryptographicHash::Md5).toHex();
+    QString md5 = HASH_MD5(hidden_text);
     QString thumbnail = THUMBNAILS_PATH + "/" + md5 + "." + suffix;
 
     if( QFileInfo(thumbnail).exists() )

@@ -21,6 +21,7 @@
 
 #include <QDir>
 #include <QCoreApplication>
+#include <QCryptographicHash>
 
 #ifdef Q_OS_WIN
 #define HOME_PATH QString(QDir::homePath() + "/AppData/Local/sialan/limoo")
@@ -48,5 +49,7 @@
 
 #define ENCRYPTER_HEADER  QString("Limoo Encrypted File")
 #define ENCRYPTER_VERSION 1.0
+
+#define HASH_MD5( STRING ) QCryptographicHash::hash(STRING.toUtf8(),QCryptographicHash::Md5).toHex()
 
 #endif // LIMOO_MACROS_H

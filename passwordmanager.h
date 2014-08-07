@@ -35,9 +35,9 @@ public slots:
     static bool checkPassword(QString path, const QString & pass);
     static QString passwordFileOf( QString path );
     static bool hasPassword( QString path );
-    static QString masterPasswordOf(QString path );
     static QString passwordOf(QString path );
     static void setPasswordOf(QString path , const QString &pass);
+    static bool hashHasPassword(const QString &hash);
 
 private:
     PasswordManagerPrivate *p;

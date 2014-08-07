@@ -270,8 +270,7 @@ Rectangle {
 
     function passEntered(pass) {
         if( !PasswordManager.checkPassword(Limoo.inputPath,pass) ) {
-            showSubMessage("IncorrectPassword.qml").finished.connect(viewer.openHome)
-            viewMode = false
+            showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
             return
         }
 

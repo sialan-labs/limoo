@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     pathhandlerimageprovider.cpp \
     SimpleQtCryptor/simpleqtcryptor.cpp \
     fileencrypter.cpp \
-    passwordmanager.cpp
+    passwordmanager.cpp \
+    encrypttools.cpp
 
 # Installation path
 # target.path =
@@ -58,7 +59,8 @@ HEADERS += \
     SimpleQtCryptor/serpent_sbox.h \
     SimpleQtCryptor/simpleqtcryptor.h \
     fileencrypter.h \
-    passwordmanager.h
+    passwordmanager.h \
+    encrypttools.h
 
 OTHER_FILES += \
     qml/Limoo/Basket.qml \

@@ -20,7 +20,6 @@
 #include "pathhandler.h"
 #include "passwordmanager.h"
 #include "fileencrypter.h"
-#include "SimpleQtCryptor/simpleqtcryptor.h"
 
 PathHandlerImageProvider::PathHandlerImageProvider() :
     QQuickImageProvider(QQuickImageProvider::Image,QQmlImageProviderBase::ForceAsynchronousImageLoading)

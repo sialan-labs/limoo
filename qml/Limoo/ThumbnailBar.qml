@@ -32,7 +32,7 @@ Item {
     property real headerHeight: 0
     property alias model: grid.model
 
-    property variant filters: [ "*.limlock", "*.png", "*.jpg", "*.jpeg", "*.svg", "*.svgz", "*.bmp", "*.JPG", "*.JPEG", "*.PNG" ]
+    property variant filters: [ "*.limlock", "*.LIMLOCK", "*.png", "*.jpg", "*.jpeg", "*.svg", "*.svgz", "*.bmp", "*.JPG", "*.JPEG", "*.PNG" ]
 
     signal addSelect( string filePath )
     signal selected( string filePath )

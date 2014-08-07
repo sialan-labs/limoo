@@ -19,23 +19,21 @@
 #define MAX_ENCRYPTER_THREAD 4
 #define DECRYPT_IMAGE( DEST_DATA, SOURCE, FILE_PATH ) { \
     const QString & pass = PasswordManager::masterPasswordOf(FILE_PATH); \
-    QSharedPointer<SimpleQtCryptor::Key> gKey = QSharedPointer<SimpleQtCryptor::Key>(new SimpleQtCryptor::Key(pass)); \
-    SimpleQtCryptor::Decryptor dec( gKey, SimpleQtCryptor::SERPENT_32, SimpleQtCryptor::ModeCFB ); \
-    if( dec.decrypt(SOURCE,DEST_DATA,true) == SimpleQtCryptor::ErrorInvalidKey ) \
-        return QImage(); \
+    DEST_DATA = EncryptTools::decrypt(SOURCE,pass); \
     }
 
 #include "fileencrypter.h"
 #include "limoo_macros.h"
 #include "limoo.h"
 #include "passwordmanager.h"
-#include "SimpleQtCryptor/simpleqtcryptor.h"
+#include "encrypttools.h"
 
 #include <QThread>
 #include <QQueue>
 #include <QStringList>
 #include <QImageReader>
 #include <QFile>
+#include <QCryptographicHash>
 #include <QDataStream>
 #include <QBuffer>
 
@@ -59,12 +57,18 @@ QSize FileEncrypter::readSize(QString path)
 {
     NORMALIZE_PATH(path);
 
+    QString header;
+    qreal version;
+    QByteArray passHash;
     QSize size;
     QFile file(path);
     if( !file.open(QFile::ReadOnly) )
         return size;
 
     QDataStream stream(&file);
+    stream >> header;       if( header   != ENCRYPTER_HEADER ) return size;
+    stream >> version;      if( version   > ENCRYPTER_VERSION ) return size;
+    stream >> passHash;
     stream >> size;
 
     file.close();
@@ -75,6 +79,9 @@ QImage FileEncrypter::readThumbnail(QString path)
 {
     NORMALIZE_PATH(path);
 
+    QString header;
+    qreal version;
+    QByteArray passHash;
     QSize size;
     QImage thumb;
     QFile file(path);
@@ -84,6 +91,9 @@ QImage FileEncrypter::readThumbnail(QString path)
     QByteArray enc_thumb;
 
     QDataStream stream(&file);
+    stream >> header;       if( header   != ENCRYPTER_HEADER ) return thumb;
+    stream >> version;      if( version   > ENCRYPTER_VERSION ) return thumb;
+    stream >> passHash;
     stream >> size;
     stream >> enc_thumb;
 
@@ -104,8 +114,10 @@ QImage FileEncrypter::readImage(QString path )
 {
     NORMALIZE_PATH(path);
 
+    QString header;
+    qreal version;
+    QByteArray passHash;
     QSize size;
-    QImage thumb;
     QImage img;
     QFile file(path);
     if( !file.open(QFile::ReadOnly) )
@@ -115,6 +127,9 @@ QImage FileEncrypter::readImage(QString path )
     QByteArray enc_img;
 
     QDataStream stream(&file);
+    stream >> header;       if( header   != ENCRYPTER_HEADER ) return img;
+    stream >> version;      if( version   > ENCRYPTER_VERSION ) return img;
+    stream >> passHash;
     stream >> size;
     stream >> enc_thumb;
     stream >> enc_img;
@@ -244,7 +259,9 @@ FileEncrypter::~FileEncrypter()
 
 void FileEncrypterCore::encypt(QString path, bool delete_old_files)
 {
-    const QString & password = PasswordManager::masterPasswordOf(path);
+    const QString & masterPass = PasswordManager::masterPasswordOf(path);
+    const QString & pass = PasswordManager::passwordOf(path);
+
     QFileInfo file(path);
     QString opath = file.dir().path() + "/" + file.fileName() + "." PATH_HANDLER_LLOCK_SUFFIX;
 
@@ -256,17 +273,11 @@ void FileEncrypterCore::encypt(QString path, bool delete_old_files)
     if( !output.open(QFile::WriteOnly) )
         return;
 
-    QSharedPointer<SimpleQtCryptor::Key> gKey = QSharedPointer<SimpleQtCryptor::Key>(new SimpleQtCryptor::Key(password));
-    SimpleQtCryptor::Encryptor enc( gKey, SimpleQtCryptor::SERPENT_32, SimpleQtCryptor::ModeCFB, SimpleQtCryptor::NoChecksum );
-
     const QByteArray image_data = input.readAll();
     input.close();
 
     const QImage img = QImage::fromData(image_data);
     const QImage thumb = img.scaled( QSize(256,256), Qt::KeepAspectRatio, Qt::SmoothTransformation );
-
-    QByteArray enc_img_data;
-    enc.encrypt( image_data, enc_img_data, true );
 
     QByteArray thumb_data;
     QBuffer thumb_buffer(&thumb_data);
@@ -275,10 +286,13 @@ void FileEncrypterCore::encypt(QString path, bool delete_old_files)
     thumb_stream << thumb;
     thumb_buffer.close();
 
-    QByteArray enc_thumb_data;
-    enc.encrypt( thumb_data, enc_thumb_data, true );
+    const QByteArray & enc_img_data = EncryptTools::encrypt(image_data,masterPass);
+    const QByteArray & enc_thumb_data = EncryptTools::encrypt(thumb_data,masterPass);
 
     QDataStream stream(&output);
+    stream << ENCRYPTER_HEADER;
+    stream << ENCRYPTER_VERSION;
+    stream << QCryptographicHash::hash(pass.toUtf8(),QCryptographicHash::Md5).toHex();
     stream << img.size();
     stream << enc_thumb_data;
     stream << enc_img_data;

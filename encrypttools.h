@@ -16,31 +16,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PASSWORDMANAGER_H
-#define PASSWORDMANAGER_H
+#ifndef ENCRYPTTOOLS_H
+#define ENCRYPTTOOLS_H
 
-#include <QObject>
+#include <QByteArray>
+#include <QString>
 
-class PasswordManagerPrivate;
-class PasswordManager : public QObject
+class EncryptTools
 {
-    Q_OBJECT
 public:
-    PasswordManager( QObject *parent = 0 );
-    ~PasswordManager();
-
-public slots:
-    static bool passwordEntered(QString path);
-    static bool fileIsEncrypted(QString path);
-    static bool checkPassword(QString path, const QString & pass);
-    static QString passwordFileOf( QString path );
-    static bool hasPassword( QString path );
-    static QString masterPasswordOf(QString path );
-    static QString passwordOf(QString path );
-    static void setPasswordOf(QString path , const QString &pass);
-
-private:
-    PasswordManagerPrivate *p;
+    static QByteArray encrypt( const QByteArray & data, const QString & pass );
+    static QByteArray decrypt( const QByteArray & data, const QString & pass );
 };
 
-#endif // PASSWORDMANAGER_H
+#endif // ENCRYPTTOOLS_H

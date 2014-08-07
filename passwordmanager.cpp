@@ -18,7 +18,7 @@
 
 #include "passwordmanager.h"
 #include "limoo_macros.h"
-#include "SimpleQtCryptor/simpleqtcryptor.h"
+#include "encrypttools.h"
 
 #include <QUuid>
 #include <QHash>
@@ -82,13 +82,7 @@ bool PasswordManager::checkPassword(QString path, const QString &pass)
     if( !f.open(QFile::ReadOnly) )
         return result;
 
-    const QByteArray & sdata = f.readAll();
-
-    QSharedPointer<SimpleQtCryptor::Key> gKey = QSharedPointer<SimpleQtCryptor::Key>(new SimpleQtCryptor::Key(pass));
-    SimpleQtCryptor::Decryptor dec( gKey, SimpleQtCryptor::SERPENT_32, SimpleQtCryptor::ModeCFB );
-    QByteArray enc_code_dec;
-    if( dec.decrypt(sdata,enc_code_dec,true) == SimpleQtCryptor::ErrorInvalidKey )
-        return result;
+    const QByteArray & enc_code_dec = EncryptTools::decrypt(f.readAll(),pass);
 
     pmanager_mutex.lock();
     pmanager_master_passwords[path] = enc_code_dec;
@@ -133,6 +127,19 @@ QString PasswordManager::masterPasswordOf(QString path)
     return result;
 }
 
+QString PasswordManager::passwordOf(QString path)
+{
+    NORMALIZE_PATH(path);
+    path = passwordFileOf(path);
+    path = QFileInfo(path).path();
+
+    pmanager_mutex.lock();
+    QString result = pmanager_passwords.value(path);
+    pmanager_mutex.unlock();
+
+    return result;
+}
+
 void PasswordManager::setPasswordOf(QString path, const QString & pass)
 {
     NORMALIZE_PATH(path);
@@ -147,13 +154,7 @@ void PasswordManager::setPasswordOf(QString path, const QString & pass)
     if( !file.open(QFile::WriteOnly) )
         return;
 
-    const QByteArray & data = QUuid::createUuid().toByteArray();
-
-    QSharedPointer<SimpleQtCryptor::Key> gKey = QSharedPointer<SimpleQtCryptor::Key>(new SimpleQtCryptor::Key(pass));
-    SimpleQtCryptor::Encryptor enc( gKey, SimpleQtCryptor::SERPENT_32, SimpleQtCryptor::ModeCFB, SimpleQtCryptor::NoChecksum );
-
-    QByteArray enc_new_data;
-    enc.encrypt( data, enc_new_data, true );
+    const QByteArray & enc_new_data = EncryptTools::encrypt(QUuid::createUuid().toByteArray(),pass);
 
     file.write(enc_new_data);
     file.flush();

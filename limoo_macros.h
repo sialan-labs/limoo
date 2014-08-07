@@ -46,4 +46,7 @@
 #define PATH_HANDLER_LLOCK_SUFFIX "limlock"
 #define PATH_HANDLER_LLOCK_SUFFIX_THUMB "limlockthumb"
 
+#define ENCRYPTER_HEADER  QString("Limoo Encrypted File")
+#define ENCRYPTER_VERSION 1.0
+
 #endif // LIMOO_MACROS_H

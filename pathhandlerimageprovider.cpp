@@ -49,6 +49,8 @@ QImage PathHandlerImageProvider::requestImage(const QString &id, QSize *size, co
     {
         QString fpath = inf.path() + "/" + inf.completeBaseName() + "." + PATH_HANDLER_LLOCK_SUFFIX;
         result = FileEncrypter::readThumbnail(fpath);
+        if( result.isNull() )
+            result = QImage(QCoreApplication::applicationDirPath()+"/qml/Limoo/files/locked-file.png");
         result = result.scaled(requestedSize,Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 

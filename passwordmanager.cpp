@@ -131,9 +131,18 @@ bool PasswordManager::dirHasPassword(QString path)
 QString PasswordManager::passwordOf(QString path)
 {
     const QByteArray & phash = passHash(path);
+    QString pass;
 
     pmanager_mutex.lock();
-    const QString pass = pmanager_pass_hashes.value(phash);
+    if( pmanager_pass_hashes.contains(phash) )
+        pass = pmanager_pass_hashes.value(phash);
+    else
+    {
+        pmanager_mutex.unlock();
+        const QString & passFile = passwordFileOf(path);
+        pass = pmanager_passwords.value(QFileInfo(passFile).path());
+        pmanager_mutex.lock();
+    }
     pmanager_mutex.unlock();
 
     return pass;
@@ -142,6 +151,8 @@ QString PasswordManager::passwordOf(QString path)
 void PasswordManager::setPasswordOf(QString path, const QString & pass)
 {
     NORMALIZE_PATH(path);
+    const QByteArray & passHash = HASH_MD5(pass);
+
     QFileInfo inf(path);
     if( inf.isDir() )
     {
@@ -155,14 +166,16 @@ void PasswordManager::setPasswordOf(QString path, const QString & pass)
         if( !file.open(QFile::WriteOnly) )
             return;
 
-        file.write( HASH_MD5(pass) );
+        file.write(passHash);
         file.flush();
         file.close();
     }
-    else
-    {
-        pmanager_passwords[inf.filePath()] = pass;
-    }
+
+    pmanager_mutex.lock();
+    pmanager_passwords[inf.filePath()] = pass;
+    pmanager_pass_hashes[passHash] = pass;
+    pmanager_hashes[inf.filePath()] = passHash;
+    pmanager_mutex.unlock();
 }
 
 QByteArray passHash(QString path)

@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <QCryptographicHash>
+#include <QFileInfo>
 
 #ifdef Q_OS_WIN
 #define HOME_PATH QString(QDir::homePath() + "/AppData/Local/sialan/limoo")
@@ -37,7 +38,8 @@
 
 #define NORMALIZE_PATH( PATH ) \
     while( PATH.left(7) == "file://" ) \
-        PATH = PATH.mid(7);
+        PATH = PATH.mid(7); \
+    PATH = QFileInfo(PATH).filePath();
 
 #define PASS_FILE_NAME ".dont_remove_me.password"
 

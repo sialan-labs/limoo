@@ -75,6 +75,26 @@ QSize FileEncrypter::readSize(QString path)
     return size;
 }
 
+QByteArray FileEncrypter::readPassHash(QString path)
+{
+    NORMALIZE_PATH(path);
+
+    QString header;
+    qreal version;
+    QByteArray passHash;
+    QFile file(path);
+    if( !file.open(QFile::ReadOnly) )
+        return passHash;
+
+    QDataStream stream(&file);
+    stream >> header;       if( header   != ENCRYPTER_HEADER ) return passHash;
+    stream >> version;      if( version   > ENCRYPTER_VERSION ) return passHash;
+    stream >> passHash;
+
+    file.close();
+    return passHash;
+}
+
 QImage FileEncrypter::readThumbnail(QString path)
 {
     NORMALIZE_PATH(path);

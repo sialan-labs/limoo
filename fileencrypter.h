@@ -34,6 +34,7 @@ public:
 
 public slots:
     static QSize readSize( QString path );
+    static QByteArray readPassHash( QString path );
     static QImage readThumbnail( QString path );
     static QImage readImage( QString path );
     static void decryptTo(QString path, QString dest);

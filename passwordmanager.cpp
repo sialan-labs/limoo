@@ -19,13 +19,17 @@
 #include "passwordmanager.h"
 #include "limoo_macros.h"
 #include "encrypttools.h"
+#include "fileencrypter.h"
 
 #include <QHash>
 #include <QMutex>
 #include <QCryptographicHash>
 
-QHash<QString,QString> pmanager_hashes;
+QByteArray passHash(QString path);
+
+QHash<QByteArray,QString> pmanager_pass_hashes;
 QHash<QString,QString> pmanager_passwords;
+QHash<QString,QByteArray> pmanager_hashes;
 QMutex pmanager_mutex;
 
 class PasswordManagerPrivate
@@ -42,53 +46,61 @@ PasswordManager::PasswordManager(QObject *parent) :
 bool PasswordManager::passwordEntered(QString path)
 {
     NORMALIZE_PATH(path);
+
     pmanager_mutex.lock();
     bool result = pmanager_passwords.contains(path);
     pmanager_mutex.unlock();
+
+    if( !result )
+    {
+        const QByteArray & pHash = passHash(path);
+
+        pmanager_mutex.lock();
+        result = pmanager_pass_hashes.contains(pHash);
+        if( result )
+            pmanager_passwords[path] = pmanager_pass_hashes.value(pHash);
+
+        pmanager_mutex.unlock();
+    }
 
     return result;
 }
 
 bool PasswordManager::fileIsEncrypted(QString path)
 {
-    return QFileInfo(path).suffix() == PATH_HANDLER_LLOCK_SUFFIX;
+    QFileInfo file(path);
+    if( file.isDir() )
+        return QFile::exists(path+"/"PASS_FILE_NAME);
+    else
+        return file.suffix() == PATH_HANDLER_LLOCK_SUFFIX;
 }
 
 bool PasswordManager::checkPassword(QString path, const QString &pass)
 {
     NORMALIZE_PATH(path);
-    bool result = false;
 
-    path = passwordFileOf(path);
-    if( path.isEmpty() )
-        return result;
-
-    path = QFileInfo(path).path();
+    QFileInfo inf(path);
+    if( inf.fileName() == PASS_FILE_NAME )
+        path = inf.path();
 
     pmanager_mutex.lock();
     if( pmanager_passwords.contains(path) )
     {
-        result = pmanager_passwords.value(path) == pass;
+        const QString ps = pmanager_passwords.value(path);
         pmanager_mutex.unlock();
-        return result;
+        return ps == pass;
     }
     pmanager_mutex.unlock();
 
-    const QString & pass_file = passwordFileOf(path);
-    if( pass_file.isEmpty() )
-        return result;
-
-    QFile f(pass_file);
-    if( !f.open(QFile::ReadOnly) )
-        return result;
-
-    const QString hash = f.readAll();
-    if( hash != HASH_MD5(pass) )
+    const QByteArray & ph = HASH_MD5(pass);
+    const QByteArray & pHash = passHash(path);
+    if( pHash != ph )
         return false;
 
     pmanager_mutex.lock();
+    pmanager_pass_hashes[pHash] = pass;
     pmanager_passwords[path] = pass;
-    pmanager_hashes[hash] = pass;
+    pmanager_hashes[path] = pHash;
     pmanager_mutex.unlock();
 
     return true;
@@ -111,47 +123,74 @@ QString PasswordManager::passwordFileOf(QString path)
         return pass_file;
 }
 
-bool PasswordManager::hasPassword(QString path)
+bool PasswordManager::dirHasPassword(QString path)
 {
     return QFile::exists(path+"/"PASS_FILE_NAME);
 }
 
 QString PasswordManager::passwordOf(QString path)
 {
-    NORMALIZE_PATH(path);
-    path = passwordFileOf(path);
-    path = QFileInfo(path).path();
+    const QByteArray & phash = passHash(path);
 
     pmanager_mutex.lock();
-    QString result = pmanager_passwords.value(path);
+    const QString pass = pmanager_pass_hashes.value(phash);
     pmanager_mutex.unlock();
 
-    return result;
+    return pass;
 }
 
 void PasswordManager::setPasswordOf(QString path, const QString & pass)
 {
     NORMALIZE_PATH(path);
     QFileInfo inf(path);
-    QString pass_file = passwordFileOf(path);
-    if( pass_file.isEmpty() )
-        pass_file = (inf.isDir()?inf.filePath():inf.dir().path()) + "/" + PASS_FILE_NAME;
+    if( inf.isDir() )
+    {
+        QString pass_file = passwordFileOf(path);
+        if( pass_file.isEmpty() )
+            pass_file = (inf.isDir()?inf.filePath():inf.dir().path()) + "/" + PASS_FILE_NAME;
 
-    QFile file(pass_file);
-    if( file.exists() )
-        return;
-    if( !file.open(QFile::WriteOnly) )
-        return;
+        QFile file(pass_file);
+        if( file.exists() )
+            return;
+        if( !file.open(QFile::WriteOnly) )
+            return;
 
-    file.write( HASH_MD5(pass) );
-    file.flush();
-    file.close();
+        file.write( HASH_MD5(pass) );
+        file.flush();
+        file.close();
+    }
+    else
+    {
+        pmanager_passwords[inf.filePath()] = pass;
+    }
 }
 
-bool PasswordManager::hashHasPassword(const QString & hash)
+QByteArray passHash(QString path)
 {
+    NORMALIZE_PATH(path);
     pmanager_mutex.lock();
-    bool result = pmanager_hashes.contains(hash);
+    if( pmanager_hashes.contains(path) )
+    {
+        QByteArray result = pmanager_hashes.value(path);
+        pmanager_mutex.unlock();
+        return result;
+    }
+    pmanager_mutex.unlock();
+
+    QByteArray result;
+    if( QFileInfo(path).isDir() )
+    {
+        QFile file(path+"/"PASS_FILE_NAME);
+        if( !file.exists() || !file.open(QFile::ReadOnly) )
+            return QByteArray();
+
+        result = file.readAll();
+    }
+    else
+        result = FileEncrypter::readPassHash(path);
+
+    pmanager_mutex.lock();
+    pmanager_hashes[path] = result;
     pmanager_mutex.unlock();
 
     return result;

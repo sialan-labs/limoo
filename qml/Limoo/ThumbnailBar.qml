@@ -142,22 +142,27 @@ Item {
                     }
                     else
                     if( fileIsDir ) {
-                        if( PasswordManager.hasPassword(filePath) && !PasswordManager.passwordEntered(filePath) ) {
+                        if( PasswordManager.dirHasPassword(filePath) && !PasswordManager.passwordEntered(filePath) ) {
                             var obj = showSubMessage("GetPassDialog.qml")
-                            obj.successfully.connect(marea.openPath)
+                            obj.successfully.connect(marea.openDir)
                         } else {
                             ThumbnailLoader.reset()
                             grid.model.folder = filePath
                         }
                     }
                     else {
-                        grid.currentIndex = index
-                        thumbnailbar.currentPath = filePath
-                        thumbnailbar.selected(filePath)
+                        if( PasswordManager.fileIsEncrypted(filePath) && !PasswordManager.passwordEntered(filePath) ) {
+                            var obj = showSubMessage("GetPassDialog.qml")
+                            obj.successfully.connect(marea.openFile)
+                        } else {
+                            grid.currentIndex = index
+                            thumbnailbar.currentPath = filePath
+                            thumbnailbar.selected(filePath)
+                        }
                     }
                 }
 
-                function openPath( pass ) {
+                function openDir( pass ) {
                     if( !PasswordManager.checkPassword(filePath,pass) ) {
                         showSubMessage("IncorrectPassword.qml")
                         return
@@ -165,6 +170,17 @@ Item {
 
                     ThumbnailLoader.reset()
                     grid.model.folder = filePath
+                }
+
+                function openFile( pass ) {
+                    if( !PasswordManager.checkPassword(filePath,pass) ) {
+                        showSubMessage("IncorrectPassword.qml")
+                        return
+                    }
+
+                    grid.currentIndex = index
+                    thumbnailbar.currentPath = filePath
+                    thumbnailbar.selected(filePath)
                 }
             }
 

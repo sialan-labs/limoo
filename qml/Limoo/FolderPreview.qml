@@ -39,6 +39,8 @@ Rectangle {
     onFilesChanged: {
         for( var i=0; i<privates.items.length; i++ )
             privates.items[i].destroy()
+        if( PasswordManager.dirHasPassword(path) && !PasswordManager.passwordEntered(path) )
+            return
 
         var cover_path = path + "/.cover"
         var cover_exist = Limoo.fileExists(cover_path)
@@ -79,7 +81,7 @@ Rectangle {
         height: 18
         sourceSize: Qt.size(width,height)
         source: visible?"files/locked.png":""
-        visible: PasswordManager.hasPassword(fpreview.path)
+        visible: PasswordManager.dirHasPassword(fpreview.path)
         z: 100
     }
 }

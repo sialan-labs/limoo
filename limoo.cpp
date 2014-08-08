@@ -216,7 +216,7 @@ QString Limoo::aboutLimoo() const
 
 QString Limoo::version() const
 {
-    return "1.0.1";
+    return "1.1.0";
 }
 
 QSize Limoo::imageSize(QString path) const

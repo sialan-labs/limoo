@@ -49,6 +49,16 @@
 #include <QStringList>
 #include <QMimeDatabase>
 
+#ifdef Q_OS_MAC
+#include <QMainWindow>
+#include <QToolBar>
+#include <QHBoxLayout>
+#endif
+
+#ifdef Q_OS_WIN
+#include <QtWinExtras/QtWin>
+#endif
+
 class LimooPrivate
 {
 public:
@@ -79,6 +89,10 @@ public:
     QString currentLanguage;
 
     QMimeDatabase db;
+
+#ifdef Q_OS_MAC
+    QMainWindow *mwin;
+#endif
 };
 
 Limoo::Limoo(QObject *parent) :
@@ -195,9 +209,15 @@ qreal Limoo::density()
 #ifdef Q_OS_IOS
     return ratio*densityDpi()/180.0;
 #else
+#ifdef Q_OS_MAC
+    QScreen *scr = QGuiApplication::screens().first();
+    qreal ratio = 1*scr->logicalDotsPerInch()/72;
+    return ratio;
+#else
     QScreen *scr = QGuiApplication::screens().first();
     qreal ratio = 1*scr->logicalDotsPerInch()/96;
     return ratio;
+#endif
 #endif
 #endif
 }
@@ -617,11 +637,11 @@ QColor Limoo::titleBarColor()
     switch( desktopSession() )
     {
     case Enums::Mac:
-        return QColor("#3D3C38");
+        return QColor("#C8C8C8");
         break;
 
     case Enums::Windows:
-        return QColor("#3D3C38");
+        return QColor("#E5E5E5");
         break;
 
     case Enums::Kde:
@@ -652,7 +672,7 @@ QColor Limoo::titleBarColor()
             if( sres == "adwaita" )
                 res = new QColor("#D7D3D2");
             else
-                res = new QColor("#403F3A");
+                res = new QColor("#E5E5E5");
         }
 
         return *res;
@@ -675,11 +695,11 @@ QColor Limoo::titleBarTextColor()
     switch( desktopSession() )
     {
     case Enums::Mac:
-        return QColor("#cccccc");
+        return QColor("#333333");
         break;
 
     case Enums::Windows:
-        return QColor("#cccccc");
+        return QColor("#333333");
         break;
 
     case Enums::Kde:
@@ -710,7 +730,7 @@ QColor Limoo::titleBarTextColor()
             if( sres == "adwaita" )
                 res = new QColor("#333333");
             else
-                res = new QColor("#cccccc");
+                res = new QColor("#333333");
         }
 
         return *res;
@@ -753,6 +773,32 @@ void Limoo::start()
     p->viewer->resize( p->settings->value("window/size",QSize(960,600)).toSize() );
     p->viewer->showExpanded();
 
+#ifdef Q_OS_MAC
+    QWidget *containter = QWidget::createWindowContainer(p->viewer);
+    containter->setWindowFlags(Qt::Widget);
+
+    p->mwin = new QMainWindow();
+    p->mwin->addToolBar( new QToolBar() );
+    p->mwin->setUnifiedTitleAndToolBarOnMac(true);
+    p->mwin->resize( p->viewer->size() );
+    p->mwin->installEventFilter(this);
+    p->mwin->show();
+
+    QWidget *wgt = new QWidget(p->mwin);
+    QHBoxLayout *layout = new QHBoxLayout(wgt);
+    layout->setContentsMargins(0,0,0,0);
+    layout->addWidget(containter);
+
+    wgt->resize(p->mwin->size());
+    wgt->show();
+#else
+#endif
+
+#ifdef Q_OS_WIN
+    QtWin::enableBlurBehindWindow(p->viewer);
+    QtWin::extendFrameIntoClientArea(p->viewer,-1,-1,-1,-1);
+#endif
+
     connect( p->viewer, SIGNAL(heightChanged(int)), SLOT(windowSizeChanged()) );
     connect( p->viewer, SIGNAL(widthChanged(int)) , SLOT(windowSizeChanged()) );
 
@@ -791,10 +837,30 @@ void Limoo::init_languages()
     }
 }
 
+bool Limoo::eventFilter(QObject *o, QEvent *e)
+{
+#ifdef Q_OS_MAC
+    if( o == p->mwin )
+    {
+        switch( static_cast<int>(e->type()) )
+        {
+        case QEvent::Resize:
+            p->viewer->resize(p->mwin->size());
+            break;
+        }
+    }
+#endif
+}
+
 Limoo::~Limoo()
 {
+#ifdef Q_OS_MAC
+    delete p->mwin;
+#else
     if( p->viewer )
         delete p->viewer;
+#endif
 
     delete p;
 }
+

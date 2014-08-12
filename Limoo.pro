@@ -14,8 +14,9 @@ unix:!macx {
     LIBS = -lexiv2
 }
 win32 {
-    LIBS = libs/libexiv2.dll
-    INCLUDEPATH = include/
+    LIBS = C:/Users/Bardia/Projects/exiv/libexiv2.dll
+    INCLUDEPATH = C:/Users/Bardia/Projects/exiv
+    QT += winextras
 }
 
 # The .cpp file which was generated for your project. Feel free to hack it.

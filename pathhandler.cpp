@@ -126,7 +126,12 @@ void PathHandler::refresh_output()
         p->output = "image://"PATH_HANDLER_NAME"/"PATH_HANDLER_LLOCK_THUMB"/" + QString::number(p->id);
     }
     else
-        p->output = "file://" + p->input;
+    {
+        if( p->input.count() > 0 && p->input[0] == '/' )
+            p->output = "file://" + p->input;
+        else
+            p->output = "file:///" + p->input;
+    }
 
     emit outputChanged();
 }

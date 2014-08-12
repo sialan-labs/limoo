@@ -27,7 +27,7 @@ Rectangle {
 
     Rectangle {
         anchors.fill: parent
-        opacity: Limoo.desktopSession == Enums.Kde? 0 : 1
+        opacity: Limoo.desktopSession != Enums.Unity && Limoo.desktopSession != Enums.Gnome && Limoo.desktopSession != Enums.Mac? 0 : 1
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#20000000" }
             GradientStop { position: 0.7; color: "#00000000" }
@@ -40,7 +40,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 1*physicalPlatformScale
-        opacity: Limoo.desktopSession == Enums.Kde? 0 : 1
+        opacity: Limoo.desktopSession != Enums.Unity && Limoo.desktopSession != Enums.Gnome && Limoo.desktopSession != Enums.Mac? 0 : 1
         color: "#22000000"
     }
 

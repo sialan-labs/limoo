@@ -256,6 +256,36 @@ Rectangle {
         return true
     }
 
+    function openStart() {
+        thumbnailBar.model.folder = Limoo.startDirectory
+        img_slider.source = Limoo.startDirectory
+        img_slider.setCurrent( Limoo.inputPath )
+        cunstruct_timer.restart()
+    }
+
+    function openHome() {
+        viewMode = false
+        thumbnailBar.model.folder = Limoo.home
+    }
+
+    function passEntered(pass) {
+        if( PasswordManager.fileIsEncrypted(Limoo.inputPath) ) {
+            if( !PasswordManager.checkPassword(Limoo.inputPath,pass) ) {
+                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+                return
+            }
+        }
+        else
+        if( PasswordManager.passwordFileOf(Limoo.inputPath).length != 0 ) {
+            if( !PasswordManager.checkPassword(PasswordManager.passwordFileOf(Limoo.inputPath),pass) ) {
+                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+                return
+            }
+        }
+
+        openStart()
+    }
+
     Timer {
         id: cunstruct_timer
         interval: 300
@@ -268,9 +298,15 @@ Rectangle {
 
     Component.onCompleted: {
         if( Limoo.startViewMode ) {
-            img_slider.source = Limoo.startDirectory
-            img_slider.setCurrent( Limoo.inputPath )
-            cunstruct_timer.restart()
+            if( PasswordManager.fileIsEncrypted(Limoo.inputPath) )
+                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+            else
+            if( PasswordManager.passwordFileOf(Limoo.inputPath).length != 0 )
+                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+            else
+                openStart()
         }
+        else
+            openHome()
     }
 }

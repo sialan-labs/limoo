@@ -21,6 +21,7 @@
 
 #include "thumbnailloader.h"
 #include "thumbnailloaderitem.h"
+#include "limoo_macros.h"
 
 #include <QSet>
 #include <QQueue>
@@ -66,12 +67,19 @@ void ThumbnailLoader::load(const QString &path)
         emit loaded( path, file.filePath() );
         return;
     }
+    else
+    if( file.suffix() == PATH_HANDLER_LLOCK_SUFFIX )
+    {
+        QString thumb_path = file.path() + "/" + file.completeBaseName() + "." + PATH_HANDLER_LLOCK_SUFFIX_THUMB;
+        emit loaded( path, thumb_path );
+        return;
+    }
 
     QString hidden_text = file.path() + " " +
                           QString::number(file.size()) +  " " +
                           file.created().toString("yyyy/MM/dd hh:mm:ss:zzz") + " " +
                           file.lastModified().toString("yyyy/MM/dd hh:mm:ss:zzz");
-    QString md5 = QCryptographicHash::hash(hidden_text.toStdString().c_str(),QCryptographicHash::Md5).toHex();
+    QString md5 = HASH_MD5(hidden_text);
     QString thumbnail = THUMBNAILS_PATH + "/" + md5 + "." + suffix;
 
     if( QFileInfo(thumbnail).exists() )

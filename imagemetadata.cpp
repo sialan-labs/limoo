@@ -18,7 +18,7 @@
 
 #include "imagemetadata.h"
 
-#ifndef Q_OS_ANDROID
+#ifdef Q_OS_LINUX
 #include <exiv2/image.hpp>
 #endif
 
@@ -86,7 +86,7 @@ ImageMetaData::ImageMetaData(QObject *parent) :
 bool ImageMetaData::init_exif()
 {
     p->ori_exiv = 1;
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     return false;
 #else
     const QMimeType & mime = p->mdb.mimeTypeForFile(p->nsource);
@@ -127,7 +127,7 @@ void ImageMetaData::refresh()
 
 bool ImageMetaData::setOriExif(int ori)
 {
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     return false;
 #else
     const QMimeType & mime = p->mdb.mimeTypeForFile(p->nsource);

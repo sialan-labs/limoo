@@ -37,6 +37,7 @@ Item {
             id: desat
             width: source.width
             height: source.height
+            cached: false
         }
     }
 
@@ -45,7 +46,7 @@ Item {
         source: mask
         anchors.fill: parent
         radius: blurBack? 64 : 0
-        cached: true
+        cached: false
 //        visible: false
     }
 }

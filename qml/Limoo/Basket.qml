@@ -66,13 +66,14 @@ Rectangle {
                 }
             }
 
-            Image {
+            ThumbnailImage {
                 anchors.fill: parent
                 anchors.margins: 8*physicalPlatformScale
                 sourceSize: Qt.size(width,height)
                 asynchronous: true
                 fillMode: Image.PreserveAspectCrop
                 source: filePath
+                indicator: false
             }
 
             MouseArea {

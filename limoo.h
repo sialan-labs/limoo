@@ -155,6 +155,9 @@ private slots:
 private:
     void init_languages();
 
+protected:
+    bool eventFilter(QObject *o, QEvent *e);
+
 private:
     LimooPrivate *p;
 };

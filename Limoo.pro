@@ -14,8 +14,9 @@ unix:!macx {
     LIBS = -lexiv2
 }
 win32 {
-    LIBS = libs/libexiv2.dll
-    INCLUDEPATH = include/
+    LIBS = C:/Users/Bardia/Projects/exiv/libexiv2.dll
+    INCLUDEPATH = C:/Users/Bardia/Projects/exiv
+    QT += winextras
 }
 
 # The .cpp file which was generated for your project. Feel free to hack it.
@@ -28,7 +29,13 @@ SOURCES += main.cpp \
     imagemetadata.cpp \
     pluginmanager.cpp \
     structures.cpp \
-    mimeapps.cpp
+    mimeapps.cpp \
+    pathhandler.cpp \
+    pathhandlerimageprovider.cpp \
+    SimpleQtCryptor/simpleqtcryptor.cpp \
+    fileencrypter.cpp \
+    passwordmanager.cpp \
+    encrypttools.cpp
 
 # Installation path
 # target.path =
@@ -47,7 +54,14 @@ HEADERS += \
     imagemetadata.h \
     pluginmanager.h \
     structures.h \
-    mimeapps.h
+    mimeapps.h \
+    pathhandler.h \
+    pathhandlerimageprovider.h \
+    SimpleQtCryptor/serpent_sbox.h \
+    SimpleQtCryptor/simpleqtcryptor.h \
+    fileencrypter.h \
+    passwordmanager.h \
+    encrypttools.h
 
 OTHER_FILES += \
     qml/Limoo/Basket.qml \

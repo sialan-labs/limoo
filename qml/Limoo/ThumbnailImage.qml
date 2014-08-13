@@ -70,27 +70,9 @@ LimooImage {
 
     Component {
         id: indicatorComponent
-        Image {
-            id: indict_img
-            width: 22
-            height: width
-            anchors.centerIn: parent
-            source: "files/indicator.png"
-            smooth: true
-            transformOrigin: Item.Center
-
-            Behavior on rotation {
-                NumberAnimation{ easing.type: Easing.Linear; duration: indict_img_timer.interval }
-            }
-
-            Timer {
-                id: indict_img_timer
-                interval: 250
-                repeat: true
-                triggeredOnStart: true
-                onTriggered: indict_img.rotation += 90
-                Component.onCompleted: start()
-            }
+        Indicator {
+            anchors.fill: parent
+            Component.onCompleted: start()
         }
     }
 

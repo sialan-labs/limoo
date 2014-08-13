@@ -85,6 +85,10 @@ Item {
         destroy_timer.restart()
     }
 
-    Component.onCompleted: subMessage = submsg
+    Component.onCompleted: {
+        if( subMessage )
+            subMessage.destroy()
+        subMessage = submsg
+    }
     Component.onDestruction: if( item ) item.destroy()
 }

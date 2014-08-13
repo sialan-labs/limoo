@@ -38,6 +38,7 @@ Rectangle {
     property string source
     property bool directory: Limoo.isDirectory(source)
     property real menuX
+    property bool isEncrypted: PasswordManager.fileIsEncrypted(img_menu.source)
 
     MouseArea {
         anchors.fill: parent
@@ -94,6 +95,35 @@ Rectangle {
         }
 
         Button {
+            id: encrypt_btn
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            icon: "files/lock.png"
+            textColor: "#ffffff"
+            highlightColor: "#22ffffff"
+            visible: !viewMode && ( (directory && PasswordManager.passwordFileOf(img_menu.source).length == 0) ||
+                                    (!directory && !img_menu.isEncrypted && PasswordManager.passwordFileOf(img_menu.source).length != 0) )
+            onClicked: {
+                var obj = showSubMessage("EncryptMenu.qml")
+                obj.successfully.connect(img_menu.setPasswordAndEncrypt)
+            }
+        }
+
+        Button {
+            id: decrypt_btn
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            icon: "files/unlock.png"
+            textColor: "#ffffff"
+            highlightColor: "#22ffffff"
+            visible: !viewMode && !directory && img_menu.isEncrypted
+            onClicked: {
+                Encypter.decryptAlongside(img_menu.source)
+                main.hideMenu()
+            }
+        }
+
+        Button {
             id: nfolder_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -144,7 +174,7 @@ Rectangle {
             icon: "files/openwidth.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: !directory
+            visible: !directory && !img_menu.isEncrypted
             onClicked: {
                 main.edit([img_menu.source])
                 main.hideMenu()
@@ -158,7 +188,7 @@ Rectangle {
             icon: "files/background.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: !directory && (Limoo.desktopSession == Enums.Gnome || Limoo.desktopSession == Enums.Unity)
+            visible: !directory && !img_menu.isEncrypted && (Limoo.desktopSession == Enums.Gnome || Limoo.desktopSession == Enums.Unity)
             onClicked: {
                 Limoo.setWallpaper(img_menu.source)
                 main.hideMenu()
@@ -172,7 +202,7 @@ Rectangle {
             icon: "files/background.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: !directory
+            visible: !directory && !img_menu.isEncrypted
             onClicked: {
                 Limoo.copyFile(img_menu.source,Limoo.directoryOf(img_menu.source)+"/.cover",true)
                 mainFrame.refreshCover()
@@ -211,6 +241,12 @@ Rectangle {
         }
     }
 
+    function setPasswordAndEncrypt( pass, del_files ) {
+        PasswordManager.setPasswordOf( img_menu.source, pass )
+        Encypter.encypt(img_menu.source,del_files)
+        main.hideMenu()
+    }
+
     LanguageSwitcher {
         onRefresh: {
             cut_btn.text = qsTr("Cut")
@@ -224,6 +260,8 @@ Rectangle {
             del_btn.text = qsTr("Delete")
             nfolder_btn.text = qsTr("New folder")
             rename_btn.text = qsTr("Rename")
+            encrypt_btn.text = qsTr("Encrypt")
+            decrypt_btn.text = qsTr("Decrypt")
         }
     }
 }

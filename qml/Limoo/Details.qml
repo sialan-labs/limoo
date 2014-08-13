@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import org.sialan.limoo 1.0
 
 Item {
     id: details
@@ -44,7 +45,12 @@ Item {
             sourceSize: Qt.size(width,height)
             fillMode: Image.PreserveAspectFit
             asynchronous: true
-            source: details.source
+            source: path_handler.output
+
+            PathHandler {
+                id: path_handler
+                input: details.source
+            }
         }
 
         Text {

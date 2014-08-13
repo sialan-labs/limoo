@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import org.sialan.limoo 1.0
 
 Rectangle {
     id: main
@@ -42,7 +43,7 @@ Rectangle {
     property bool aboutSialan: false
     property bool configure: false
 
-    Component.onCompleted: fontsScale = physicalPlatformScale
+    Component.onCompleted: fontsScale = Limoo.desktopSession!=Enums.Mac? physicalPlatformScale : physicalPlatformScale*1.25
 
     AboutSialan {
         anchors.fill: parent
@@ -88,6 +89,12 @@ Rectangle {
                 NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
             }
         }
+    }
+
+    Connections {
+        target: Encypter
+        onStarted: showSubMessage("PleaseWait.qml")
+        onDone: hideSubMessage()
     }
 
     MouseArea {

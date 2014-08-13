@@ -32,7 +32,7 @@ Item {
     property real headerHeight: 0
     property alias model: grid.model
 
-    property variant filters: [ "*.png", "*.jpg", "*.jpeg", "*.svg", "*.svgz", "*.bmp", "*.JPG", "*.JPEG", "*.PNG" ]
+    property variant filters: [ "*.limlock", "*.LIMLOCK", "*.png", "*.jpg", "*.jpeg", "*.svg", "*.svgz", "*.bmp", "*.JPG", "*.JPEG", "*.PNG" ]
 
     signal addSelect( string filePath )
     signal selected( string filePath )
@@ -60,7 +60,6 @@ Item {
             showHidden: thumbnailbar.showHidden
             sortField: FolderListModel.Name
             nameFilters: thumbnailbar.filters
-            folder: Limoo.startDirectory
             onFolderChanged: grid.positionViewAtBeginning()
         }
 
@@ -143,14 +142,45 @@ Item {
                     }
                     else
                     if( fileIsDir ) {
-                        ThumbnailLoader.reset()
-                        grid.model.folder = filePath
+                        if( PasswordManager.dirHasPassword(filePath) && !PasswordManager.passwordEntered(filePath) ) {
+                            var obj = showSubMessage("GetPassDialog.qml")
+                            obj.successfully.connect(marea.openDir)
+                        } else {
+                            ThumbnailLoader.reset()
+                            grid.model.folder = filePath
+                        }
                     }
                     else {
-                        grid.currentIndex = index
-                        thumbnailbar.currentPath = filePath
-                        thumbnailbar.selected(filePath)
+                        if( PasswordManager.fileIsEncrypted(filePath) && !PasswordManager.passwordEntered(filePath) ) {
+                            var obj = showSubMessage("GetPassDialog.qml")
+                            obj.successfully.connect(marea.openFile)
+                        } else {
+                            grid.currentIndex = index
+                            thumbnailbar.currentPath = filePath
+                            thumbnailbar.selected(filePath)
+                        }
                     }
+                }
+
+                function openDir( pass ) {
+                    if( !PasswordManager.checkPassword(filePath,pass) ) {
+                        showSubMessage("IncorrectPassword.qml")
+                        return
+                    }
+
+                    ThumbnailLoader.reset()
+                    grid.model.folder = filePath
+                }
+
+                function openFile( pass ) {
+                    if( !PasswordManager.checkPassword(filePath,pass) ) {
+                        showSubMessage("IncorrectPassword.qml")
+                        return
+                    }
+
+                    grid.currentIndex = index
+                    thumbnailbar.currentPath = filePath
+                    thumbnailbar.selected(filePath)
                 }
             }
 

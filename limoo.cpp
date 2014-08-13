@@ -16,18 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define NORMALIZE_PATH( PATH ) \
-    while( PATH.left(7) == "file://" ) \
-        PATH = PATH.mid(7);
-
 #include "limoo.h"
 #include "limoo_macros.h"
 #include "imagemetadata.h"
 #include "mimeapps.h"
 #include "iconprovider.h"
+#include "pathhandler.h"
+#include "pathhandlerimageprovider.h"
 #include "thumbnailloader.h"
 #include "enums.h"
 #include "qtquick2applicationviewer.h"
+#include "fileencrypter.h"
+#include "passwordmanager.h"
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -49,12 +49,25 @@
 #include <QStringList>
 #include <QMimeDatabase>
 
+#ifdef Q_OS_MAC
+#include <QMainWindow>
+#include <QToolBar>
+#include <QHBoxLayout>
+#endif
+
+#ifdef Q_OS_WIN
+#include <QtWinExtras/QtWin>
+#endif
+
 class LimooPrivate
 {
 public:
     QtQuick2ApplicationViewer *viewer;
     IconProvider *icon_provider;
     ThumbnailLoader *thumbnail_loader;
+    PathHandlerImageProvider *handler_provider;
+    FileEncrypter *encrypter;
+    PasswordManager *pass_manager;
 
     bool fullscreen;
     bool highContrast;
@@ -76,6 +89,10 @@ public:
     QString currentLanguage;
 
     QMimeDatabase db;
+
+#ifdef Q_OS_MAC
+    QMainWindow *mwin;
+#endif
 };
 
 Limoo::Limoo(QObject *parent) :
@@ -96,11 +113,12 @@ Limoo::Limoo(QObject *parent) :
     p->fcrThumbnailBar = p->settings->value("General/fcrThumbnailBar",false).toBool();
     p->nrmlThumbnailBar = p->settings->value("General/nrmlThumbnailBar",true).toBool();
     p->highContrast = p->settings->value("General/highContrast",true).toBool();
-    p->highGamma = p->settings->value("General/highGamma",true).toBool();
+    p->highGamma = p->settings->value("General/highGamma",false).toBool();
     p->highBright = p->settings->value("General/highBright",false).toBool();
 
     qmlRegisterType<Enums>("org.sialan.limoo", 1, 0, "Enums");
     qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
+    qmlRegisterType<PathHandler>("org.sialan.limoo", 1, 0, "PathHandler");
 
     init_languages();
 }
@@ -191,9 +209,15 @@ qreal Limoo::density()
 #ifdef Q_OS_IOS
     return ratio*densityDpi()/180.0;
 #else
+#ifdef Q_OS_MAC
+    QScreen *scr = QGuiApplication::screens().first();
+    qreal ratio = 1*scr->logicalDotsPerInch()/72;
+    return ratio;
+#else
     QScreen *scr = QGuiApplication::screens().first();
     qreal ratio = 1*scr->logicalDotsPerInch()/96;
     return ratio;
+#endif
 #endif
 #endif
 }
@@ -212,7 +236,7 @@ QString Limoo::aboutLimoo() const
 
 QString Limoo::version() const
 {
-    return "1.0.1";
+    return "1.1.0";
 }
 
 QSize Limoo::imageSize(QString path) const
@@ -220,6 +244,10 @@ QSize Limoo::imageSize(QString path) const
     NORMALIZE_PATH(path)
     if( path.isEmpty() )
         return QSize();
+
+    QFileInfo inf(path);
+    if( inf.suffix() == PATH_HANDLER_LLOCK_SUFFIX )
+        return FileEncrypter::readSize(path);
 
     ImageMetaData mdata;
     mdata.setSource(path);
@@ -609,11 +637,11 @@ QColor Limoo::titleBarColor()
     switch( desktopSession() )
     {
     case Enums::Mac:
-        return QColor("#3D3C38");
+        return QColor("#C8C8C8");
         break;
 
     case Enums::Windows:
-        return QColor("#3D3C38");
+        return QColor("#E5E5E5");
         break;
 
     case Enums::Kde:
@@ -644,7 +672,7 @@ QColor Limoo::titleBarColor()
             if( sres == "adwaita" )
                 res = new QColor("#D7D3D2");
             else
-                res = new QColor("#403F3A");
+                res = new QColor("#E5E5E5");
         }
 
         return *res;
@@ -667,11 +695,11 @@ QColor Limoo::titleBarTextColor()
     switch( desktopSession() )
     {
     case Enums::Mac:
-        return QColor("#cccccc");
+        return QColor("#333333");
         break;
 
     case Enums::Windows:
-        return QColor("#cccccc");
+        return QColor("#333333");
         break;
 
     case Enums::Kde:
@@ -702,7 +730,7 @@ QColor Limoo::titleBarTextColor()
             if( sres == "adwaita" )
                 res = new QColor("#333333");
             else
-                res = new QColor("#cccccc");
+                res = new QColor("#333333");
         }
 
         return *res;
@@ -726,18 +754,50 @@ bool Limoo::titleBarIsDark()
 void Limoo::start()
 {
     p->icon_provider = new IconProvider();
+    p->handler_provider = new PathHandlerImageProvider();
     p->thumbnail_loader = new ThumbnailLoader(this);
     p->mapp = new MimeApps(this);
+    p->encrypter = new FileEncrypter(this);
+    p->pass_manager = new PasswordManager(this);
 
     p->viewer = new QtQuick2ApplicationViewer();
     p->viewer->engine()->rootContext()->setContextProperty( "Window", p->viewer );
     p->viewer->engine()->rootContext()->setContextProperty( "Limoo", this );
     p->viewer->engine()->rootContext()->setContextProperty( "MimeApps", p->mapp );
     p->viewer->engine()->rootContext()->setContextProperty( "ThumbnailLoader", p->thumbnail_loader );
+    p->viewer->engine()->rootContext()->setContextProperty( "Encypter", p->encrypter );
+    p->viewer->engine()->rootContext()->setContextProperty( "PasswordManager", p->pass_manager );
     p->viewer->engine()->addImageProvider("icon",p->icon_provider);
+    p->viewer->engine()->addImageProvider(PATH_HANDLER_NAME,p->handler_provider);
     p->viewer->setMainQmlFile(QStringLiteral("qml/Limoo/main.qml"));
     p->viewer->resize( p->settings->value("window/size",QSize(960,600)).toSize() );
     p->viewer->showExpanded();
+
+#ifdef Q_OS_MAC
+    QWidget *containter = QWidget::createWindowContainer(p->viewer);
+    containter->setWindowFlags(Qt::Widget);
+
+    p->mwin = new QMainWindow();
+    p->mwin->addToolBar( new QToolBar() );
+    p->mwin->setUnifiedTitleAndToolBarOnMac(true);
+    p->mwin->resize( p->viewer->size() );
+    p->mwin->installEventFilter(this);
+    p->mwin->show();
+
+    QWidget *wgt = new QWidget(p->mwin);
+    QHBoxLayout *layout = new QHBoxLayout(wgt);
+    layout->setContentsMargins(0,0,0,0);
+    layout->addWidget(containter);
+
+    wgt->resize(p->mwin->size());
+    wgt->show();
+#else
+#endif
+
+#ifdef Q_OS_WIN
+    QtWin::enableBlurBehindWindow(p->viewer);
+    QtWin::extendFrameIntoClientArea(p->viewer,-1,-1,-1,-1);
+#endif
 
     connect( p->viewer, SIGNAL(heightChanged(int)), SLOT(windowSizeChanged()) );
     connect( p->viewer, SIGNAL(widthChanged(int)) , SLOT(windowSizeChanged()) );
@@ -777,10 +837,31 @@ void Limoo::init_languages()
     }
 }
 
+bool Limoo::eventFilter(QObject *o, QEvent *e)
+{
+#ifdef Q_OS_MAC
+    if( o == p->mwin )
+    {
+        switch( static_cast<int>(e->type()) )
+        {
+        case QEvent::Resize:
+            p->viewer->resize(p->mwin->size());
+            break;
+        }
+    }
+#endif
+    return QObject::eventFilter(o,e);
+}
+
 Limoo::~Limoo()
 {
+#ifdef Q_OS_MAC
+    delete p->mwin;
+#else
     if( p->viewer )
         delete p->viewer;
+#endif
 
     delete p;
 }
+

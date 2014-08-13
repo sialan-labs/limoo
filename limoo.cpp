@@ -850,6 +850,7 @@ bool Limoo::eventFilter(QObject *o, QEvent *e)
         }
     }
 #endif
+    return QObject::eventFilter(o,e);
 }
 
 Limoo::~Limoo()

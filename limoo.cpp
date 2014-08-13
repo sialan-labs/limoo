@@ -462,9 +462,17 @@ void Limoo::setFullScreen(bool stt)
 
     p->fullscreen = stt;
     if( p->fullscreen )
+#ifdef Q_OS_MAC
+        p->mwin->showFullScreen();
+#else
         p->viewer->showFullScreen();
+#endif
     else
+#ifdef Q_OS_MAC
+        p->mwin->showNormal();
+#else
         p->viewer->showNormal();
+#endif
 
     emit fullScreenChanged();
     emit thumbnailBarChanged();

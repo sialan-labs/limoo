@@ -14,8 +14,8 @@ unix:!macx {
     LIBS = -lexiv2
 }
 win32 {
-    LIBS = C:/Users/Bardia/Projects/exiv/libexiv2.dll
-    INCLUDEPATH = C:/Users/Bardia/Projects/exiv
+    LIBS += exiv/lib/libexiv2.dll
+    INCLUDEPATH += exiv/include
     QT += winextras
 }
 

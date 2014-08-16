@@ -65,7 +65,7 @@ Rectangle {
         width: parent.width-thumbnailBarWidth
         opacity: viewer.viewMode? 1 : 0
         clip: true
-        color: Limoo.titleBarColor
+        color: Desktop.titleBarColor
 
         Behavior on opacity {
             NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
@@ -202,7 +202,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.right: parent.right
             height: 40*physicalPlatformScale
-            color: Limoo.titleBarColor
+            color: Desktop.titleBarColor
             opacity: viewMode? 1 : 0
             visible: !Limoo.fullScreen
 

@@ -55,7 +55,7 @@ Item {
         id: title
         x: 100
         y: 100
-        font.pointSize: 30
+        font.pixelSize: 30
         font.weight: Font.Light
         font.family: globalFontFamily
         color: "#333333"

@@ -25,7 +25,7 @@ Rectangle {
     height: 600
     focus: true
 
-    property real physicalPlatformScale: Limoo.density()
+    property real physicalPlatformScale: Devices.density
     property real fontsScale: 1
     property string globalFontFamily: "Droid Sans"
 
@@ -43,7 +43,7 @@ Rectangle {
     property bool aboutSialan: false
     property bool configure: false
 
-    Component.onCompleted: fontsScale = Limoo.desktopSession!=Enums.Mac? physicalPlatformScale : physicalPlatformScale*1.25
+    Component.onCompleted: fontsScale = Devices.fontDensity
 
     AboutSialan {
         anchors.fill: parent

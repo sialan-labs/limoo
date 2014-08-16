@@ -87,7 +87,7 @@ Item {
             text: "SIALAN LABS"
             font.weight: Font.Bold
             font.family: globalFontFamily
-            font.pointSize: 30*fontsScale
+            font.pixelSize: 30*fontsScale
             color: "#333333"
         }
 
@@ -97,7 +97,7 @@ Item {
             anchors.right: parent.right
             wrapMode: Text.WordWrap
             font.family: globalFontFamily
-            font.pointSize: 11*fontsScale
+            font.pixelSize: 11*fontsScale
             color: "#333333"
         }
     }
@@ -108,7 +108,7 @@ Item {
         anchors.bottom: website.top
         anchors.margins: 8*physicalPlatformScale
         font.family: globalFontFamily
-        font.pointSize: 10*fontsScale
+        font.pixelSize: 10*fontsScale
         color: "#333333"
 
         MouseArea {
@@ -125,7 +125,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.margins: 8*physicalPlatformScale
         font.family: globalFontFamily
-        font.pointSize: 10*fontsScale
+        font.pixelSize: 10*fontsScale
         color: "#333333"
 
         MouseArea {

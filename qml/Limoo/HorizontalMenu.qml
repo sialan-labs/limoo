@@ -23,7 +23,7 @@ Rectangle {
     id: hmenu
     width: 100
     height: 62
-    color: blurBack? "#333333" : Limoo.titleBarColor
+    color: blurBack? "#333333" : Desktop.titleBarColor
     visible: false
 
     property real menuHeight: 100

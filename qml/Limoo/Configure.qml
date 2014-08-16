@@ -13,7 +13,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.margins: 15*physicalPlatformScale
         width: parent.width
-        font.pointSize: 20*physicalPlatformScale
+        font.pixelSize: 20*fontsScale
         font.weight: Font.Light
         horizontalAlignment: Text.AlignLeft
         color: "#ffffff"
@@ -30,7 +30,7 @@ Rectangle {
         Text {
             id: conf_btn
             width: parent.width
-            font.pointSize: 10*physicalPlatformScale
+            font.pixelSize: 10*fontsScale
             font.weight: Font.Light
             horizontalAlignment: Text.AlignLeft
             color: "#ffffff"
@@ -56,7 +56,7 @@ Rectangle {
             checked: Limoo.nrmlThumbnailBar
             style: CheckBoxStyle {
                 label: Text {
-                    font.pointSize: 10*physicalPlatformScale
+                    font.pixelSize: 10*fontsScale
                     font.weight: Font.Light
                     horizontalAlignment: Text.AlignLeft
                     color: "#ffffff"
@@ -76,7 +76,7 @@ Rectangle {
             checked: Limoo.fcrThumbnailBar
             style: CheckBoxStyle {
                 label: Text {
-                    font.pointSize: 10*physicalPlatformScale
+                    font.pixelSize: 10*fontsScale
                     font.weight: Font.Light
                     horizontalAlignment: Text.AlignLeft
                     color: "#ffffff"
@@ -96,7 +96,7 @@ Rectangle {
             checked: Limoo.highContrast
             style: CheckBoxStyle {
                 label: Text {
-                    font.pointSize: 10*physicalPlatformScale
+                    font.pixelSize: 10*fontsScale
                     font.weight: Font.Light
                     horizontalAlignment: Text.AlignLeft
                     color: "#ffffff"
@@ -116,7 +116,7 @@ Rectangle {
             checked: Limoo.highGamma
             style: CheckBoxStyle {
                 label: Text {
-                    font.pointSize: 10*physicalPlatformScale
+                    font.pixelSize: 10*fontsScale
                     font.weight: Font.Light
                     horizontalAlignment: Text.AlignLeft
                     color: "#ffffff"
@@ -136,7 +136,7 @@ Rectangle {
             checked: Limoo.highBright
             style: CheckBoxStyle {
                 label: Text {
-                    font.pointSize: 10*physicalPlatformScale
+                    font.pixelSize: 10*fontsScale
                     font.weight: Font.Light
                     horizontalAlignment: Text.AlignLeft
                     color: "#ffffff"

@@ -24,10 +24,11 @@
 #include "pathhandler.h"
 #include "pathhandlerimageprovider.h"
 #include "thumbnailloader.h"
-#include "enums.h"
 #include "qtquick2applicationviewer.h"
 #include "fileencrypter.h"
 #include "passwordmanager.h"
+#include "sialantools/sialandesktoptools.h"
+#include "sialantools/sialandevices.h"
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -68,6 +69,8 @@ public:
     PathHandlerImageProvider *handler_provider;
     FileEncrypter *encrypter;
     PasswordManager *pass_manager;
+    SialanDesktopTools *desktop;
+    SialanDevices *devices;
 
     bool fullscreen;
     bool highContrast;
@@ -116,7 +119,7 @@ Limoo::Limoo(QObject *parent) :
     p->highGamma = p->settings->value("General/highGamma",false).toBool();
     p->highBright = p->settings->value("General/highBright",false).toBool();
 
-    qmlRegisterType<Enums>("org.sialan.limoo", 1, 0, "Enums");
+    qmlRegisterType<SialanDesktopTools>("org.sialan.limoo", 1, 0, "SialanDesktopTools");
     qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
     qmlRegisterType<PathHandler>("org.sialan.limoo", 1, 0, "PathHandler");
 
@@ -172,54 +175,6 @@ bool Limoo::startViewMode() const
 bool Limoo::initialized() const
 {
     return p->initialized;
-}
-
-qreal Limoo::lcdDpiX()
-{
-    if( QGuiApplication::screens().isEmpty() )
-        return 0;
-
-    QScreen *scr = QGuiApplication::screens().first();
-    return scr->physicalDotsPerInchX();
-}
-
-qreal Limoo::lcdDpiY()
-{
-    if( QGuiApplication::screens().isEmpty() )
-        return 0;
-
-    QScreen *scr = QGuiApplication::screens().first();
-    return scr->physicalDotsPerInchY();
-}
-
-int Limoo::densityDpi()
-{
-#ifdef Q_OS_ANDROID
-    return p->java_layer->densityDpi();
-#else
-    return lcdDpiX();
-#endif
-}
-
-qreal Limoo::density()
-{
-#ifdef Q_OS_ANDROID
-    return p->java_layer->density()*ratio;
-#else
-#ifdef Q_OS_IOS
-    return ratio*densityDpi()/180.0;
-#else
-#ifdef Q_OS_MAC
-    QScreen *scr = QGuiApplication::screens().first();
-    qreal ratio = 1*scr->logicalDotsPerInch()/72;
-    return ratio;
-#else
-    QScreen *scr = QGuiApplication::screens().first();
-    qreal ratio = 1*scr->logicalDotsPerInch()/96;
-    return ratio;
-#endif
-#endif
-#endif
 }
 
 QString Limoo::aboutSialan() const
@@ -386,20 +341,20 @@ void Limoo::pasteClipboardFiles(QString dst)
 void Limoo::setWallpaper(QString file)
 {
     NORMALIZE_PATH(file)
-    switch( desktopSession() )
+    switch( p->desktop->desktopSession() )
     {
-    case Enums::Mac:
+    case SialanDesktopTools::Mac:
         break;
 
-    case Enums::Windows:
+    case SialanDesktopTools::Windows:
         break;
 
-    case Enums::Kde:
+    case SialanDesktopTools::Kde:
         break;
 
-    case Enums::Unity:
-    case Enums::GnomeFallBack:
-    case Enums::Gnome:
+    case SialanDesktopTools::Unity:
+    case SialanDesktopTools::GnomeFallBack:
+    case SialanDesktopTools::Gnome:
     {
         QString command = "dconf";
         QStringList args;
@@ -605,160 +560,6 @@ QStringList Limoo::languages() const
     return p->languages.keys();
 }
 
-int Limoo::desktopSession() const
-{
-    static int result = -1;
-    if( result != -1 )
-        return result;
-
-#ifdef Q_OS_MAC
-    result = Enums::Mac;
-#else
-#ifdef Q_OS_WIN
-    result = Enums::Windows;
-#else
-    static QString *desktop_session = 0;
-    if( !desktop_session )
-        desktop_session = new QString( qgetenv("DESKTOP_SESSION") );
-
-    if( desktop_session->contains("kde",Qt::CaseInsensitive) )
-        result = Enums::Kde;
-    else
-    if( desktop_session->contains("ubuntu",Qt::CaseInsensitive) )
-        result = Enums::Unity;
-    else
-    if( desktop_session->contains("gnome-fallback",Qt::CaseInsensitive) )
-        result = Enums::GnomeFallBack;
-    else
-        result = Enums::Gnome;
-#endif
-#endif
-
-    if( result == -1 )
-        result = Enums::Unknown;
-
-    return result;
-}
-
-QColor Limoo::titleBarColor()
-{
-    switch( desktopSession() )
-    {
-    case Enums::Mac:
-        return QColor("#C8C8C8");
-        break;
-
-    case Enums::Windows:
-        return QColor("#E5E5E5");
-        break;
-
-    case Enums::Kde:
-        return QPalette().window().color();
-        break;
-
-    case Enums::Unity:
-    case Enums::GnomeFallBack:
-    case Enums::Gnome:
-    {
-        static QColor *res = 0;
-        if( !res )
-        {
-            QProcess prc;
-            prc.start( "dconf", QStringList()<< "read"<< "/org/gnome/desktop/interface/gtk-theme" );
-            prc.waitForStarted();
-            prc.waitForFinished();
-            QString sres = prc.readAll();
-            sres.remove("\n").remove("'");
-            sres = sres.toLower();
-
-            if( sres == "ambiance" )
-                res = new QColor("#403F3A");
-            else
-            if( sres == "radiance" )
-                res = new QColor("#DFD7CF");
-            else
-            if( sres == "adwaita" )
-                res = new QColor("#D7D3D2");
-            else
-                res = new QColor("#E5E5E5");
-        }
-
-        return *res;
-    }
-        break;
-    }
-
-    return QColor("#E5E5E5");
-}
-
-QColor Limoo::titleBarTransparentColor()
-{
-    QColor color = titleBarColor();
-    color.setAlpha(160);
-    return color;
-}
-
-QColor Limoo::titleBarTextColor()
-{
-    switch( desktopSession() )
-    {
-    case Enums::Mac:
-        return QColor("#333333");
-        break;
-
-    case Enums::Windows:
-        return QColor("#333333");
-        break;
-
-    case Enums::Kde:
-        return QPalette().windowText().color();
-        break;
-
-    case Enums::Unity:
-    case Enums::GnomeFallBack:
-    case Enums::Gnome:
-    {
-        static QColor *res = 0;
-        if( !res )
-        {
-            QProcess prc;
-            prc.start( "dconf", QStringList()<< "read"<< "/org/gnome/desktop/interface/gtk-theme" );
-            prc.waitForStarted();
-            prc.waitForFinished();
-            QString sres = prc.readAll();
-            sres.remove("\n").remove("'");
-            sres = sres.toLower();
-
-            if( sres == "ambiance" )
-                res = new QColor("#eeeeee");
-            else
-            if( sres == "radiance" )
-                res = new QColor("#333333");
-            else
-            if( sres == "adwaita" )
-                res = new QColor("#333333");
-            else
-                res = new QColor("#333333");
-        }
-
-        return *res;
-    }
-        break;
-    }
-
-    return QColor("#333333");
-}
-
-bool Limoo::titleBarIsDark()
-{
-    const QColor & clr = titleBarColor();
-    qreal middle = (clr.green()+clr.red()+clr.blue())/3.0;
-    if( middle>128 )
-        return false;
-    else
-        return true;
-}
-
 void Limoo::start()
 {
     p->icon_provider = new IconProvider();
@@ -767,6 +568,8 @@ void Limoo::start()
     p->mapp = new MimeApps(this);
     p->encrypter = new FileEncrypter(this);
     p->pass_manager = new PasswordManager(this);
+    p->desktop = new SialanDesktopTools(this);
+    p->devices = new SialanDevices(this);
 
     p->viewer = new QtQuick2ApplicationViewer();
     p->viewer->engine()->rootContext()->setContextProperty( "Window", p->viewer );
@@ -775,6 +578,8 @@ void Limoo::start()
     p->viewer->engine()->rootContext()->setContextProperty( "ThumbnailLoader", p->thumbnail_loader );
     p->viewer->engine()->rootContext()->setContextProperty( "Encypter", p->encrypter );
     p->viewer->engine()->rootContext()->setContextProperty( "PasswordManager", p->pass_manager );
+    p->viewer->engine()->rootContext()->setContextProperty( "Desktop", p->desktop );
+    p->viewer->engine()->rootContext()->setContextProperty( "Devices", p->devices );
     p->viewer->engine()->addImageProvider("icon",p->icon_provider);
     p->viewer->engine()->addImageProvider(PATH_HANDLER_NAME,p->handler_provider);
     p->viewer->setMainQmlFile(QStringLiteral("qml/Limoo/main.qml"));

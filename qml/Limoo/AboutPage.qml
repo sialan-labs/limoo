@@ -80,7 +80,7 @@ Rectangle {
         Text {
             id: limoo_txt
             anchors.horizontalCenter: parent.horizontalCenter
-            font.pointSize: 40*fontsScale
+            font.pixelSize: 40*fontsScale
             font.family: globalFontFamily
             font.bold: true
             color: "#333333"
@@ -95,7 +95,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             font.family: globalFontFamily
-            font.pointSize: 12*fontsScale
+            font.pixelSize: 12*fontsScale
             color: "#333333"
         }
 
@@ -111,7 +111,7 @@ Rectangle {
         anchors.bottom: website.top
         anchors.margins: 8*physicalPlatformScale
         font.family: globalFontFamily
-        font.pointSize: 10*fontsScale
+        font.pixelSize: 10*fontsScale
         color: "#333333"
         text: qsTr("HomePage")
 
@@ -129,7 +129,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.margins: 8*physicalPlatformScale
         font.family: globalFontFamily
-        font.pointSize: 10*fontsScale
+        font.pixelSize: 10*fontsScale
         color: "#333333"
         text: "Limoo " + Limoo.version()
     }

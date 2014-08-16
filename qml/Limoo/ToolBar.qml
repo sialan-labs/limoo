@@ -23,11 +23,11 @@ Rectangle {
     id: toolbar
     height: 40*physicalPlatformScale
     clip: true
-    color: blurBack && Limoo.desktopSession != Enums.Unity? Limoo.titleBarTransparentColor : Limoo.titleBarColor
+    color: blurBack && Desktop.desktopSession != SialanDesktopTools.Unity? Desktop.titleBarTransparentColor : Desktop.titleBarColor
 
     Rectangle {
         anchors.fill: parent
-        opacity: Limoo.desktopSession != Enums.Unity && Limoo.desktopSession != Enums.Gnome && Limoo.desktopSession != Enums.Mac? 0 : 1
+        opacity: Desktop.desktopSession != SialanDesktopTools.Unity && Desktop.desktopSession != SialanDesktopTools.Gnome && Desktop.desktopSession != SialanDesktopTools.Mac? 0 : 1
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#20000000" }
             GradientStop { position: 0.7; color: "#00000000" }
@@ -40,7 +40,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 1*physicalPlatformScale
-        opacity: Limoo.desktopSession != Enums.Unity && Limoo.desktopSession != Enums.Gnome && Limoo.desktopSession != Enums.Mac? 0 : 1
+        opacity: Desktop.desktopSession != SialanDesktopTools.Unity && Desktop.desktopSession != SialanDesktopTools.Gnome && Desktop.desktopSession != SialanDesktopTools.Mac? 0 : 1
         color: "#22000000"
     }
 
@@ -60,8 +60,8 @@ Rectangle {
             id: back_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Limoo.titleBarIsDark? "files/go-previous-light.png" : "files/go-previous.png"
-            textColor: Limoo.titleBarTextColor
+            icon: Desktop.titleBarIsDark? "files/go-previous-light.png" : "files/go-previous.png"
+            textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: main.back()
         }
@@ -70,8 +70,8 @@ Rectangle {
             id: openw_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Limoo.titleBarIsDark? "files/openwidth.png" : "files/openwidth-dark.png"
-            textColor: Limoo.titleBarTextColor
+            icon: Desktop.titleBarIsDark? "files/openwidth.png" : "files/openwidth-dark.png"
+            textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
             onClicked: main.edit([main.mainFrame.imageViewer.thumbnailBar.currentPath])
@@ -81,8 +81,8 @@ Rectangle {
             id: rleft_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Limoo.titleBarIsDark? "files/rotate-left-light.png" : "files/rotate-left.png"
-            textColor: Limoo.titleBarTextColor
+            icon: Desktop.titleBarIsDark? "files/rotate-left-light.png" : "files/rotate-left.png"
+            textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
             onClicked: main.mainFrame.imageViewer.imageSlider.rotateRight()
@@ -92,8 +92,8 @@ Rectangle {
             id: rright_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Limoo.titleBarIsDark? "files/rotate-right-light.png" : "files/rotate-right.png"
-            textColor: Limoo.titleBarTextColor
+            icon: Desktop.titleBarIsDark? "files/rotate-right-light.png" : "files/rotate-right.png"
+            textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
             visible: viewMode
             onClicked: main.mainFrame.imageViewer.imageSlider.rotateLeft()
@@ -103,8 +103,8 @@ Rectangle {
             id: fcr_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Limoo.titleBarIsDark? "files/view-fullscreen-light.png" : "files/view-fullscreen.png"
-            textColor: Limoo.titleBarTextColor
+            icon: Desktop.titleBarIsDark? "files/view-fullscreen-light.png" : "files/view-fullscreen.png"
+            textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: Limoo.fullScreen = !Limoo.fullScreen
         }
@@ -113,8 +113,8 @@ Rectangle {
             id: limoo_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Limoo.titleBarIsDark? "files/help-about-light.png" : "files/help-about.png"
-            textColor: Limoo.titleBarTextColor
+            icon: Desktop.titleBarIsDark? "files/help-about-light.png" : "files/help-about.png"
+            textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: main.about = true
         }
@@ -123,9 +123,9 @@ Rectangle {
             id: sialan_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Limoo.titleBarIsDark? "files/sialan-light.png" : "files/sialan-black.png"
+            icon: Desktop.titleBarIsDark? "files/sialan-light.png" : "files/sialan-black.png"
             iconHeight: 20
-            textColor: Limoo.titleBarTextColor
+            textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
             onClicked: main.aboutSialan = true
         }
@@ -137,9 +137,9 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.topMargin: 1*physicalPlatformScale
-        icon: Limoo.titleBarIsDark? "files/configure_light.png" : "files/configure.png"
+        icon: Desktop.titleBarIsDark? "files/configure_light.png" : "files/configure.png"
         iconHeight: 20
-        textColor: Limoo.titleBarTextColor
+        textColor: Desktop.titleBarTextColor
         highlightColor: "#22000000"
         onClicked: configure = !configure
     }

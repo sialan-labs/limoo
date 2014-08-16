@@ -96,7 +96,7 @@ Item {
             id: cancel_txt
             anchors.centerIn: parent
             font.family: globalFontFamily
-            font.pointSize: 15*fontsScale
+            font.pixelSize: 15*fontsScale
             color: "#333333"
         }
 

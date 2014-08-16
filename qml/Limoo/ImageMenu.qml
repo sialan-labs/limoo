@@ -188,7 +188,7 @@ Rectangle {
             icon: "files/background.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: !directory && !img_menu.isEncrypted && (Limoo.desktopSession == Enums.Gnome || Limoo.desktopSession == Enums.Unity)
+            visible: !directory && !img_menu.isEncrypted && (Desktop.desktopSession == SialanDesktopTools.Gnome || Desktop.desktopSession == SialanDesktopTools.Unity)
             onClicked: {
                 Limoo.setWallpaper(img_menu.source)
                 main.hideMenu()

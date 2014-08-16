@@ -59,7 +59,7 @@ Item {
             text: Limoo.fileName(details.source)
             color: "#000000"
             wrapMode: Text.WrapAnywhere
-            font.pointSize: 19*physicalPlatformScale
+            font.pixelSize: 19*physicalPlatformScale
             font.bold: true
         }
 
@@ -68,7 +68,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             text: img_size.width + "x" + img_size.height
             color: "#000000"
-            font.pointSize: 11*physicalPlatformScale
+            font.pixelSize: 11*physicalPlatformScale
 
             property size img_size: Limoo.imageSize(details.source)
         }
@@ -78,7 +78,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             text: Math.floor(Limoo.fileSize(details.source)/(1024)) + "KB"
             color: "#000000"
-            font.pointSize: 11*physicalPlatformScale
+            font.pixelSize: 11*physicalPlatformScale
         }
     }
 

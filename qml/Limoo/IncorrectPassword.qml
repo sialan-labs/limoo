@@ -14,7 +14,7 @@ Item {
     Text {
         id: title_lbl
         anchors.centerIn: parent
-        font.pointSize: 20*fontsScale
+        font.pixelSize: 20*fontsScale
         font.weight: Font.Normal
         font.family: globalFontFamily
         color: "#333333"

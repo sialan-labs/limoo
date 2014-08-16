@@ -43,7 +43,7 @@ Item {
             id: title_lbl
             anchors.left: parent.left
             anchors.right: parent.right
-            font.pointSize: 20*fontsScale
+            font.pixelSize: 20*fontsScale
             font.weight: Font.Light
             font.family: globalFontFamily
             horizontalAlignment: Text.AlignHCenter
@@ -70,7 +70,7 @@ Item {
                 anchors.fill: parent
                 anchors.leftMargin: 8*physicalPlatformScale
                 anchors.rightMargin: 8*physicalPlatformScale
-                font.pointSize: 10*fontsScale
+                font.pixelSize: 10*fontsScale
                 font.family: globalFontFamily
                 verticalAlignment: Text.AlignVCenter
                 selectByMouse: true

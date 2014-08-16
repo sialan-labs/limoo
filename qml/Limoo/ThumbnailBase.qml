@@ -58,7 +58,7 @@ Column {
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WrapAnywhere
         text: fileName
-        font.pointSize: 11*fontsScale
+        font.pixelSize: 11*fontsScale
         visible: !viewMode
         color: "#dddddd"
     }

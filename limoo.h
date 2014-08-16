@@ -36,11 +36,6 @@ class Limoo : public QObject
     Q_PROPERTY(bool highGamma READ highGamma WRITE setHighGamma NOTIFY highGammaChanged)
     Q_PROPERTY(bool highBright READ highBright WRITE setHighBright NOTIFY highBrightChanged)
     Q_PROPERTY(bool initialized READ initialized NOTIFY initializedChanged)
-    Q_PROPERTY(QColor titleBarColor READ titleBarColor NOTIFY titleBarColorChanged)
-    Q_PROPERTY(QColor titleBarTransparentColor READ titleBarTransparentColor NOTIFY titleBarTransparentColorChanged)
-    Q_PROPERTY(QColor titleBarTextColor READ titleBarTextColor NOTIFY titleBarTextColorChanged)
-    Q_PROPERTY(bool titleBarIsDark READ titleBarIsDark NOTIFY titleBarIsDarkChanged)
-    Q_PROPERTY(int desktopSession READ desktopSession NOTIFY desktopSessionChanged)
     Q_PROPERTY(bool fcrThumbnailBar READ fcrThumbnailBar WRITE setFcrThumbnailBar NOTIFY fcrThumbnailBarChanged)
     Q_PROPERTY(bool thumbnailBar READ thumbnailBar WRITE setThumbnailBar NOTIFY thumbnailBarChanged)
     Q_PROPERTY(bool nrmlThumbnailBar READ nrmlThumbnailBar WRITE setNrmlThumbnailBar NOTIFY nrmlThumbnailBarChanged)
@@ -57,12 +52,6 @@ public:
     QString inputPath() const;
     bool startViewMode() const;
     bool initialized() const;
-
-    Q_INVOKABLE static qreal lcdDpiX();
-    Q_INVOKABLE static qreal lcdDpiY();
-
-    Q_INVOKABLE int densityDpi();
-    Q_INVOKABLE qreal density();
 
     Q_INVOKABLE QString aboutSialan() const;
     Q_INVOKABLE QString aboutLimoo() const;
@@ -94,8 +83,6 @@ public:
 
     QStringList languages() const;
 
-    int desktopSession() const;
-
     Q_INVOKABLE QSize imageSize(QString path ) const;
     Q_INVOKABLE quint64 fileSize(QString path ) const;
     Q_INVOKABLE QString fileName(QString path ) const;
@@ -120,11 +107,6 @@ public:
     Q_INVOKABLE void setCopyClipboardUrl(const QStringList &path );
     Q_INVOKABLE void setCutClipboardUrl(const QStringList &path );
 
-    QColor titleBarColor();
-    QColor titleBarTransparentColor();
-    QColor titleBarTextColor();
-    bool titleBarIsDark();
-
 public slots:
     void start();
 
@@ -140,11 +122,6 @@ signals:
     void highGammaChanged();
     void highBrightChanged();
     void initializedChanged();
-    void titleBarColorChanged();
-    void titleBarTextColorChanged();
-    void titleBarTransparentColorChanged();
-    void titleBarIsDarkChanged();
-    void desktopSessionChanged();
     void thumbnailBarChanged();
     void fcrThumbnailBarChanged();
     void nrmlThumbnailBarChanged();

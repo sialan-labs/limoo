@@ -23,7 +23,6 @@ win32 {
 SOURCES += main.cpp \
     limoo.cpp \
     iconprovider.cpp \
-    enums.cpp \
     thumbnailloaderitem.cpp \
     thumbnailloader.cpp \
     imagemetadata.cpp \
@@ -41,6 +40,7 @@ SOURCES += main.cpp \
 # target.path =
 
 # Please do not modify the following two lines. Required for deployment.
+include(sialantools/sialantools.pri)
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
@@ -48,7 +48,6 @@ HEADERS += \
     limoo.h \
     iconprovider.h \
     limoo_macros.h \
-    enums.h \
     thumbnailloaderitem.h \
     thumbnailloader.h \
     imagemetadata.h \

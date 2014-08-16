@@ -37,7 +37,7 @@ Rectangle {
 
         Rectangle {
             id: back_img_frame
-            color: Limoo.titleBarColor
+            color: Desktop.titleBarColor
             anchors.fill: parent
 
             BackImage {

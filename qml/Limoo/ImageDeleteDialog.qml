@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import SialanTools 1.0
 
 Item {
     id: image_delete
@@ -95,7 +96,7 @@ Item {
         Text {
             id: cancel_txt
             anchors.centerIn: parent
-            font.family: globalFontFamily
+            font.family: SApp.globalFontFamily
             font.pixelSize: 15*fontsScale
             color: "#333333"
         }

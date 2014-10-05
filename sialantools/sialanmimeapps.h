@@ -2,12 +2,12 @@
     Copyright (C) 2014 Sialan Labs
     http://labs.sialan.org
 
-    Limoo is free software: you can redistribute it and/or modify
+    Kaqaz is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Limoo is distributed in the hope that it will be useful,
+    Kaqaz is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -16,19 +16,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MIMEAPPS_H
-#define MIMEAPPS_H
+#ifndef SIALANMIMEAPPS_H
+#define SIALANMIMEAPPS_H
 
 #include <QObject>
 #include <QStringList>
 
-class MimeAppsPrivate;
-class MimeApps: public QObject
+class SialanMimeAppsPrivate;
+class SialanMimeApps: public QObject
 {
     Q_OBJECT
 public:
-    MimeApps( QObject *parent = 0 );
-    ~MimeApps();
+    SialanMimeApps( QObject *parent = 0 );
+    ~SialanMimeApps();
 
     Q_INVOKABLE QStringList appsOfMime( const QString & mime );
     Q_INVOKABLE QStringList appsOfFile( const QString & file );
@@ -45,7 +45,7 @@ public slots:
     void openFiles( const QString & app, const QStringList & files );
 
 private:
-    MimeAppsPrivate *p;
+    SialanMimeAppsPrivate *p;
 };
 
-#endif // MIMEAPPS_H
+#endif // SIALANMIMEAPPS_H

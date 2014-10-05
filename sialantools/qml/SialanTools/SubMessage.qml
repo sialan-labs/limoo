@@ -2,12 +2,12 @@
     Copyright (C) 2014 Sialan Labs
     http://labs.sialan.org
 
-    Limoo is free software: you can redistribute it and/or modify
+    Kaqaz is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Limoo is distributed in the hope that it will be useful,
+    Kaqaz is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -26,7 +26,8 @@ Item {
     visible: opacity != 0
 
     property variant item
-    property alias source: desaturate.source
+    property alias source: blur.source
+    property alias backgroundColor: backgroud.color
 
     Behavior on opacity {
         NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
@@ -51,30 +52,19 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-        hoverEnabled: true
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-    }
-
-    Desaturate {
-        id: desaturate
-        anchors.fill: parent
-        desaturation: 0
-        visible: false
-        cached: true
     }
 
     FastBlur {
         id: blur
         anchors.fill: parent
-        source: desaturate
-        radius: 64*physicalPlatformScale
+        radius: 64
         cached: true
     }
 
     Rectangle {
+        id: backgroud
         anchors.fill: parent
-        color: "#ffffff"
-        opacity: 0.4
+        color: "#66ffffff"
     }
 
     function hide() {
@@ -85,10 +75,6 @@ Item {
         destroy_timer.restart()
     }
 
-    Component.onCompleted: {
-        if( subMessage )
-            subMessage.destroy()
-        subMessage = submsg
-    }
+    Component.onCompleted: BackHandler.pushHandler(submsg,submsg.hide)
     Component.onDestruction: if( item ) item.destroy()
 }

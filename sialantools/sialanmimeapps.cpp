@@ -2,12 +2,12 @@
     Copyright (C) 2014 Sialan Labs
     http://labs.sialan.org
 
-    Limoo is free software: you can redistribute it and/or modify
+    Kaqaz is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Limoo is distributed in the hope that it will be useful,
+    Kaqaz is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -19,7 +19,7 @@
 #define GLOBAL_APPS_PATH QString("/usr/share/applications")
 #define LOCAL_APPS_PATH QString(QDir::homePath() + "/.local/share/applications")
 
-#include "mimeapps.h"
+#include "sialanmimeapps.h"
 
 #include <QDir>
 #include <QHash>
@@ -31,7 +31,7 @@
 #include <QRegExp>
 #include <QDebug>
 
-class MimeAppsItem
+class SialanMimeAppsItem
 {
 public:
     QString name;
@@ -44,7 +44,7 @@ public:
 };
 
 QMultiHash<QString,QString> mime_apps_apps;
-QHash<QString,MimeAppsItem> mime_apps_items;
+QHash<QString,SialanMimeAppsItem> mime_apps_items;
 
 QStringList filesOf( const QString & path )
 {
@@ -81,7 +81,7 @@ QHash<QString,QString> readConfFile( const QString & file )
         const QString & section    = mexr.cap(1);
         const QString & properties = mexr.cap(2);
 
-        QRegExp pexr("(?:^|\\n|\\r)([^#].*)\\=(.*)(?:\\r|\\n)");
+        QRegExp pexr("(?:\\r|\\n|^)(.*)\\=(.*)(?:\\r|\\n)");
         pexr.setMinimal(true);
 
         int ppos = 0;
@@ -114,7 +114,7 @@ void init_mimeApps()
     {
         const QHash<QString,QString> & conf = readConfFile(d);
 
-        MimeAppsItem item;
+        SialanMimeAppsItem item;
         item.name        = conf.value("Desktop Entry/Name");
         item.icon        = conf.value("Desktop Entry/Icon");
         item.genericName = conf.value("Desktop Entry/GenericName");
@@ -131,72 +131,72 @@ void init_mimeApps()
     }
 }
 
-class MimeAppsPrivate
+class SialanMimeAppsPrivate
 {
 public:
     QMimeDatabase mdb;
 };
 
-MimeApps::MimeApps(QObject *parent) :
+SialanMimeApps::SialanMimeApps(QObject *parent) :
     QObject(parent)
 {
     init_mimeApps();
 
-    p = new MimeAppsPrivate;
+    p = new SialanMimeAppsPrivate;
 }
 
-QStringList MimeApps::appsOfMime(const QString &mime)
+QStringList SialanMimeApps::appsOfMime(const QString &mime)
 {
     return mime_apps_apps.values(mime.toLower());
 }
 
-QStringList MimeApps::appsOfFile(const QString &file)
+QStringList SialanMimeApps::appsOfFile(const QString &file)
 {
     const QMimeType & type = p->mdb.mimeTypeForFile(file);
     return appsOfMime(type.name());
 }
 
-QString MimeApps::appName(const QString &app) const
+QString SialanMimeApps::appName(const QString &app) const
 {
     return mime_apps_items.value(app).name;
 }
 
-QString MimeApps::appIcon(const QString &app) const
+QString SialanMimeApps::appIcon(const QString &app) const
 {
     return mime_apps_items.value(app).icon;
 }
 
-QString MimeApps::appGenericName(const QString &app) const
+QString SialanMimeApps::appGenericName(const QString &app) const
 {
     return mime_apps_items.value(app).genericName;
 }
 
-QString MimeApps::appComment(const QString &app) const
+QString SialanMimeApps::appComment(const QString &app) const
 {
     return mime_apps_items.value(app).comment;
 }
 
-QString MimeApps::appPath(const QString &app) const
+QString SialanMimeApps::appPath(const QString &app) const
 {
     return mime_apps_items.value(app).path;
 }
 
-QString MimeApps::appCommand(const QString &app) const
+QString SialanMimeApps::appCommand(const QString &app) const
 {
     return mime_apps_items.value(app).command;
 }
 
-QStringList MimeApps::appMimes(const QString &app) const
+QStringList SialanMimeApps::appMimes(const QString &app) const
 {
     return mime_apps_items.value(app).mimes;
 }
 
-void MimeApps::openFiles(const QString &app, const QStringList &files)
+void SialanMimeApps::openFiles(const QString &app, const QStringList &files)
 {
     if( !mime_apps_items.contains(app) )
         return;
 
-    const MimeAppsItem & item = mime_apps_items.value(app);
+    const SialanMimeAppsItem & item = mime_apps_items.value(app);
 
     QString cmd;
     QStringList args;
@@ -265,7 +265,7 @@ void MimeApps::openFiles(const QString &app, const QStringList &files)
     }
 }
 
-MimeApps::~MimeApps()
+SialanMimeApps::~SialanMimeApps()
 {
     delete p;
 }

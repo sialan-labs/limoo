@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import SialanTools 1.0
 import "sialan-bubbles"
 
 Item {
@@ -86,7 +87,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             text: "SIALAN LABS"
             font.weight: Font.Bold
-            font.family: globalFontFamily
+            font.family: SApp.globalFontFamily
             font.pixelSize: 30*fontsScale
             color: "#333333"
         }
@@ -96,7 +97,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.WordWrap
-            font.family: globalFontFamily
+            font.family: SApp.globalFontFamily
             font.pixelSize: 11*fontsScale
             color: "#333333"
         }
@@ -107,7 +108,7 @@ Item {
         anchors.right: parent.right
         anchors.bottom: website.top
         anchors.margins: 8*physicalPlatformScale
-        font.family: globalFontFamily
+        font.family: SApp.globalFontFamily
         font.pixelSize: 10*fontsScale
         color: "#333333"
 
@@ -124,7 +125,7 @@ Item {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 8*physicalPlatformScale
-        font.family: globalFontFamily
+        font.family: SApp.globalFontFamily
         font.pixelSize: 10*fontsScale
         color: "#333333"
 

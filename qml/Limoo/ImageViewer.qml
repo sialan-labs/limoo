@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import SialanTools 1.0
 
 Rectangle {
     id: viewer
@@ -106,7 +107,6 @@ Rectangle {
         radius: 0
         text: Limoo.thumbnailBar? ">" : "<"
         textColor: "#ffffff"
-        cursorShape: Qt.PointingHandCursor
 
         property real opacityAdded: 0
 

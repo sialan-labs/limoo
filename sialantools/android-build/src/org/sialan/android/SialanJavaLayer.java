@@ -1,3 +1,21 @@
+/*
+    Copyright (C) 2014 Sialan Labs
+    http://labs.sialan.org
+
+    Kaqaz is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Kaqaz is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package org.sialan.android;
 
 import org.sialan.android.SialanApplication;
@@ -15,6 +33,9 @@ import android.graphics.BitmapFactory;
 import android.view.WindowManager;
 import android.os.Build;
 import android.content.res.Configuration;
+import android.view.View;
+import android.view.Window;
+import android.graphics.Rect;
 
 import java.io.File;
 import java.io.InputStream;
@@ -61,6 +82,16 @@ public class SialanJavaLayer {
             msg = "";
 
         _sendNote(title,msg);
+    }
+
+    public static int menuHeight()
+    {
+        Rect r = new Rect();
+        Window window = SialanActivity.getActivityInstance().getWindow();
+        View rootview = window.getDecorView();
+        rootview.getWindowVisibleDisplayFrame(r);
+
+        return r.top;
     }
 
     public static void sendImage( Uri data ) {
@@ -187,6 +218,11 @@ public class SialanJavaLayer {
     boolean transparentStatusBar()
     {
         return SialanActivity.getActivityInstance().transparentStatusBar();
+    }
+
+    boolean transparentNavigationBar()
+    {
+        return SialanActivity.getActivityInstance().transparentNavigationBar();
     }
 
     int densityDpi()

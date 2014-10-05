@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import SialanTools 1.0
 
 Item {
     id: edit_View
@@ -25,6 +26,10 @@ Item {
 
     Behavior on opacity {
         NumberAnimation{ easing.type: Easing.OutCubic; duration: 400 }
+    }
+
+    MimeApps {
+        id: mime_apps
     }
 
     Component.onCompleted: opacity = 1
@@ -57,7 +62,7 @@ Item {
         y: 100
         font.pixelSize: 30
         font.weight: Font.Light
-        font.family: globalFontFamily
+        font.family: SApp.globalFontFamily
         color: "#333333"
     }
 
@@ -85,7 +90,7 @@ Item {
                 height: 36
                 width: height
                 sourceSize: Qt.size(width,height)
-                source: "image://icon/" + MimeApps.appIcon(appId)
+                source: "image://icon/" + mime_apps.appIcon(appId)
             }
 
             Text {
@@ -93,15 +98,15 @@ Item {
                 anchors.left: img.right
                 anchors.leftMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
-                font.family: globalFontFamily
-                text: MimeApps.appName(appId)
+                font.family: SApp.globalFontFamily
+                text: mime_apps.appName(appId)
             }
 
             MouseArea {
                 id: marea
                 anchors.fill: parent
                 onClicked: {
-                    MimeApps.openFiles(appId,edit_View.sources)
+                    mime_apps.openFiles(appId,edit_View.sources)
                     closeEdit()
                 }
             }
@@ -112,7 +117,7 @@ Item {
             if( !edit_View.sources || edit_View.sources.length == 0 )
                 return
 
-            var apps = MimeApps.appsOfFile(edit_View.sources[0])
+            var apps = mime_apps.appsOfFile(edit_View.sources[0])
             for( var i=0; i<apps.length; i++ )
                 model.append({"appId":apps[i]})
         }

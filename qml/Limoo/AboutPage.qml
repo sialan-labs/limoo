@@ -17,6 +17,7 @@
 */
 
 import QtQuick 2.0
+import SialanTools 1.0
 
 Rectangle {
     width: 100
@@ -81,7 +82,7 @@ Rectangle {
             id: limoo_txt
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 40*fontsScale
-            font.family: globalFontFamily
+            font.family: SApp.globalFontFamily
             font.bold: true
             color: "#333333"
         }
@@ -94,7 +95,7 @@ Rectangle {
             anchors.rightMargin: 80*physicalPlatformScale
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            font.family: globalFontFamily
+            font.family: SApp.globalFontFamily
             font.pixelSize: 12*fontsScale
             color: "#333333"
         }
@@ -110,7 +111,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.bottom: website.top
         anchors.margins: 8*physicalPlatformScale
-        font.family: globalFontFamily
+        font.family: SApp.globalFontFamily
         font.pixelSize: 10*fontsScale
         color: "#333333"
         text: qsTr("HomePage")
@@ -128,7 +129,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 8*physicalPlatformScale
-        font.family: globalFontFamily
+        font.family: SApp.globalFontFamily
         font.pixelSize: 10*fontsScale
         color: "#333333"
         text: "Limoo " + Limoo.version()

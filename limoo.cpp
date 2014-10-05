@@ -19,7 +19,6 @@
 #include "limoo.h"
 #include "limoo_macros.h"
 #include "imagemetadata.h"
-#include "mimeapps.h"
 #include "iconprovider.h"
 #include "pathhandler.h"
 #include "pathhandlerimageprovider.h"
@@ -28,7 +27,7 @@
 #include "fileencrypter.h"
 #include "passwordmanager.h"
 #include "sialantools/sialandesktoptools.h"
-#include "sialantools/sialandevices.h"
+#include "sialantools/sialanquickview.h"
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -63,14 +62,12 @@
 class LimooPrivate
 {
 public:
-    QtQuick2ApplicationViewer *viewer;
+    SialanQuickView *viewer;
     IconProvider *icon_provider;
     ThumbnailLoader *thumbnail_loader;
     PathHandlerImageProvider *handler_provider;
     FileEncrypter *encrypter;
     PasswordManager *pass_manager;
-    SialanDesktopTools *desktop;
-    SialanDevices *devices;
 
     bool fullscreen;
     bool highContrast;
@@ -84,7 +81,6 @@ public:
     QString confPath;
 
     QSettings *settings;
-    MimeApps *mapp;
 
     QTranslator *translator;
     QHash<QString,QVariant> languages;
@@ -119,7 +115,6 @@ Limoo::Limoo(QObject *parent) :
     p->highGamma = p->settings->value("General/highGamma",false).toBool();
     p->highBright = p->settings->value("General/highBright",false).toBool();
 
-    qmlRegisterType<SialanDesktopTools>("org.sialan.limoo", 1, 0, "SialanDesktopTools");
     qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
     qmlRegisterType<PathHandler>("org.sialan.limoo", 1, 0, "PathHandler");
 
@@ -341,7 +336,7 @@ void Limoo::pasteClipboardFiles(QString dst)
 void Limoo::setWallpaper(QString file)
 {
     NORMALIZE_PATH(file)
-    switch( p->desktop->desktopSession() )
+    switch( p->viewer->desktopTools()->desktopSession() )
     {
     case SialanDesktopTools::Mac:
         break;
@@ -565,26 +560,20 @@ void Limoo::start()
     p->icon_provider = new IconProvider();
     p->handler_provider = new PathHandlerImageProvider();
     p->thumbnail_loader = new ThumbnailLoader(this);
-    p->mapp = new MimeApps(this);
     p->encrypter = new FileEncrypter(this);
     p->pass_manager = new PasswordManager(this);
-    p->desktop = new SialanDesktopTools(this);
-    p->devices = new SialanDevices(this);
 
-    p->viewer = new QtQuick2ApplicationViewer();
+    p->viewer = new SialanQuickView(SialanQuickView::AllExceptLogger);
     p->viewer->engine()->rootContext()->setContextProperty( "Window", p->viewer );
     p->viewer->engine()->rootContext()->setContextProperty( "Limoo", this );
-    p->viewer->engine()->rootContext()->setContextProperty( "MimeApps", p->mapp );
     p->viewer->engine()->rootContext()->setContextProperty( "ThumbnailLoader", p->thumbnail_loader );
     p->viewer->engine()->rootContext()->setContextProperty( "Encypter", p->encrypter );
     p->viewer->engine()->rootContext()->setContextProperty( "PasswordManager", p->pass_manager );
-    p->viewer->engine()->rootContext()->setContextProperty( "Desktop", p->desktop );
-    p->viewer->engine()->rootContext()->setContextProperty( "Devices", p->devices );
     p->viewer->engine()->addImageProvider("icon",p->icon_provider);
     p->viewer->engine()->addImageProvider(PATH_HANDLER_NAME,p->handler_provider);
-    p->viewer->setMainQmlFile(QStringLiteral("qml/Limoo/main.qml"));
+    p->viewer->setSource(QStringLiteral("qml/Limoo/main.qml"));
     p->viewer->resize( p->settings->value("window/size",QSize(960,600)).toSize() );
-    p->viewer->showExpanded();
+    p->viewer->show();
 
 #ifdef Q_OS_MAC
     QWidget *containter = QWidget::createWindowContainer(p->viewer);

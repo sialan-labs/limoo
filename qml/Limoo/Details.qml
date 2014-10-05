@@ -18,6 +18,7 @@
 
 import QtQuick 2.0
 import org.sialan.limoo 1.0
+import SialanTools 1.0
 
 Item {
     id: details

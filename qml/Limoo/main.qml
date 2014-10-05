@@ -18,16 +18,13 @@
 
 import QtQuick 2.0
 import org.sialan.limoo 1.0
+import SialanTools 1.0
 
-Rectangle {
+SialanMain {
     id: main
     width: 960
     height: 600
     focus: true
-
-    property real physicalPlatformScale: Devices.density
-    property real fontsScale: 1
-    property string globalFontFamily: "Droid Sans"
 
     property variant subMessage
     property alias viewMode: main_frame.viewMode
@@ -42,8 +39,6 @@ Rectangle {
     property bool about: false
     property bool aboutSialan: false
     property bool configure: false
-
-    Component.onCompleted: fontsScale = Devices.fontDensity
 
     AboutSialan {
         anchors.fill: parent

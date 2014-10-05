@@ -2,12 +2,12 @@
     Copyright (C) 2014 Sialan Labs
     http://labs.sialan.org
 
-    Limoo is free software: you can redistribute it and/or modify
+    Kaqaz is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Limoo is distributed in the hope that it will be useful,
+    Kaqaz is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
@@ -35,11 +35,10 @@ Rectangle {
     property alias iconHeight: icn.height
     property bool iconCenter: false
 
-    property alias press: marea.pressed
-    property alias enter: marea.containsMouse
-    property alias cursorShape: marea.cursorShape
+    property bool press: marea.pressed
+    property bool enter: marea.containsMouse
 
-    property string highlightColor: "#333333"
+    property string highlightColor: "#0d80ec"
     property string normalColor: "#00000000"
     property alias textColor: txt.color
 
@@ -49,6 +48,7 @@ Rectangle {
         id: row
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        anchors.topMargin: 4*physicalPlatformScale
         anchors.margins: 3*physicalPlatformScale
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 4*physicalPlatformScale
@@ -56,9 +56,10 @@ Rectangle {
         Image {
             id: icn
             anchors.verticalCenter: parent.verticalCenter
-            sourceSize: Qt.size(width,height)
-            height: source==""? 0 : parent.height-12*physicalPlatformScale
+            height: source==""? 0 : parent.height-14*physicalPlatformScale
             width: height
+            sourceSize.width: width
+            sourceSize.height: height
             smooth: true
         }
 
@@ -66,8 +67,8 @@ Rectangle {
             id: txt
             y: parent.height/2 - height/2 - 1*physicalPlatformScale
             color: "#ffffff"
-//            font.bold: true
-            font.family: globalFontFamily
+            font.bold: Devices.isWindows? false : true
+            font.family: SApp.globalFontFamily
             font.pixelSize: 9*fontsScale
         }
     }

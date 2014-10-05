@@ -1,11 +1,9 @@
-# Add more folders to ship with the application, here
 folder_01.source = qml/Limoo
 folder_01.target = $${DESTDIR}/qml
 translations.source = translations
 translations.target = $${DESTDIR}
 DEPLOYMENTFOLDERS = folder_01 translations
 
-# Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
 QT += widgets script
@@ -19,7 +17,6 @@ win32 {
     QT += winextras
 }
 
-# The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     limoo.cpp \
     iconprovider.cpp \
@@ -28,7 +25,6 @@ SOURCES += main.cpp \
     imagemetadata.cpp \
     pluginmanager.cpp \
     structures.cpp \
-    mimeapps.cpp \
     pathhandler.cpp \
     pathhandlerimageprovider.cpp \
     SimpleQtCryptor/simpleqtcryptor.cpp \
@@ -36,10 +32,6 @@ SOURCES += main.cpp \
     passwordmanager.cpp \
     encrypttools.cpp
 
-# Installation path
-# target.path =
-
-# Please do not modify the following two lines. Required for deployment.
 include(sialantools/sialantools.pri)
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
@@ -53,7 +45,6 @@ HEADERS += \
     imagemetadata.h \
     pluginmanager.h \
     structures.h \
-    mimeapps.h \
     pathhandler.h \
     pathhandlerimageprovider.h \
     SimpleQtCryptor/serpent_sbox.h \

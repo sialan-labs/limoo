@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import SialanTools 1.0
 
 Item {
     id: encrypt_menu
@@ -24,7 +25,7 @@ Item {
             anchors.right: parent.right
             font.pixelSize: 20*fontsScale
             font.weight: Font.Normal
-            font.family: globalFontFamily
+            font.family: SApp.globalFontFamily
             horizontalAlignment: Text.AlignHCenter
             color: "#333333"
         }
@@ -50,7 +51,7 @@ Item {
                 anchors.leftMargin: 8*physicalPlatformScale
                 anchors.rightMargin: 8*physicalPlatformScale
                 font.pixelSize: 10*fontsScale
-                font.family: globalFontFamily
+                font.family: SApp.globalFontFamily
                 verticalAlignment: Text.AlignVCenter
                 selectByMouse: true
                 selectionColor: "#0d80ec"

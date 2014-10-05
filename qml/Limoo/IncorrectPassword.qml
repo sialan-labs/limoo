@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import SialanTools 1.0
 
 Item {
     id: inc_pass
@@ -16,7 +17,7 @@ Item {
         anchors.centerIn: parent
         font.pixelSize: 20*fontsScale
         font.weight: Font.Normal
-        font.family: globalFontFamily
+        font.family: SApp.globalFontFamily
         color: "#333333"
     }
 

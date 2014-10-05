@@ -16,12 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#include "sialantools/sialanapplication.h"
 #include "limoo.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    SialanApplication app(argc, argv);
+    app.setApplicationName("Limoo");
+    app.setApplicationDisplayName("Limoo");
+    app.setOrganizationDomain("org.sialan.limoo");
+    app.setOrganizationName("Sialan");
 
     Limoo limoo;
     limoo.start();

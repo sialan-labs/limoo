@@ -1,7 +1,7 @@
 qml_files.source = qml/Limoo
 qml_files.target = $${DESTDIR}/qml
 icon_files.source = files/icons
-icon_files.target = $${DESTDIR}/files/icons
+icon_files.target = $${DESTDIR}/files
 translation_files.source = files/translations
 translation_files.target = $${DESTDIR}/files
 DEPLOYMENTFOLDERS = qml_files translation_files icon_files

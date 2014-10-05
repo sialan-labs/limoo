@@ -26,10 +26,8 @@
 
 #ifdef Q_OS_WIN
 #define HOME_PATH QString(QDir::homePath() + "/AppData/Local/sialan/limoo")
-#define LOCALES_PATH QString( QCoreApplication::applicationDirPath() + "/translations/" )
 #else
 #define HOME_PATH QString(QDir::homePath() + "/.config/sialan/limoo")
-#define LOCALES_PATH QString( QCoreApplication::applicationDirPath() + "/translations/" )
 #endif
 
 #define CONF_PATH QString(HOME_PATH + "/config.ini")

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Limoo
+GenericName=Image Viewer
+Icon=/usr/share/limoo/files/icons/limoo.png
+Exec=limoo %f
+NoDisplay=false
+Categories=Graphics;Viewer;
+MimeType=inode/directory;image/gif;image/jpeg;image/png;image/bmp;image/x-eps;image/x-ico;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-xbitmap;image/x-xpixmap;image/tiff;image/x-psd;image/x-webp;
+StartupNotify=true
+Terminal=false

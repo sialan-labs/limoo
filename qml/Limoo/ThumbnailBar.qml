@@ -52,6 +52,7 @@ Item {
 
     GridView {
         id: grid
+        flickableDirection: Flickable.HorizontalFlick
         anchors.fill: parent
         model: FolderListModel{
             showDirs: !viewMode
@@ -144,7 +145,7 @@ Item {
                     else
                     if( fileIsDir ) {
                         if( PasswordManager.dirHasPassword(filePath) && !PasswordManager.passwordEntered(filePath) ) {
-                            var obj = showSubMessage("GetPassDialog.qml")
+                            var obj = showSubMessageFile("GetPassDialog.qml")
                             obj.successfully.connect(marea.openDir)
                         } else {
                             ThumbnailLoader.reset()
@@ -153,7 +154,7 @@ Item {
                     }
                     else {
                         if( PasswordManager.fileIsEncrypted(filePath) && !PasswordManager.passwordEntered(filePath) ) {
-                            var obj = showSubMessage("GetPassDialog.qml")
+                            var obj = showSubMessageFile("GetPassDialog.qml")
                             obj.successfully.connect(marea.openFile)
                         } else {
                             grid.currentIndex = index
@@ -165,7 +166,7 @@ Item {
 
                 function openDir( pass ) {
                     if( !PasswordManager.checkPassword(filePath,pass) ) {
-                        showSubMessage("IncorrectPassword.qml")
+                        showSubMessageFile("IncorrectPassword.qml")
                         return
                     }
 
@@ -175,7 +176,7 @@ Item {
 
                 function openFile( pass ) {
                     if( !PasswordManager.checkPassword(filePath,pass) ) {
-                        showSubMessage("IncorrectPassword.qml")
+                        showSubMessageFile("IncorrectPassword.qml")
                         return
                     }
 

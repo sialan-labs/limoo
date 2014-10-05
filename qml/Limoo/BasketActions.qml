@@ -110,7 +110,7 @@ Rectangle {
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
             onClicked: {
-                var item = showSubMessage("ImageDeleteDialog.qml")
+                var item = showSubMessageFile(Qt.createComponent("ImageDeleteDialog.qml"))
                 item.sources = bacts.basket.toList()
                 item.successfully.connect(bacts.basket.clear)
                 main.hideMenu()

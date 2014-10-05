@@ -25,13 +25,12 @@ SialanMain {
     width: 960
     height: 600
     focus: true
+    mainFrame: main_frame
 
-    property variant subMessage
     property alias viewMode: main_frame.viewMode
 
     property alias imageViewer: main_frame.imageViewer
     property alias basket: main_frame.basket
-    property alias mainFrame: main_frame
     property variant editView
 
     property bool blurBack: true
@@ -88,7 +87,7 @@ SialanMain {
 
     Connections {
         target: Encypter
-        onStarted: showSubMessage("PleaseWait.qml")
+        onStarted: showSubMessageFile("PleaseWait.qml")
         onDone: hideSubMessage()
     }
 
@@ -152,27 +151,14 @@ SialanMain {
         }
         else
         if( event.key == Qt.Key_Delete && event.modifiers == Qt.ShiftModifier ) {
-            var item = showSubMessage("ImageDeleteDialog.qml")
+            var item = showSubMessageFile("ImageDeleteDialog.qml")
             item.sources = [imageViewer.thumbnailBar.currentPath]
         }
     }
 
-    function showSubMessage( file_path ){
-        var item_component = Qt.createComponent(file_path);
-        var item = item_component.createObject(main);
-
-        var component = Qt.createComponent("SubMessage.qml");
-        var msg = component.createObject(main);
-        msg.source = main_frame
-        msg.item = item
-        return item
-    }
-
-    function hideSubMessage(){
-        if( !subMessage )
-            return
-
-        subMessage.hide()
+    function showSubMessageFile( file_path ){
+        var component = Qt.createComponent(file_path);
+        return showSubMessage(component)
     }
 
     function showMenu( fileName, itemY, itemHeight ) {

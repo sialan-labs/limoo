@@ -1,10 +1,10 @@
-folder_01.source = qml/Limoo
-folder_01.target = $${DESTDIR}/qml
-translations.source = translations
-translations.target = $${DESTDIR}
-DEPLOYMENTFOLDERS = folder_01 translations
-
-QML_IMPORT_PATH =
+qml_files.source = qml/Limoo
+qml_files.target = $${DESTDIR}/qml
+icon_files.source = files/icons
+icon_files.target = $${DESTDIR}/files/icons
+translation_files.source = files/translations
+translation_files.target = $${DESTDIR}/files
+DEPLOYMENTFOLDERS = qml_files translation_files icon_files
 
 QT += widgets script
 
@@ -33,7 +33,7 @@ SOURCES += main.cpp \
     encrypttools.cpp
 
 include(sialantools/sialantools.pri)
-include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
+include(qmake/qtcAddDeployment.pri)
 qtcAddDeployment()
 
 HEADERS += \
@@ -58,3 +58,43 @@ OTHER_FILES += \
     qml/Limoo/files/background.png \
     qml/Limoo/files/edit-copy.png \
     qml/Limoo/files/edit-clear.png
+
+TRANSLATIONS += \
+    files/translations/lang-cs.qm \
+    files/translations/lang-en.qm \
+    files/translations/lang-fa.qm \
+    files/translations/lang-ru.qm
+
+isEmpty(PREFIX) {
+    PREFIX = /usr
+}
+
+contains(BUILD_MODE,opt) {
+    BIN_PATH = $$PREFIX/
+    SHARES_PATH = $$PREFIX/
+    APPDESK_PATH = /usr/
+    APPDESK_SRC = files/shortcuts/opt/
+} else {
+    BIN_PATH = $$PREFIX/bin
+    SHARES_PATH = $$PREFIX/share/limoo/
+    APPDESK_PATH = $$PREFIX/
+    APPDESK_SRC = files/shortcuts/normal/
+}
+
+android {
+} else {
+linux {
+    target = $$TARGET
+    target.path = $$BIN_PATH
+    qmls.files = qml/Limoo
+    qmls.path = $$SHARES_PATH/qml
+    translations.files = $$TRANSLATIONS
+    translations.path = $$SHARES_PATH/files/translations
+    icons.files = files/icons/limoo.png
+    icons.path = $$SHARES_PATH/icons/
+    desktopFile.files = $$APPDESK_SRC/limoo.desktop
+    desktopFile.path = $$APPDESK_PATH/share/applications
+
+    INSTALLS = target translations icons desktopFile qmls
+}
+}

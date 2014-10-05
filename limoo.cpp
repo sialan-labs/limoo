@@ -23,7 +23,6 @@
 #include "pathhandler.h"
 #include "pathhandlerimageprovider.h"
 #include "thumbnailloader.h"
-#include "qtquick2applicationviewer.h"
 #include "fileencrypter.h"
 #include "passwordmanager.h"
 #include "sialantools/sialandesktoptools.h"
@@ -563,6 +562,10 @@ void Limoo::start()
     p->encrypter = new FileEncrypter(this);
     p->pass_manager = new PasswordManager(this);
 
+    QString qml_file = QCoreApplication::applicationDirPath() + "/qml/Limoo/main.qml";
+    if( !QFile::exists(qml_file) )
+        qml_file = QFileInfo(QCoreApplication::applicationDirPath() + "/../share/limoo/qml/Limoo/main.qml").filePath();
+
     p->viewer = new SialanQuickView(SialanQuickView::AllExceptLogger);
     p->viewer->engine()->rootContext()->setContextProperty( "Window", p->viewer );
     p->viewer->engine()->rootContext()->setContextProperty( "Limoo", this );
@@ -571,7 +574,7 @@ void Limoo::start()
     p->viewer->engine()->rootContext()->setContextProperty( "PasswordManager", p->pass_manager );
     p->viewer->engine()->addImageProvider("icon",p->icon_provider);
     p->viewer->engine()->addImageProvider(PATH_HANDLER_NAME,p->handler_provider);
-    p->viewer->setSource(QStringLiteral("qml/Limoo/main.qml"));
+    p->viewer->setSource(qml_file);
     p->viewer->resize( p->settings->value("window/size",QSize(960,600)).toSize() );
     p->viewer->show();
 
@@ -615,7 +618,11 @@ void Limoo::windowSizeChanged()
 
 void Limoo::init_languages()
 {
-    QDir dir(LOCALES_PATH);
+    QString locales_path = QCoreApplication::applicationDirPath() + "/files/translations/";
+    if( !QFile::exists(locales_path) )
+        locales_path = QFileInfo(QCoreApplication::applicationDirPath() + "/../share/limoo/files/translations/").filePath();
+
+    QDir dir(locales_path);
     QStringList languages = dir.entryList( QDir::Files );
     if( !languages.contains("lang-en.qm") )
         languages.prepend("lang-en.qm");
@@ -629,7 +636,7 @@ void Limoo::init_languages()
          QLocale locale(locale_str);
 
          QString  lang = QLocale::languageToString(locale.language());
-         QVariant data = LOCALES_PATH + "/" + languages[i];
+         QVariant data = locales_path + "/" + languages[i];
 
          p->languages.insert( lang, data );
          p->locales.insert( lang , locale );

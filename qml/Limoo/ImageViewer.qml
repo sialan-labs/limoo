@@ -271,14 +271,14 @@ Rectangle {
     function passEntered(pass) {
         if( PasswordManager.fileIsEncrypted(Limoo.inputPath) ) {
             if( !PasswordManager.checkPassword(Limoo.inputPath,pass) ) {
-                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+                showSubMessageFile("GetPassDialog.qml").successfully.connect(viewer.passEntered)
                 return
             }
         }
         else
         if( PasswordManager.passwordFileOf(Limoo.inputPath).length != 0 ) {
             if( !PasswordManager.checkPassword(PasswordManager.passwordFileOf(Limoo.inputPath),pass) ) {
-                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+                showSubMessageFile("GetPassDialog.qml").successfully.connect(viewer.passEntered)
                 return
             }
         }
@@ -299,10 +299,10 @@ Rectangle {
     Component.onCompleted: {
         if( Limoo.startViewMode ) {
             if( PasswordManager.fileIsEncrypted(Limoo.inputPath) )
-                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+                showSubMessageFile("GetPassDialog.qml").successfully.connect(viewer.passEntered)
             else
             if( PasswordManager.passwordFileOf(Limoo.inputPath).length != 0 )
-                showSubMessage("GetPassDialog.qml").successfully.connect(viewer.passEntered)
+                showSubMessageFile("GetPassDialog.qml").successfully.connect(viewer.passEntered)
             else
                 openStart()
         }

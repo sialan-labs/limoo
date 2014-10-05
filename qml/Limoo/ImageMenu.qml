@@ -105,7 +105,7 @@ Rectangle {
             visible: !viewMode && ( (directory && PasswordManager.passwordFileOf(img_menu.source).length == 0) ||
                                     (!directory && !img_menu.isEncrypted && PasswordManager.passwordFileOf(img_menu.source).length != 0) )
             onClicked: {
-                var obj = showSubMessage("EncryptMenu.qml")
+                var obj = showSubMessageFile("EncryptMenu.qml")
                 obj.successfully.connect(img_menu.setPasswordAndEncrypt)
             }
         }
@@ -133,7 +133,7 @@ Rectangle {
             highlightColor: "#22ffffff"
             visible: directory
             onClicked: {
-                var obj = showSubMessage("CreateFolderDialog.qml")
+                var obj = showSubMessageFile("CreateFolderDialog.qml")
                 obj.source = main.mainFrame.imageViewer.thumbnailBar.model.folder
                 main.hideMenu()
             }
@@ -148,7 +148,7 @@ Rectangle {
             highlightColor: "#22ffffff"
             visible: main.mainFrame.imageViewer.thumbnailBar.model.folder != img_menu.source
             onClicked: {
-                var obj = showSubMessage("RenameDialog.qml")
+                var obj = showSubMessageFile("RenameDialog.qml")
                 obj.source = img_menu.source
                 main.hideMenu()
             }
@@ -220,7 +220,7 @@ Rectangle {
             highlightColor: "#22ffffff"
             visible: !directory
             onClicked: {
-                var item = showSubMessage("Details.qml")
+                var item = showSubMessageFile("Details.qml")
                 item.source = img_menu.source
                 main.hideMenu()
             }
@@ -235,7 +235,7 @@ Rectangle {
             highlightColor: "#22ffffff"
             visible: !directory
             onClicked: {
-                var item = showSubMessage("ImageDeleteDialog.qml")
+                var item = showSubMessageFile("ImageDeleteDialog.qml")
                 item.sources = [img_menu.source]
                 main.hideMenu()
             }

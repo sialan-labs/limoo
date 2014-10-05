@@ -73,6 +73,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.leftMargin: 60
         anchors.topMargin: 20
+        orientation: Qt.Vertical
         width: 400
         model: ListModel{}
         clip: true

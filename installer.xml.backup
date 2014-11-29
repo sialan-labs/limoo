@@ -108,14 +108,14 @@
     <height>400</height>
     <licenseFileEncoding>utf-8</licenseFileEncoding>
     <saveRelativePaths>1</saveRelativePaths>
-    <vendor>Aseman</vendor>
+    <vendor>Sialan</vendor>
     <width>600</width>
     <parameterList>
         <directoryParameter>
             <name>installdir</name>
             <description>Installer.Parameter.installdir.description</description>
             <explanation>Installer.Parameter.installdir.explanation</explanation>
-            <value>${platform_install_prefix}/Aseman/${product_shortname}-${product_version}</value>
+            <value>${platform_install_prefix}/Sialan/${product_shortname}-${product_version}</value>
             <default>${platform_install_prefix}/${product_shortname}-${product_version}</default>
             <allowEmptyValue>0</allowEmptyValue>
             <cliOptionName>prefix</cliOptionName>

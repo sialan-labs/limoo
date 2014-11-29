@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Aseman
-    http://aseman.co
+    Copyright (C) 2014 Sialan Labs
+    http://labs.sialan.org
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 */
 
 import QtQuick 2.0
-import org.aseman.limoo 1.0
-import AsemanTools 1.0
+import org.sialan.limoo 1.0
+import SialanTools 1.0
 
 Rectangle {
     id: img_menu
@@ -189,7 +189,7 @@ Rectangle {
             icon: "files/background.png"
             textColor: "#ffffff"
             highlightColor: "#22ffffff"
-            visible: !directory && !img_menu.isEncrypted && (Desktop.desktopSession == AsemanDesktopTools.Gnome || Desktop.desktopSession == AsemanDesktopTools.Unity)
+            visible: !directory && !img_menu.isEncrypted && (Desktop.desktopSession == SialanDesktopTools.Gnome || Desktop.desktopSession == SialanDesktopTools.Unity)
             onClicked: {
                 Limoo.setWallpaper(img_menu.source)
                 main.hideMenu()

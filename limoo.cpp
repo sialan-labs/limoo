@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Aseman
-    http://aseman.co
+    Copyright (C) 2014 Sialan Labs
+    http://labs.sialan.org
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
 #include "thumbnailloader.h"
 #include "fileencrypter.h"
 #include "passwordmanager.h"
-#include "asemantools/asemandesktoptools.h"
-#include "asemantools/asemanquickview.h"
+#include "sialantools/sialandesktoptools.h"
+#include "sialantools/sialanquickview.h"
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -61,7 +61,7 @@
 class LimooPrivate
 {
 public:
-    AsemanQuickView *viewer;
+    SialanQuickView *viewer;
     IconProvider *icon_provider;
     ThumbnailLoader *thumbnail_loader;
     PathHandlerImageProvider *handler_provider;
@@ -114,8 +114,8 @@ Limoo::Limoo(QObject *parent) :
     p->highGamma = p->settings->value("General/highGamma",false).toBool();
     p->highBright = p->settings->value("General/highBright",false).toBool();
 
-    qmlRegisterType<ImageMetaData>("org.aseman.limoo", 1, 0, "ImageMetaData");
-    qmlRegisterType<PathHandler>("org.aseman.limoo", 1, 0, "PathHandler");
+    qmlRegisterType<ImageMetaData>("org.sialan.limoo", 1, 0, "ImageMetaData");
+    qmlRegisterType<PathHandler>("org.sialan.limoo", 1, 0, "PathHandler");
 
     init_languages();
 }
@@ -171,9 +171,9 @@ bool Limoo::initialized() const
     return p->initialized;
 }
 
-QString Limoo::aboutAseman() const
+QString Limoo::aboutSialan() const
 {
-    return tr("Aseman is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.") + "\n\n" +
+    return tr("Sialan Labs is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.") + "\n\n" +
             tr("By enabling innovative projects and distributing software to millions of users globally, the lab is working to accelerate the growth of high-impact open source software projects and promote an open source culture of accessibility and increased productivity around the world. The lab partners with industry leaders and policy makers to bring open source technologies to new sectors, including education, health and government.");
 }
 
@@ -337,18 +337,18 @@ void Limoo::setWallpaper(QString file)
     NORMALIZE_PATH(file)
     switch( p->viewer->desktopTools()->desktopSession() )
     {
-    case AsemanDesktopTools::Mac:
+    case SialanDesktopTools::Mac:
         break;
 
-    case AsemanDesktopTools::Windows:
+    case SialanDesktopTools::Windows:
         break;
 
-    case AsemanDesktopTools::Kde:
+    case SialanDesktopTools::Kde:
         break;
 
-    case AsemanDesktopTools::Unity:
-    case AsemanDesktopTools::GnomeFallBack:
-    case AsemanDesktopTools::Gnome:
+    case SialanDesktopTools::Unity:
+    case SialanDesktopTools::GnomeFallBack:
+    case SialanDesktopTools::Gnome:
     {
         QString command = "dconf";
         QStringList args;
@@ -566,7 +566,7 @@ void Limoo::start()
     if( !QFile::exists(qml_file) )
         qml_file = QFileInfo(QCoreApplication::applicationDirPath() + "/../share/limoo/qml/Limoo/main.qml").filePath();
 
-    p->viewer = new AsemanQuickView(AsemanQuickView::AllExceptLogger);
+    p->viewer = new SialanQuickView(SialanQuickView::AllExceptLogger);
     p->viewer->engine()->rootContext()->setContextProperty( "Window", p->viewer );
     p->viewer->engine()->rootContext()->setContextProperty( "Limoo", this );
     p->viewer->engine()->rootContext()->setContextProperty( "ThumbnailLoader", p->thumbnail_loader );

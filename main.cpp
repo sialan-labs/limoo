@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Aseman
-    http://aseman.co
+    Copyright (C) 2014 Sialan Labs
+    http://labs.sialan.org
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,16 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "asemantools/asemanapplication.h"
+#include "sialantools/sialanapplication.h"
 #include "limoo.h"
 
 int main(int argc, char *argv[])
 {
-    AsemanApplication app(argc, argv);
+    SialanApplication app(argc, argv);
     app.setApplicationName("Limoo");
     app.setApplicationDisplayName("Limoo");
-    app.setOrganizationDomain("org.aseman.limoo");
-    app.setOrganizationName("Aseman");
+    app.setOrganizationDomain("org.sialan.limoo");
+    app.setOrganizationName("Sialan");
 
     Limoo limoo;
     limoo.start();

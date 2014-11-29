@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Aseman
-    http://aseman.co
+    Copyright (C) 2014 Sialan Labs
+    http://labs.sialan.org
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 */
 
 import QtQuick 2.0
-import AsemanTools 1.0
+import SialanTools 1.0
 
 Rectangle {
     width: 100
@@ -61,7 +61,7 @@ Rectangle {
         height: 42*physicalPlatformScale
         normalColor: "#339DCC"
         highlightColor: "#336BCC"
-        onClicked: Qt.openUrlExternally("http://aseman.co/donate")
+        onClicked: Qt.openUrlExternally("http://labs.sialan.org/donate")
     }
 
     Column {
@@ -120,7 +120,7 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: -8*physicalPlatformScale
             cursorShape: Qt.PointingHandCursor
-            onClicked: Qt.openUrlExternally("http://aseman.co/projects/limoo")
+            onClicked: Qt.openUrlExternally("http://labs.sialan.org/projects/limoo")
         }
     }
 
@@ -138,7 +138,7 @@ Rectangle {
     LanguageSwitcher {
         onRefresh: {
             back_btn.text = qsTr("Back")
-            donate_btn.text = qsTr("Donate us (Aseman)")
+            donate_btn.text = qsTr("Donate us (Sialan Labs)")
             limoo_txt.text = qsTr("Limoo")
             home_btn.text = qsTr("HomePage")
             about_text.text = Limoo.aboutLimoo()

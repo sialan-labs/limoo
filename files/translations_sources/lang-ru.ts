@@ -12,8 +12,8 @@
         <translation>Назад</translation>
     </message>
     <message>
-        <source>Donate us (Aseman)</source>
-        <translation>Поддержать Aseman</translation>
+        <source>Donate us (Sialan Labs)</source>
+        <translation>Поддержать Sialan Labs</translation>
     </message>
     <message>
         <source>Limoo</source>
@@ -21,18 +21,18 @@
     </message>
 </context>
 <context>
-    <name>AboutAseman</name>
+    <name>AboutSialan</name>
     <message>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <source>Aseman website</source>
-        <translation>Сайт Aseman</translation>
+        <source>Sialan Labs website</source>
+        <translation>Сайт Sialan Labs</translation>
     </message>
     <message>
-        <source>Aseman twitter</source>
-        <translation>Твиттер Aseman</translation>
+        <source>Sialan Labs twitter</source>
+        <translation>Твиттер Sialan Labs</translation>
     </message>
 </context>
 <context>
@@ -175,7 +175,7 @@
 <context>
     <name>Limoo</name>
     <message>
-        <source>Aseman is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <source>Sialan Labs is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -233,8 +233,8 @@
         <translation>Limoo</translation>
     </message>
     <message>
-        <source>Aseman</source>
-        <translation>Aseman</translation>
+        <source>Sialan</source>
+        <translation>Sialan</translation>
     </message>
     <message>
         <source>Configure</source>

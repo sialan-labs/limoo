@@ -2,10 +2,10 @@ limoo (1.1.0ubuntu1) trusty; urgency=medium
 
   * Fix compile missed qt script module.
 
- -- Aseman <contact@aseman.org>  Sun, 05 Oct 2014 22:10:51 +0330
+ -- Sialan Labs <contact@sialan.org>  Sun, 05 Oct 2014 22:10:51 +0330
 
 limoo (1.1.0) trusty; urgency=low
 
   * Initial Release.
 
- -- Aseman <contact@aseman.org>  Sun, 05 Oct 2014 14:16:45 +0330
+ -- Sialan Labs <contact@sialan.org>  Sun, 05 Oct 2014 14:16:45 +0330

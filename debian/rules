@@ -8,12 +8,12 @@
 	dh $@ 
 
 override_dh_auto_configure:
-	dh_auto_configure -- PREFIX=/opt/aseman/limoo/ BUILD_MODE=opt BUILD_TYPE=pro
+	dh_auto_configure -- PREFIX=/opt/sialan/limoo/ BUILD_MODE=opt BUILD_TYPE=pro
 
 override_dh_install:
 	dh_install
 	mkdir -p debian/limoo/usr/bin
-	ln -s /opt/aseman/limoo/Limoo debian/limoo/usr/bin/limoo
+	ln -s /opt/sialan/limoo/Limoo debian/limoo/usr/bin/limoo
 
 override_dh_clean:
 	dh_clean

@@ -12,7 +12,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Donate us (Aseman)</source>
+        <source>Donate us (Sialan Labs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -21,17 +21,17 @@
     </message>
 </context>
 <context>
-    <name>AboutAseman</name>
+    <name>AboutSialan</name>
     <message>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Aseman website</source>
+        <source>Sialan Labs website</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Aseman twitter</source>
+        <source>Sialan Labs twitter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -175,7 +175,7 @@
 <context>
     <name>Limoo</name>
     <message>
-        <source>Aseman is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <source>Sialan Labs is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -233,7 +233,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Aseman</source>
+        <source>Sialan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

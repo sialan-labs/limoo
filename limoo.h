@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Aseman
-    http://aseman.co
+    Copyright (C) 2014 Sialan Labs
+    http://labs.sialan.org
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ public:
     bool startViewMode() const;
     bool initialized() const;
 
-    Q_INVOKABLE QString aboutAseman() const;
+    Q_INVOKABLE QString aboutSialan() const;
     Q_INVOKABLE QString aboutLimoo() const;
     Q_INVOKABLE QString version() const;
 

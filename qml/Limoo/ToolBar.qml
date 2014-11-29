@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Aseman
-    http://aseman.co
+    Copyright (C) 2014 Sialan Labs
+    http://labs.sialan.org
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,18 +17,18 @@
 */
 
 import QtQuick 2.0
-import org.aseman.limoo 1.0
-import AsemanTools 1.0
+import org.sialan.limoo 1.0
+import SialanTools 1.0
 
 Rectangle {
     id: toolbar
     height: 40*physicalPlatformScale
     clip: true
-    color: blurBack && Desktop.desktopSession != AsemanDesktopTools.Unity? Desktop.titleBarTransparentColor : Desktop.titleBarColor
+    color: blurBack && Desktop.desktopSession != SialanDesktopTools.Unity? Desktop.titleBarTransparentColor : Desktop.titleBarColor
 
     Rectangle {
         anchors.fill: parent
-        opacity: Desktop.desktopSession != AsemanDesktopTools.Unity && Desktop.desktopSession != AsemanDesktopTools.Gnome && Desktop.desktopSession != AsemanDesktopTools.Mac? 0 : 1
+        opacity: Desktop.desktopSession != SialanDesktopTools.Unity && Desktop.desktopSession != SialanDesktopTools.Gnome && Desktop.desktopSession != SialanDesktopTools.Mac? 0 : 1
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#20000000" }
             GradientStop { position: 0.7; color: "#00000000" }
@@ -41,7 +41,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         height: 1*physicalPlatformScale
-        opacity: Desktop.desktopSession != AsemanDesktopTools.Unity && Desktop.desktopSession != AsemanDesktopTools.Gnome && Desktop.desktopSession != AsemanDesktopTools.Mac? 0 : 1
+        opacity: Desktop.desktopSession != SialanDesktopTools.Unity && Desktop.desktopSession != SialanDesktopTools.Gnome && Desktop.desktopSession != SialanDesktopTools.Mac? 0 : 1
         color: "#22000000"
     }
 
@@ -121,14 +121,14 @@ Rectangle {
         }
 
         Button {
-            id: aseman_btn
+            id: sialan_btn
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            icon: Desktop.titleBarIsDark? "files/aseman-light.png" : "files/aseman-black.png"
+            icon: Desktop.titleBarIsDark? "files/sialan-light.png" : "files/sialan-black.png"
             iconHeight: 20
             textColor: Desktop.titleBarTextColor
             highlightColor: "#22000000"
-            onClicked: main.aboutAseman = true
+            onClicked: main.aboutSialan = true
         }
     }
 
@@ -153,7 +153,7 @@ Rectangle {
             rright_btn.text = qsTr("Rotate Right")
             fcr_btn.text = qsTr("Fullscreen")
             limoo_btn.text = qsTr("Limoo")
-            aseman_btn.text = qsTr("Aseman")
+            sialan_btn.text = qsTr("Sialan")
             conf_btn.text = qsTr("Configure")
         }
     }

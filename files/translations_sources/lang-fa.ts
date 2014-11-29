@@ -12,7 +12,7 @@
         <translation>قبلی</translation>
     </message>
     <message>
-        <source>Donate us (Sialan Labs)</source>
+        <source>Donate us (Aseman)</source>
         <translation>کمک به پروژه</translation>
     </message>
     <message>
@@ -21,17 +21,17 @@
     </message>
 </context>
 <context>
-    <name>AboutSialan</name>
+    <name>AboutAseman</name>
     <message>
         <source>Back</source>
         <translation>قبلی</translation>
     </message>
     <message>
-        <source>Sialan Labs website</source>
+        <source>Aseman website</source>
         <translation>سایت سیالان</translation>
     </message>
     <message>
-        <source>Sialan Labs twitter</source>
+        <source>Aseman twitter</source>
         <translation>توییتر سیالان</translation>
     </message>
 </context>
@@ -175,7 +175,7 @@
 <context>
     <name>Limoo</name>
     <message>
-        <source>Sialan Labs is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
+        <source>Aseman is a not-for-profit research and software development team launched in February 2014 focusing on development of products, technologies and solutions in order to publish them as open-source projects accessible to all people in the universe. Currently, we are focusing on design and development of software applications and tools which have direct connection with end users.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -233,7 +233,7 @@
         <translation>لیمو</translation>
     </message>
     <message>
-        <source>Sialan</source>
+        <source>Aseman</source>
         <translation>سیالان</translation>
     </message>
     <message>

@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Sialan Labs
-    http://labs.sialan.org
+    Copyright (C) 2014 Aseman
+    http://aseman.co
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@
 #include <QFileInfo>
 
 #ifdef Q_OS_WIN
-#define HOME_PATH QString(QDir::homePath() + "/AppData/Local/sialan/limoo")
+#define HOME_PATH QString(QDir::homePath() + "/AppData/Local/aseman/limoo")
 #else
-#define HOME_PATH QString(QDir::homePath() + "/.config/sialan/limoo")
+#define HOME_PATH QString(QDir::homePath() + "/.config/aseman/limoo")
 #endif
 
 #define CONF_PATH QString(HOME_PATH + "/config.ini")

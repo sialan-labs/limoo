@@ -20,7 +20,7 @@ If you want get source from git repository you should install git on your system
 
 After git installed, get code with this command:
 
-    git clone https://github.com/sialan-labs/limoo.git
+    git clone https://github.com/aseman-labs/limoo.git
 
 #### Start building
 

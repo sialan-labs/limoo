@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2014 Sialan Labs
-    http://labs.sialan.org
+    Copyright (C) 2014 Aseman
+    http://aseman.co
 
     Limoo is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 */
 
 import QtQuick 2.0
-import org.sialan.limoo 1.0
-import SialanTools 1.0
+import org.aseman.limoo 1.0
+import AsemanTools 1.0
 
-SialanMain {
+AsemanMain {
     id: main
     width: 960
     height: 600
@@ -36,12 +36,12 @@ SialanMain {
     property bool blurBack: true
 
     property bool about: false
-    property bool aboutSialan: false
+    property bool aboutAseman: false
     property bool configure: false
 
-    AboutSialan {
+    AboutAseman {
         anchors.fill: parent
-        start: aboutSialan
+        start: aboutAseman
     }
 
     Configure {
@@ -55,7 +55,7 @@ SialanMain {
 
     Item {
         id: main_scene
-        y: aboutSialan? parent.height : 0
+        y: aboutAseman? parent.height : 0
         x: configure? -conf.width : 0
         width: parent.width
         height: parent.height
@@ -200,8 +200,8 @@ SialanMain {
         if( configure )
             configure = false
         else
-        if( aboutSialan )
-            aboutSialan = false
+        if( aboutAseman )
+            aboutAseman = false
         else
         if( about )
             about = false

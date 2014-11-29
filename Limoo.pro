@@ -32,7 +32,7 @@ SOURCES += main.cpp \
     passwordmanager.cpp \
     encrypttools.cpp
 
-include(sialantools/sialantools.pri)
+include(asemantools/asemantools.pri)
 include(qmake/qtcAddDeployment.pri)
 qtcAddDeployment()
 

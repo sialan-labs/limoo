@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/Limoo/AboutPage.qml</file>
-        <file>qml/Limoo/AboutSialan.qml</file>
+        <file>qml/Limoo/AboutAseman.qml</file>
         <file>qml/Limoo/BackImage.qml</file>
         <file>qml/Limoo/Basket.qml</file>
         <file>qml/Limoo/BasketActions.qml</file>
@@ -65,13 +65,13 @@
         <file>qml/Limoo/files/rotate-left.png</file>
         <file>qml/Limoo/files/rotate-right-light.png</file>
         <file>qml/Limoo/files/rotate-right.png</file>
-        <file>qml/Limoo/files/sialan-black.png</file>
-        <file>qml/Limoo/files/sialan-light.png</file>
-        <file>qml/Limoo/files/sialan.png</file>
+        <file>qml/Limoo/files/aseman-black.png</file>
+        <file>qml/Limoo/files/aseman-light.png</file>
+        <file>qml/Limoo/files/aseman.png</file>
         <file>qml/Limoo/files/unlock.png</file>
         <file>qml/Limoo/files/view-fullscreen-light.png</file>
         <file>qml/Limoo/files/view-fullscreen.png</file>
-        <file>qml/Limoo/sialan-bubbles/SialanBubbles.qml</file>
-        <file>qml/Limoo/sialan-bubbles/SialanCircles.qml</file>
+        <file>qml/Limoo/aseman-bubbles/AsemanBubbles.qml</file>
+        <file>qml/Limoo/aseman-bubbles/AsemanCircles.qml</file>
     </qresource>
 </RCC>

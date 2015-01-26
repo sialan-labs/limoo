@@ -31,7 +31,7 @@ Switch to source directory
 ##### Ubuntu
 
     mkdir build && cd build
-    qmake -r ..
+    qmake -qt=5 -r ..
     make
 
 You can use command below after building to clean build directory on the each step.

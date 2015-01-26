@@ -5,6 +5,7 @@ icon_files.target = $${DESTDIR}/files
 translation_files.source = files/translations
 translation_files.target = $${DESTDIR}/files
 DEPLOYMENTFOLDERS = qml_files translation_files icon_files
+lessThan(QT_MAJOR_VERSION, 5): error("requires Qt 5")
 
 QT += widgets script
 
